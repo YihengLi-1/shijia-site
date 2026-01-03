@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 强制验证：只要这个文件被加载，你一定会看到粉底+红框 */
+html, body {
+  height: 100%;
+}
+
+body {
+  background: pink !important;
+  outline: 12px solid red !important;
+}
