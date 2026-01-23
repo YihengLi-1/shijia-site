@@ -1,27 +1,46 @@
+// src/app/api/email/test/route.ts
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import { getResend, getFrom, getTo } from "@/lib/resend";
 
 export const runtime = "nodejs";
 
-export async function POST() {
+async function sendTest() {
+  const { resend, key } = getResend();
+  const from = getFrom();
+  const to = getTo();
+
+  const r = await resend.emails.send({
+    from,
+    to,
+    subject: "【测试】RESEND_FROM 生效验证",
+    html: `
+      <div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial;line-height:1.6">
+        <h3>RESEND_FROM 生效验证 ✅</h3>
+        <p>请看邮件 From 是否为你设置的域名。</p>
+      </div>
+    `,
+  });
+
+  return NextResponse.json({
+    ok: true,
+    fromUsed: from,
+    toUsed: to,
+    resendKeyLast4: key.slice(-4),
+    resendResponse: r,
+  });
+}
+
+export async function GET() {
   try {
-    const key = process.env.RESEND_API_KEY;
-    if (!key) return NextResponse.json({ ok: false, error: "missing RESEND_API_KEY" }, { status: 500 });
-
-    const resend = new Resend(key);
-
-    // ⚠️ 先用你自己的邮箱测试（你改成你自己的邮箱）
-    const to = "yihengli23@gmail.com";
-
-    const r = await resend.emails.send({
-      from: "Shijia <onboarding@resend.dev>",
-      to,
-      subject: "测试邮件：支付系统发信通路 OK",
-      html: `<p>如果你收到这封邮件，说明 Resend 已配置成功 ✅</p>`,
-    });
-
-    return NextResponse.json({ ok: true, result: r });
+    return await sendTest();
   } catch (e: any) {
-    return NextResponse.json({ ok: false, error: String(e?.message ?? e) }, { status: 500 });
+    return NextResponse.json(
+      { ok: false, error: String(e?.message ?? e) },
+      { status: 500 }
+    );
   }
+}
+
+export async function POST() {
+  return GET();
 }

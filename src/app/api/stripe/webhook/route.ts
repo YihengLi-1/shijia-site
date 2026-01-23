@@ -54,7 +54,7 @@ async function sendPaidEmail(args: {
 
   const resend = new Resend(resendKey);
   await resend.emails.send({
-    from: "Shijia <onboarding@resend.dev>",
+    from: process.env.RESEND_FROM!,
     to,
     subject: "付款已确认｜预约已记录",
     html,

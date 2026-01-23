@@ -58,7 +58,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const from = (process.env.RESEND_FROM || "Shijia <onboarding@resend.dev>").trim();
+    const from = process.env.RESEND_FROM!;
 
     const amount = Number((order as any).amount_cents ?? 0) / 100;
     const currency = String((order as any).currency ?? "usd").toUpperCase();
