@@ -1,14 +1,14 @@
-// src/app/pay/success/page.tsx
+// src/app/pay/page.tsx
 import { Suspense } from "react";
-import SuccessClient from "./SuccessClient";
+import PayClient from "./PayClient";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export default function PaySuccessPage() {
+export default function PayPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-2xl px-6 py-16">Loading...</div>}>
-      <SuccessClient />
+    <Suspense fallback={<div className="mx-auto max-w-3xl px-6 py-12">Loading...</div>}>
+      <PayClient />
     </Suspense>
   );
 }
