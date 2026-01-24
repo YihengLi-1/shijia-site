@@ -1,106 +1,109 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
-type Order = {
-  id: string;
-  status: string;
-  booking_id?: string | null;
-  amount_cents?: number | null;
-  currency?: string | null;
-  paid_at?: string | null;
-  stripe_session_id?: string | null;
-};
+type ConfirmResp =
+  | { ok: true; status: "paid"; emailed?: boolean; emailResult?: any }
+  | { ok: true; status: "pending"; [k: string]: any }
+  | { ok: false; error: string; detail?: any };
 
 export default function SuccessClient() {
-  const sp = useSearchParams();
-  const orderId = useMemo(() => (sp.get("orderId") || "").trim(), [sp]);
-
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<ConfirmResp | null>(null);
   const [err, setErr] = useState<string>("");
-  const [order, setOrder] = useState<Order | null>(null);
+
+  const params = useMemo(() => {
+    const sp = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
+    const orderId = sp.get("orderId") || sp.get("orderid") || "";
+    const sessionId = sp.get("session_id") || sp.get("sessionId") || "";
+    return { orderId, sessionId };
+  }, []);
 
   useEffect(() => {
-    let alive = true;
+    let cancelled = false;
 
     async function run() {
+      setLoading(true);
+      setErr("");
+
+      if (!params.orderId) {
+        setErr("missing orderId");
+        setLoading(false);
+        return;
+      }
+      if (!params.sessionId) {
+        setErr("missing session_id");
+        setLoading(false);
+        return;
+      }
+
       try {
-        setLoading(true);
-        setErr("");
-        setOrder(null);
+        const url = `/api/pay/confirm?orderId=${encodeURIComponent(params.orderId)}&session_id=${encodeURIComponent(
+          params.sessionId
+        )}`;
 
-        if (!orderId) {
-          setErr("缺少 orderId（链接不完整）");
-          return;
-        }
+        const r = await fetch(url, { method: "GET", cache: "no-store" });
+        const j = (await r.json()) as ConfirmResp;
 
-        const r = await fetch(`/api/order/${encodeURIComponent(orderId)}`, { cache: "no-store" });
-        const j = await r.json();
-
-        if (!alive) return;
-
-        if (!r.ok || !j?.ok) {
-          setErr(j?.error || "订单查询失败");
-          return;
-        }
-
-        setOrder(j.order);
+        if (cancelled) return;
+        setData(j);
       } catch (e: any) {
-        if (!alive) return;
+        if (cancelled) return;
         setErr(String(e?.message ?? e));
       } finally {
-        if (!alive) return;
+        if (cancelled) return;
         setLoading(false);
       }
     }
 
     run();
     return () => {
-      alive = false;
+      cancelled = true;
     };
-  }, [orderId]);
-
-  if (loading) {
-    return <div className="mx-auto max-w-2xl px-6 py-16">正在确认支付状态…</div>;
-  }
-
-  if (err) {
-    return (
-      <div className="mx-auto max-w-2xl px-6 py-16">
-        <h1 className="text-2xl font-semibold">状态获取失败</h1>
-        <p className="mt-3 text-sm text-gray-600">{err}</p>
-        <p className="mt-6 text-sm text-gray-600">请返回预约页重新进入支付流程，或联系管理员。</p>
-      </div>
-    );
-  }
-
-  const paid = String(order?.status || "").toLowerCase() === "paid";
+  }, [params.orderId, params.sessionId]);
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-16">
-      <h1 className="text-2xl font-semibold">{paid ? "支付成功 ✅" : "支付处理中 ⏳"}</h1>
+      <h1 className="text-3xl font-semibold">支付结果</h1>
 
-      <div className="mt-6 rounded-xl border p-4 text-sm">
-        <div className="flex justify-between gap-4">
-          <span className="text-gray-600">订单号</span>
-          <span className="font-mono">{order?.id}</span>
-        </div>
-        <div className="mt-2 flex justify-between gap-4">
-          <span className="text-gray-600">状态</span>
-          <span>{order?.status}</span>
-        </div>
-        <div className="mt-2 flex justify-between gap-4">
-          <span className="text-gray-600">预约号</span>
-          <span>{order?.booking_id || "-"}</span>
-        </div>
+      <div className="mt-4 text-sm text-gray-600 break-all">
+        <div>orderId: {params.orderId || "-"}</div>
+        <div>session_id: {params.sessionId || "-"}</div>
       </div>
 
-      {!paid && (
-        <p className="mt-6 text-sm text-gray-600">
-          Stripe 回调可能延迟几秒～几十秒。请稍后刷新本页，直到显示“支付成功”。
-        </p>
-      )}
+      <div className="mt-8">
+        {loading ? (
+          <div className="rounded-lg border p-4">查询中…</div>
+        ) : err ? (
+          <div className="rounded-lg border border-red-300 bg-red-50 p-4 text-red-700">
+            状态获取失败：{err}
+          </div>
+        ) : !data ? (
+          <div className="rounded-lg border p-4">无数据</div>
+        ) : data.ok && data.status === "paid" ? (
+          <div className="rounded-lg border border-green-300 bg-green-50 p-4 text-green-800">
+            <div className="font-medium">支付成功 ✅</div>
+            <div className="mt-2 text-sm text-green-900/80">
+              邮件发送：{String((data as any).emailed ?? false)}
+            </div>
+          </div>
+        ) : data.ok && data.status === "pending" ? (
+          <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-4 text-yellow-800">
+            <div className="font-medium">支付尚未确认（pending）</div>
+            <div className="mt-2 text-xs text-yellow-900/80 break-all">
+              {JSON.stringify(data, null, 2)}
+            </div>
+          </div>
+        ) : (
+          <div className="rounded-lg border border-red-300 bg-red-50 p-4 text-red-700">
+            {JSON.stringify(data)}
+          </div>
+        )}
+      </div>
+
+      <div className="mt-10 text-sm text-gray-600">
+        如需重试支付，请返回支付页重新发起。
+      </div>
     </div>
   );
 }

@@ -7,13 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default function PaySuccessPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="mx-auto max-w-2xl px-6 py-16">
-          Loading…
-        </div>
-      }
-    >
+    <Suspense fallback={<div className="mx-auto max-w-2xl px-6 py-16">Loading…</div>}>
       <SuccessClient />
     </Suspense>
   );
