@@ -1,36 +1,25 @@
 // src/app/api/stripe/webhook/route.ts
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin, requireEnv } from "@/lib/supabaseAdmin";
 import { sendPaidEmail } from "@/lib/mailer";
 
 export const runtime = "nodejs";
 
-/** Vercel/Next: Stripe webhook 必须用 raw body */
-export const dynamic = "force-dynamic";
-
-function must(name: string) {
-  const v = (process.env[name] ?? "").trim();
-  if (!v) throw new Error(`missing ${name}`);
-  return v;
-}
-
-function getSupabaseAdmin() {
-  const url = must("SUPABASE_URL");
-  const key = must("SUPABASE_SERVICE_ROLE_KEY");
-  return createClient(url, key, { auth: { persistSession: false } });
+function json(ok: boolean, body: any, status = 200) {
+  return NextResponse.json({ ok, ...body }, { status });
 }
 
 export async function POST(req: Request) {
   try {
-    const stripeSecretKey = must("STRIPE_SECRET_KEY");
-    const webhookSecret = must("STRIPE_WEBHOOK_SECRET");
+    const stripeSecretKey = requireEnv("STRIPE_SECRET_KEY");
+    const webhookSecret = requireEnv("STRIPE_WEBHOOK_SECRET");
 
-    const stripe = new Stripe(stripeSecretKey); // apiVersion 不写，避免 TS 版本对不上
+    // Stripe SDK：不要显式 apiVersion（你之前就卡在 TS union 上）
+    const stripe = new Stripe(stripeSecretKey);
+
     const sig = req.headers.get("stripe-signature");
-    if (!sig) {
-      return NextResponse.json({ ok: false, error: "missing_stripe_signature" }, { status: 400 });
-    }
+    if (!sig) return json(false, { error: "missing_stripe_signature" }, 400);
 
     const rawBody = await req.text();
 
@@ -38,32 +27,35 @@ export async function POST(req: Request) {
     try {
       event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
     } catch (err: any) {
-      return NextResponse.json(
-        { ok: false, error: "invalid_signature", detail: String(err?.message ?? err) },
-        { status: 400 }
-      );
+      return json(false, { error: "invalid_signature", detail: String(err?.message ?? err) }, 400);
     }
 
-    // 只处理 checkout.session.completed（你也可以加 payment_intent.succeeded）
+    // ✅ 只处理 checkout.session.completed
     if (event.type !== "checkout.session.completed") {
-      return NextResponse.json({ ok: true, ignored: true, type: event.type }, { status: 200 });
+      return json(true, { ignored: true, type: event.type }, 200);
     }
 
     const session = event.data.object as Stripe.Checkout.Session;
 
-    // orderId 取法：metadata.orderId 优先，其次 client_reference_id
-    const orderId =
-      (session.metadata?.orderId ?? "").trim() ||
-      (typeof session.client_reference_id === "string" ? session.client_reference_id.trim() : "");
-
-    if (!orderId) {
-      return NextResponse.json({ ok: false, error: "missing_orderId_in_session" }, { status: 400 });
+    // ✅ 只允许 payment
+    if (session.mode !== "payment") {
+      return json(true, { ignored: true, reason: "not_payment_mode", mode: session.mode }, 200);
     }
 
-    const supabase = getSupabaseAdmin();
+    const orderId =
+      (session.metadata?.orderId as string | undefined)?.trim() ||
+      (session.client_reference_id as string | undefined)?.trim() ||
+      "";
 
-    // 1) 把订单标记为 paid（幂等：重复 webhook 不会炸）
-    const { data: updated, error: updErr } = await supabase
+    if (!orderId) {
+      return json(false, { error: "missing_orderId_in_metadata_or_client_reference_id" }, 400);
+    }
+
+    const sb = supabaseAdmin();
+
+    // ✅ 核心：状态锁（只能 pending -> paid 一次）
+    // 如果更新不到行，说明：已 paid / 已取消 / orderId 不存在 / 重放事件
+    const { data: updated, error: updErr } = await sb
       .from("orders")
       .update({
         status: "paid",
@@ -71,29 +63,31 @@ export async function POST(req: Request) {
         paid_at: new Date().toISOString(),
       })
       .eq("id", orderId)
-      .select("id, status")
+      .eq("status", "pending")
+      .select("id, status, booking_id, amount_cents, currency, customer_email")
       .single();
 
     if (updErr) {
-      return NextResponse.json(
-        { ok: false, error: "db_update_failed", detail: updErr.message },
-        { status: 500 }
-      );
+      // 如果 order 不存在，updErr 可能是 “No rows returned”
+      return json(true, { skipped: true, reason: "not_updated", detail: updErr.message }, 200);
     }
 
-    // 2) 发邮件（你 mailer 里自己会用 RESEND_FROM / EMAIL_TO_OVERRIDE 等）
-    try {
-      await sendPaidEmail({ orderId });
-    } catch (mailErr: any) {
-      // 邮件失败不阻断 webhook（否则 Stripe 会不停重试）
-      return NextResponse.json(
-        { ok: true, orderId, paid: true, email: "failed", emailError: String(mailErr?.message ?? mailErr) },
-        { status: 200 }
-      );
-    }
+    // 走到这说明：这次 webhook 真正把订单从 pending 改成 paid 了
+    // ✅ 发 paid 邮件（mailer 内部做 email_events 幂等：同一 orderId 只发一次）
+    const emailRes = await sendPaidEmail({
+      orderId: updated.id,
+      bookingId: (updated as any).booking_id ?? null,
+      amountCents: (updated as any).amount_cents ?? null,
+      currency: (updated as any).currency ?? null,
+      customerEmail: (updated as any).customer_email ?? null,
+    });
 
-    return NextResponse.json({ ok: true, orderId, paid: true, email: "sent" }, { status: 200 });
+    return json(true, { processed: true, orderId, email: emailRes }, 200);
   } catch (e: any) {
-    return NextResponse.json({ ok: false, error: String(e?.message ?? e) }, { status: 500 });
+    console.error("STRIPE_WEBHOOK_ERROR", e);
+    return NextResponse.json(
+      { ok: false, error: "server_error", detail: String(e?.message ?? e) },
+      { status: 500 }
+    );
   }
 }

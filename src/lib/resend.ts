@@ -12,25 +12,19 @@ export function getResend() {
   return { resend: new Resend(key), key };
 }
 
-/**
- * 强制使用你自己的域名发信人：
- * - 只认 RESEND_FROM
- * - 没配就直接 500（不允许“悄悄降级”）
- */
 export function getFrom() {
-  const from = requireEnv("RESEND_FROM"); // 例如: "释迦佛国素食斋 <noreply@shijiafogu o.com>"
-  return from;
+  return requireEnv("RESEND_FROM"); // e.g. "Shijia <no-reply@shijiafoguo.com>"
 }
 
 /**
- * 收件人策略：
- * - EMAIL_TO_OVERRIDE 有值：强制发到这个（上线早期你自己测试用）
- * - 否则 EMAIL_DEFAULT_TO：默认收件人
+ * 早期上线推荐：强制发到你自己邮箱，避免误发给客户
+ * - EMAIL_TO_OVERRIDE: 强制收件人（调试阶段用）
+ * - EMAIL_DEFAULT_TO: 没有 override 时用的默认收件人
  */
 export function getTo() {
   const toOverride = (process.env.EMAIL_TO_OVERRIDE || "").trim();
-  const defaultTo = (process.env.EMAIL_DEFAULT_TO || "").trim();
-  const to = toOverride || defaultTo;
+  const def = (process.env.EMAIL_DEFAULT_TO || "").trim();
+  const to = toOverride || def;
   if (!to) throw new Error("missing EMAIL_TO_OVERRIDE or EMAIL_DEFAULT_TO");
   return to;
 }
