@@ -15,6 +15,7 @@ function must(name: string) {
 async function confirmPaid(params: { orderId: string; sessionId: string }) {
   const orderId = (params.orderId || "").trim();
   const sessionId = (params.sessionId || "").trim();
+
   if (!orderId) return NextResponse.json({ ok: false, error: "missing_orderId" }, { status: 400 });
   if (!sessionId) return NextResponse.json({ ok: false, error: "missing_sessionId" }, { status: 400 });
 
@@ -24,20 +25,14 @@ async function confirmPaid(params: { orderId: string; sessionId: string }) {
   // 1) 拉 Checkout Session
   let session: Stripe.Checkout.Session;
   try {
-    session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ["payment_intent"],
-    });
+    session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ["payment_intent"] });
   } catch (e: any) {
     return NextResponse.json(
       {
         ok: true,
         status: "pending",
         reason: "stripe_session_fetch_failed",
-        stripe_error: {
-          message: e?.message,
-          code: e?.code,
-          type: e?.type,
-        },
+        stripe_error: { message: e?.message, code: e?.code, type: e?.type },
       },
       { status: 200 }
     );
@@ -68,10 +63,7 @@ async function confirmPaid(params: { orderId: string; sessionId: string }) {
     .single();
 
   if (orderErr || !order) {
-    return NextResponse.json(
-      { ok: false, error: "order_not_found", detail: orderErr?.message },
-      { status: 404 }
-    );
+    return NextResponse.json({ ok: false, error: "order_not_found", detail: orderErr?.message }, { status: 404 });
   }
 
   const alreadyPaid = String(order.status).toLowerCase() === "paid";
@@ -90,7 +82,7 @@ async function confirmPaid(params: { orderId: string; sessionId: string }) {
       .eq("id", orderId);
   }
 
-  // 4) 触发邮件（mailer 内部自己做了幂等：email_events unique）
+  // 4) 发邮件（mailer 内部幂等）
   const email = await sendPaidEmail({
     orderId,
     bookingId: (order as any).booking_id ?? null,
@@ -114,8 +106,21 @@ async function confirmPaid(params: { orderId: string; sessionId: string }) {
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
-    const orderId = url.searchParams.get("orderId") || "";
-    const sessionId = url.searchParams.get("sessionId") || "";
+
+    // 兼容多种 query 名称：orderId / orderid
+    const orderId =
+      url.searchParams.get("orderId") ||
+      url.searchParams.get("orderid") ||
+      url.searchParams.get("order_id") ||
+      "";
+
+    // 关键：兼容 session_id（你页面就是这个）以及 sessionId
+    const sessionId =
+      url.searchParams.get("sessionId") ||
+      url.searchParams.get("session_id") ||
+      url.searchParams.get("sessionid") ||
+      "";
+
     return await confirmPaid({ orderId, sessionId });
   } catch (e: any) {
     return NextResponse.json({ ok: false, error: "server_error", detail: String(e?.message ?? e) }, { status: 500 });
@@ -126,8 +131,8 @@ export async function POST(req: Request) {
   try {
     const body = (await req.json().catch(() => ({}))) as any;
     return await confirmPaid({
-      orderId: body?.orderId || "",
-      sessionId: body?.sessionId || "",
+      orderId: body?.orderId || body?.order_id || "",
+      sessionId: body?.sessionId || body?.session_id || "",
     });
   } catch (e: any) {
     return NextResponse.json({ ok: false, error: "server_error", detail: String(e?.message ?? e) }, { status: 500 });
