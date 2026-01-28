@@ -1,5 +1,6 @@
 // src/app/menu/page.tsx
 import Link from "next/link";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Container from "@/components/Container";
 
@@ -12,6 +13,7 @@ type MenuItem = {
   description: string | null;
   category: string | null;
   price_cents: number | null;
+  image_url?: string | null; // ✅ 新增
 };
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -20,11 +22,17 @@ const CATEGORY_LABEL: Record<string, string> = {
   soup: "汤品",
   dessert: "甜品",
   drink: "饮品",
+  other: "其他",
 };
 
 function formatPrice(cents: number | null) {
-  if (!cents && cents !== 0) return "—";
+  if (cents === null || cents === undefined) return "—";
   return `$${(cents / 100).toFixed(2)}`;
+}
+
+function normalizeUrl(u?: string | null) {
+  const s = (u ?? "").trim();
+  return s.length ? s : null;
 }
 
 export default async function MenuPage() {
@@ -52,7 +60,7 @@ export default async function MenuPage() {
 
       <section className="py-12">
         <Container>
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-6 flex items-start justify-between gap-4">
             <div>
               <h1 className="text-3xl font-semibold tracking-tight">素食菜单</h1>
               <p className="mt-2 text-sm text-neutral-600">
@@ -60,9 +68,10 @@ export default async function MenuPage() {
               </p>
             </div>
 
+            {/* ✅ 返回按钮 */}
             <Link
               href="/"
-              className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium hover:border-zinc-400"
+              className="shrink-0 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium hover:border-zinc-400"
             >
               返回首页
             </Link>
@@ -81,23 +90,51 @@ export default async function MenuPage() {
                   </h2>
 
                   <div className="mt-4 divide-y">
-                    {grouped[cat].map((it) => (
-                      <div key={it.id} className="py-4">
-                        <div className="flex items-start justify-between gap-6">
-                          <div>
-                            <div className="font-medium">{it.name}</div>
-                            {it.description ? (
-                              <div className="mt-1 text-sm text-neutral-600">
-                                {it.description}
+                    {grouped[cat].map((it) => {
+                      const img = normalizeUrl(it.image_url);
+
+                      return (
+                        <div key={it.id} className="py-4">
+                          <div className="flex items-start justify-between gap-6">
+                            {/* 左侧：图 + 文案 */}
+                            <div className="flex min-w-0 gap-4">
+                              {/* 图（有就显示，没有就占位） */}
+                              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
+                                {img ? (
+                                  <Image
+                                    src={img}
+                                    alt={it.name}
+                                    fill
+                                    className="object-cover"
+                                    sizes="64px"
+                                  />
+                                ) : (
+                                  <div className="flex h-full w-full items-center justify-center text-[10px] text-zinc-400">
+                                    暂无图片
+                                  </div>
+                                )}
                               </div>
-                            ) : null}
-                          </div>
-                          <div className="shrink-0 font-medium">
-                            {formatPrice(it.price_cents)}
+
+                              <div className="min-w-0">
+                                <div className="truncate font-medium">
+                                  {it.name}
+                                </div>
+                                {it.description ? (
+                                  <div className="mt-1 line-clamp-2 text-sm text-neutral-600">
+                                    {it.description}
+                                  </div>
+                                ) : null}
+                              </div>
+                            </div>
+
+                            {/* 右侧：价格 */}
+                            <div className="shrink-0 font-medium">
+                              {formatPrice(it.price_cents)}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </section>
               ))}
