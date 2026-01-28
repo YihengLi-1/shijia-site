@@ -1,5 +1,7 @@
 // src/app/menu/page.tsx
-import Link from "next/link"; // ✅ 加这一行
+import Link from "next/link";
+import Header from "@/components/Header";
+import Container from "@/components/Container";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,66 +37,74 @@ export default async function MenuPage() {
 
   const grouped = items.reduce<Record<string, MenuItem[]>>((acc, it) => {
     const key = (it.category || "other").toLowerCase();
-    acc[key] = acc[key] || [];
-    acc[key].push(it);
+    (acc[key] ||= []).push(it);
     return acc;
   }, {});
 
-  const categories = Object.keys(grouped).sort((a, b) => {
-    const order = ["main", "side", "soup", "dessert", "drink", "other"];
-    return order.indexOf(a) - order.indexOf(b);
-  });
+  const order = ["main", "side", "soup", "dessert", "drink", "other"];
+  const categories = Object.keys(grouped).sort(
+    (a, b) => order.indexOf(a) - order.indexOf(b)
+  );
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-14">
-      {/* ✅ 加这一段 */}
-      <Link
-        href="/"
-        className="mb-4 inline-flex items-center text-sm text-neutral-600 hover:text-neutral-900"
-      >
-        ← 返回首页
-      </Link>
+    <main className="min-h-screen bg-pink-200/60 text-zinc-900">
+      <Header />
 
-      <h1 className="text-3xl font-semibold tracking-tight">素食菜单</h1>
-      <p className="mt-2 text-sm text-neutral-600">
-        供斋随缘，菜单与供应以当日为准。
-      </p>
+      <section className="py-12">
+        <Container>
+          <div className="mb-6 flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-semibold tracking-tight">素食菜单</h1>
+              <p className="mt-2 text-sm text-neutral-600">
+                供斋随缘，菜单与供应以当日为准。
+              </p>
+            </div>
 
-      {items.length === 0 ? (
-        <div className="mt-10 rounded-xl border p-6 text-neutral-700">
-          暂无可展示菜单（请先在后台 menu_items 表插入数据）。
-        </div>
-      ) : (
-        <div className="mt-10 space-y-10">
-          {categories.map((cat) => (
-            <section key={cat} className="rounded-2xl border bg-white p-6">
-              <h2 className="text-xl font-semibold">
-                {CATEGORY_LABEL[cat] || "其他"}
-              </h2>
+            <Link
+              href="/"
+              className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium hover:border-zinc-400"
+            >
+              返回首页
+            </Link>
+          </div>
 
-              <div className="mt-4 divide-y">
-                {grouped[cat].map((it) => (
-                  <div key={it.id} className="py-4">
-                    <div className="flex items-start justify-between gap-6">
-                      <div>
-                        <div className="font-medium">{it.name}</div>
-                        {it.description ? (
-                          <div className="mt-1 text-sm text-neutral-600">
-                            {it.description}
+          {items.length === 0 ? (
+            <div className="rounded-2xl border border-zinc-200 bg-white p-6 text-neutral-700">
+              暂无可展示菜单（请先在后台 menu_items 表插入数据）。
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {categories.map((cat) => (
+                <section key={cat} className="rounded-2xl border bg-white p-6">
+                  <h2 className="text-xl font-semibold">
+                    {CATEGORY_LABEL[cat] || "其他"}
+                  </h2>
+
+                  <div className="mt-4 divide-y">
+                    {grouped[cat].map((it) => (
+                      <div key={it.id} className="py-4">
+                        <div className="flex items-start justify-between gap-6">
+                          <div>
+                            <div className="font-medium">{it.name}</div>
+                            {it.description ? (
+                              <div className="mt-1 text-sm text-neutral-600">
+                                {it.description}
+                              </div>
+                            ) : null}
                           </div>
-                        ) : null}
+                          <div className="shrink-0 font-medium">
+                            {formatPrice(it.price_cents)}
+                          </div>
+                        </div>
                       </div>
-                      <div className="shrink-0 font-medium">
-                        {formatPrice(it.price_cents)}
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
-      )}
+                </section>
+              ))}
+            </div>
+          )}
+        </Container>
+      </section>
     </main>
   );
 }
