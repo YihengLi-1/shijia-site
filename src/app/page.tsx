@@ -3,6 +3,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Container from "@/components/Container";
 import { SITE } from "@/lib/site";
+import HomeMenuSection from "@/components/HomeMenuSection";
 
 export default function Home() {
   return (
@@ -135,6 +136,8 @@ export default function Home() {
                   </div>
                 </Link>
               </div>
+
+              <HomeMenuSection />
 
               <div className="mt-8 text-sm text-zinc-500">
                 © 2026 {SITE.name}
