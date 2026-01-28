@@ -6,7 +6,8 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import Header from "@/components/Header";
 import Container from "@/components/Container";
-import { addToCart, useCart } from "@/lib/cartStore";
+import { useCart } from "@/lib/cartStore";
+import AddToCartButton from "@/components/AddToCartButton";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -87,12 +88,6 @@ export default function MenuPage() {
     return Object.keys(grouped).sort((a, b) => order.indexOf(a) - order.indexOf(b));
   }, [grouped]);
 
-  const qtyById = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const it of cart.items) map.set(it.menuItemId, it.qty);
-    return map;
-  }, [cart.items]);
-
   const cartCount = useMemo(() => cart.items.reduce((s, it) => s + it.qty, 0), [cart.items]);
 
   return (
@@ -152,7 +147,6 @@ export default function MenuPage() {
                   <div className="mt-4 divide-y">
                     {grouped[cat].map((it) => {
                       const img = normalizeUrl(it.image_url);
-                      const qty = qtyById.get(it.id) ?? 0;
                       const unit = Number(it.price_cents ?? 0);
 
                       return (
@@ -186,43 +180,19 @@ export default function MenuPage() {
                               </div>
                             </div>
 
-                            {/* 右侧：价格 + 加减 */}
+                            {/* 右侧：价格 + 购物车按钮（关键改动在这里） */}
                             <div className="shrink-0 text-right">
                               <div className="font-medium">{formatPrice(it.price_cents)}</div>
 
-                              <div className="mt-2 flex items-center justify-end gap-2">
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    if (qty <= 0) return;
-                                    addToCart(
-                                      { menuItemId: it.id, name: it.name, unitPriceCents: unit },
-                                      -1
-                                    );
-                                  }}
-                                  className="h-8 w-8 rounded-full border border-zinc-300 bg-white text-sm font-semibold hover:border-zinc-400 disabled:opacity-40"
-                                  disabled={qty <= 0}
-                                  aria-label="减少数量"
-                                >
-                                  −
-                                </button>
-
-                                <div className="w-10 text-center text-sm font-medium">{qty}</div>
-
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    addToCart(
-                                      { menuItemId: it.id, name: it.name, unitPriceCents: unit },
-                                      1
-                                    );
-                                  }}
-                                  className="h-8 w-8 rounded-full border border-zinc-300 bg-white text-sm font-semibold hover:border-zinc-400"
-                                  aria-label="增加数量"
-                                >
-                                  +
-                                </button>
-                              </div>
+                              {it.price_cents !== null ? (
+                                <div className="mt-2 flex justify-end">
+                                  <AddToCartButton
+                                    id={it.id}
+                                    name={it.name}
+                                    priceCents={unit}
+                                  />
+                                </div>
+                              ) : null}
                             </div>
                           </div>
                         </div>
