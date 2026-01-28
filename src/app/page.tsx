@@ -3,7 +3,6 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Container from "@/components/Container";
 import { SITE } from "@/lib/site";
-import HomeMenuSection from "@/components/HomeMenuSection";
 
 export default function Home() {
   return (
@@ -96,6 +95,17 @@ export default function Home() {
               </p>
 
               <div className="mt-6 grid gap-4">
+                {/* ✅ 菜单入口：只做入口，不显示菜 */}
+                <Link
+                  href="/menu"
+                  className="rounded-2xl border border-zinc-200 p-4 hover:border-zinc-300"
+                >
+                  <div className="font-semibold">菜单</div>
+                  <div className="mt-1 text-sm text-zinc-600">
+                    查看今日/常备菜品（后续可加图片）
+                  </div>
+                </Link>
+
                 <Link
                   href="/veggie"
                   className="rounded-2xl border border-zinc-200 p-4 hover:border-zinc-300"
@@ -136,8 +146,6 @@ export default function Home() {
                   </div>
                 </Link>
               </div>
-
-              <HomeMenuSection />
 
               <div className="mt-8 text-sm text-zinc-500">
                 © 2026 {SITE.name}
