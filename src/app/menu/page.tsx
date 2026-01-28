@@ -1,4 +1,6 @@
 // src/app/menu/page.tsx
+import Link from "next/link"; // ✅ 加这一行
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -45,6 +47,14 @@ export default async function MenuPage() {
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-14">
+      {/* ✅ 加这一段 */}
+      <Link
+        href="/"
+        className="mb-4 inline-flex items-center text-sm text-neutral-600 hover:text-neutral-900"
+      >
+        ← 返回首页
+      </Link>
+
       <h1 className="text-3xl font-semibold tracking-tight">素食菜单</h1>
       <p className="mt-2 text-sm text-neutral-600">
         供斋随缘，菜单与供应以当日为准。
