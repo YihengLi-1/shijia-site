@@ -27,7 +27,9 @@ export default function RitualPanel({
   showRitual,
   showMantra,
 }: Props) {
-  const data = stage === "pre" ? OFFERINGS.pre : OFFERINGS.post;
+  const pre = OFFERINGS.pre;
+  const post = OFFERINGS.post;
+  const data = stage === "pre" ? pre : post;
   const [expanded, setExpanded] = useState(false);
 
   const showMealsFinal = showMeals ?? stage === "pre";
@@ -69,30 +71,30 @@ export default function RitualPanel({
         <div className={`mt-4 grid gap-3 ${compact ? "text-xs" : "text-sm"} text-zinc-700`}>
           <div className="rounded-2xl border border-zinc-200 bg-white px-4 py-3">
             <span className="font-semibold text-zinc-900">早餐：</span>
-            {OFFERINGS.pre.breakfast}
+            {pre.breakfast}
           </div>
           <div className="rounded-2xl border border-zinc-200 bg-white px-4 py-3">
             <span className="font-semibold text-zinc-900">午餐：</span>
-            {OFFERINGS.pre.lunch}
+            {pre.lunch}
           </div>
         </div>
       ) : null}
 
-      {showRitualFinal && stage === "pre" && data.ritual?.length ? (
+      {showRitualFinal && stage === "pre" && pre.ritual?.length ? (
         <div className={`mt-4 rounded-2xl border border-zinc-200 bg-white px-4 py-3 ${compact ? "text-xs" : "text-sm"} text-zinc-700`}>
           <div className="text-[11px] font-semibold text-zinc-500">斋前简要</div>
           <div className="mt-2 space-y-1 leading-6">
-            {data.ritual.map((line) => (
+            {pre.ritual.map((line) => (
               <div key={line}>• {line}</div>
             ))}
           </div>
         </div>
       ) : null}
 
-      {stage === "post" && data.stand ? (
+      {stage === "post" && post.stand ? (
         <div className={`mt-4 rounded-2xl border border-zinc-200 bg-white px-4 py-3 ${compact ? "text-xs" : "text-sm"} text-zinc-700`}>
           <span className="font-semibold text-zinc-900">起立：</span>
-          {data.stand}
+          {post.stand}
         </div>
       ) : null}
     </section>

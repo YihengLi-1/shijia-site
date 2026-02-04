@@ -5,6 +5,7 @@ import Container from "@/components/Container";
 import { SITE } from "@/lib/site";
 import Footer from "@/components/Footer";
 import ScriptureQuote from "@/components/ScriptureQuote";
+import WhySection from "@/components/WhySection";
 
 export default function Home() {
   return (
@@ -112,35 +113,7 @@ export default function Home() {
       <section className="section pt-0 fade-in">
         <Container>
           <div className="mb-10 ink-divider" />
-          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-            <div className="relative overflow-hidden rounded-[36px] border border-zinc-200/70 bg-white/80 p-8 shadow-sm soft-card ambient-glow rise-in">
-              <div className="text-xs font-semibold text-zinc-500">此处为何</div>
-              <div className="mt-3 text-2xl font-semibold text-zinc-900 serif-title">
-                一处供斋之所，也是安住之处
-              </div>
-              <p className="mt-4 text-sm text-zinc-700 leading-7 max-w-2xl">{SITE.intro}</p>
-              <div className="mt-6 flex flex-wrap gap-2 text-xs text-zinc-600">
-                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">清净空间</span>
-                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">当季食材</span>
-                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">随缘护持</span>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm soft-card hover-scale rise-in stagger-2">
-                <div className="relative h-48 w-full overflow-hidden rounded-2xl hover-scale">
-                  <div className="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-200/60 to-stone-100" />
-                  <div
-                    className="absolute -right-6 -top-8 h-24 w-24 opacity-50"
-                    style={{ background: 'url("/lotus.svg") center/contain no-repeat' }}
-                  />
-                  <div className="absolute inset-0 border border-white/60" />
-                </div>
-                <div className="mt-4 text-sm font-semibold text-zinc-800">清净空间</div>
-                <div className="mt-1 text-xs text-zinc-500">实景照片待更新</div>
-              </div>
-            </div>
-          </div>
+          <WhySection intro={SITE.intro} />
         </Container>
       </section>
 

@@ -342,6 +342,27 @@
     box-shadow: 0 0 0 3px rgba(191, 174, 146, 0.28);
   }
 
+  .feature-chip {
+    position: relative;
+  }
+
+  .feature-chip::after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: -6px;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(170, 150, 120, 0.6), transparent);
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .feature-chip.active::after {
+    opacity: 1;
+  }
+
   .ink-dot {
     margin-top: 6px;
     height: 8px;
