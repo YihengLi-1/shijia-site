@@ -9,7 +9,7 @@ import ScriptureQuote from "@/components/ScriptureQuote";
 export default function Home() {
   return (
     <main className="min-h-screen text-zinc-900">
-      <Header />
+      <Header hideCta />
 
       <section className="section relative overflow-hidden fade-in">
         <div
@@ -22,17 +22,15 @@ export default function Home() {
         />
         <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
         <Container className="relative z-10">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-            <div>
+          <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+            <div className="max-w-2xl">
               <div className="inline-flex items-center gap-3 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
                 清净供斋
               </div>
               <h1 className="mt-6 text-[clamp(2.8rem,6vw,4.6rem)] font-semibold tracking-tight serif-title">
                 {SITE.name}
               </h1>
-              <p className="mt-5 max-w-2xl whitespace-pre-line text-lg leading-7 text-zinc-700">
-                {SITE.tagline}
-              </p>
+              <p className="mt-5 whitespace-pre-line text-lg leading-7 text-zinc-700">{SITE.tagline}</p>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
@@ -47,7 +45,7 @@ export default function Home() {
               </div>
 
               <div className="mt-4 text-xs text-zinc-500">
-                确认后我们会为你留席并发送提示；如需改期或退款，请联系管理员协助。
+                确认后我们会为你留席并发一条提醒；若需改期或退款，请联系管理员。
               </div>
 
               <div className="mt-8 grid gap-6 py-4 text-xs text-zinc-600 info-strip sm:grid-cols-3 sm:divide-x sm:divide-zinc-200/70">
@@ -81,9 +79,11 @@ export default function Home() {
                 />
                 <div className="relative z-10">
                   <div className="text-xs font-semibold text-zinc-500">今日供斋</div>
-                  <div className="mt-3 text-xl font-semibold text-zinc-900">清淡 · 安住 · 随缘</div>
+                  <div className="mt-3 text-xl font-semibold serif-title text-zinc-900">
+                    清淡 · 安住 · 随缘
+                  </div>
                   <p className="mt-2 text-sm text-zinc-700">
-                    以清净为本、以供斋为缘。请以修行场所的秩序与安静到访。
+                    以清净为本，随缘供斋。愿你安静到访，心与味同静。
                   </p>
 
                   <div className="mt-6 space-y-3 text-sm text-zinc-700">
@@ -97,9 +97,11 @@ export default function Home() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span>到访建议</span>
-                      <span className="text-zinc-500">提前一天</span>
+                      <span className="text-zinc-500">提前一日</span>
                     </div>
                   </div>
+
+                  <ScriptureQuote className="mt-6" compact variant="general" />
                 </div>
               </div>
             </div>
@@ -122,7 +124,6 @@ export default function Home() {
                 <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">当季食材</span>
                 <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">随缘护持</span>
               </div>
-              <ScriptureQuote className="mt-6 max-w-xl" compact variant="general" />
             </div>
 
             <div className="space-y-6">

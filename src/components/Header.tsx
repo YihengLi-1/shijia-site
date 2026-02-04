@@ -5,7 +5,7 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import { SITE } from "@/lib/site";
 
-export default function Header() {
+export default function Header({ hideCta = false }: { hideCta?: boolean } = {}) {
   return (
     <header className="sticky top-0 z-50 bg-white/70 backdrop-blur glass">
       <Container className="flex h-16 items-center justify-between">
@@ -41,12 +41,14 @@ export default function Header() {
           >
             导航
           </a>
-          <Link
-            href="/menu"
-            className="rounded-full bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 pressable btn-glow"
-          >
-            开始供斋
-          </Link>
+          {!hideCta ? (
+            <Link
+              href="/menu"
+              className="rounded-full bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 pressable btn-glow"
+            >
+              开始供斋
+            </Link>
+          ) : null}
         </div>
       </Container>
       <div className="h-px bg-gradient-to-r from-transparent via-zinc-200/70 to-transparent" />
