@@ -3,9 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Footer from "@/components/Footer";
+import Container from "@/components/Container";
 import { SITE } from "@/lib/site";
 import ScriptureQuote from "@/components/ScriptureQuote";
-import OfferingsPanel from "@/components/OfferingsPanel";
+import RitualPanel from "@/components/RitualPanel";
 
 type OrderStatus = "pending" | "paid" | "cancelled" | "expired" | "unknown";
 
@@ -157,144 +158,143 @@ export default function PayClient(props: { orderId?: string }) {
 
   return (
     <>
-    <div className="relative overflow-hidden">
-      <div
-        className="pointer-events-none absolute -top-8 right-8 h-40 w-40 rounded-full blur-3xl opacity-35"
-        style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
-      />
-      <div
-        className="pointer-events-none absolute bottom-10 left-6 h-48 w-48 rounded-full blur-3xl opacity-35"
-        style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
-      />
-      <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
+      <div className="relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute -top-8 right-8 h-40 w-40 rounded-full blur-3xl opacity-35"
+          style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
+        />
+        <div
+          className="pointer-events-none absolute bottom-10 left-6 h-48 w-48 rounded-full blur-3xl opacity-35"
+          style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
+        />
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
 
-      <div className="relative z-10 mx-auto max-w-3xl px-6 py-16 fade-in">
-      <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
-        供斋确认
-      </div>
+        <Container className="relative z-10 py-16 fade-in">
+          <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
+            供斋确认
+          </div>
 
-      <h1 className="mt-5 text-3xl font-semibold tracking-tight serif-title">确认供斋</h1>
-      <p className="mt-2 text-sm text-zinc-600">
-        确认后会收到一条提示；若未收到，请先查看垃圾邮箱。
-      </p>
+          <h1 className="mt-5 text-3xl font-semibold tracking-tight serif-title">确认供斋</h1>
+          <p className="mt-2 text-sm text-zinc-600">
+            确认后会收到一条提示；若未收到，请先查看垃圾邮箱。
+          </p>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-          <div className="text-xs font-semibold text-zinc-500">供斋参考号</div>
-          <div className="mt-2 font-mono text-sm text-zinc-800">{orderId || "-"}</div>
+          <div className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+              <div className="text-xs font-semibold text-zinc-500">供斋信息</div>
+              <div className="mt-4 space-y-3 text-sm text-zinc-700">
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-500">参考号</span>
+                  <span className="font-mono text-zinc-800">{orderId || "-"}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-500">金额</span>
+                  <span className="text-zinc-800">{amountText || "—"}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-500">进度</span>
+                  <span className="text-zinc-800">{statusLabel}</span>
+                </div>
+              </div>
 
-          <div className="mt-5 text-xs font-semibold text-zinc-500">金额</div>
-          <div className="mt-2 text-sm text-zinc-800">{amountText || "—"}</div>
+              {computedTotal !== null && order?.amount_cents && computedTotal !== order.amount_cents ? (
+                <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+                  对账提示：供斋金额与明细小计不一致
+                </div>
+              ) : null}
 
-          <div className="mt-5 text-xs font-semibold text-zinc-500">进度</div>
-          <div className="mt-2 text-sm text-zinc-800">{statusLabel}</div>
+              <div className="mt-4 text-xs text-zinc-500">
+                供斋确认后，我们会为你保留到访信息。
+              </div>
+            </div>
 
-          {computedTotal !== null && order?.amount_cents && computedTotal !== order.amount_cents ? (
-            <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
-              对账提示：供斋金额与明细小计不一致
+            <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+              {loading ? (
+                <div className="text-sm text-zinc-700">正在读取供斋信息…</div>
+              ) : err ? (
+                <div className="space-y-4">
+                  <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {err}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <a
+                      href="/menu"
+                      className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold hover:border-zinc-400"
+                    >
+                      回到供斋
+                    </a>
+                    <a
+                      href="/visit"
+                      className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold hover:border-zinc-400"
+                    >
+                      联系与到访
+                    </a>
+                  </div>
+                </div>
+              ) : status === "pending" ? (
+                <>
+                  <div className="text-sm font-semibold text-zinc-900">正在完成供斋</div>
+                  <p className="mt-2 text-sm text-zinc-600">点击按钮继续完成供斋。</p>
+                  <button
+                    onClick={startCheckout}
+                    className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 cta-glow pressable focus-ring"
+                  >
+                    继续完成
+                  </button>
+                  <div className="mt-3 text-xs text-zinc-500">完成后会回到确认页。</div>
+                </>
+              ) : (
+                <div className="text-sm text-zinc-700">
+                  当前进度：<span className="font-mono">{statusLabel}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {(items.length > 0 || booking) ? (
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {items.length > 0 ? (
+                <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+                  <div className="text-xs font-semibold text-zinc-500">供斋明细</div>
+                  <div className="mt-4 divide-y">
+                    {items.map((it: any, idx: number) => (
+                      <div key={`${it.menu_item_id || idx}`} className="flex items-center justify-between py-3 text-sm">
+                        <div className="text-zinc-700">{it.item_name || "菜品"}</div>
+                        <div className="text-zinc-600">
+                          {it.qty} × ${(Number(it.unit_price_cents ?? 0) / 100).toFixed(2)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              {booking ? (
+                <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+                  <div className="text-xs font-semibold text-zinc-500">预约信息</div>
+                  <div className="mt-3 grid gap-2 text-sm text-zinc-700 sm:grid-cols-2">
+                    <div>姓名：{booking?.name ?? "-"}</div>
+                    <div>电话：{booking?.phone ?? "-"}</div>
+                    <div>日期：{booking?.date ?? "-"}</div>
+                    <div>时间：{booking?.time ?? "-"}</div>
+                    <div>人数：{booking?.people ?? "-"}</div>
+                  </div>
+                </div>
+              ) : null}
             </div>
           ) : null}
 
-          <div className="mt-4 text-xs text-zinc-500">
-            供斋确认后，我们会为你保留到访信息。
+          <div className="mt-8 grid gap-4 lg:grid-cols-[0.6fr_0.4fr]">
+            <RitualPanel stage="pre" compact />
+            <ScriptureQuote className="h-full" compact variant="general" />
           </div>
-        </div>
 
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-          {loading ? (
-            <div className="text-sm text-zinc-700">正在读取供斋信息…</div>
-          ) : err ? (
-            <div className="space-y-4">
-            <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {err}
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <a
-                href="/menu"
-                className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold hover:border-zinc-400"
-              >
-                回到供斋
-              </a>
-              <a
-                href="/visit"
-                className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold hover:border-zinc-400"
-              >
-                联系与到访
-              </a>
-            </div>
-            </div>
-          ) : status === "pending" ? (
-            <>
-              <div className="text-sm font-semibold text-zinc-900">正在完成供斋</div>
-              <p className="mt-2 text-sm text-zinc-600">
-                点击按钮继续完成供斋。
-              </p>
-              <button
-                onClick={startCheckout}
-                className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 cta-glow pressable focus-ring"
-              >
-                继续完成
-              </button>
-              <div className="mt-3 text-xs text-zinc-500">
-                完成后会回到确认页。
-              </div>
-            </>
-          ) : (
-            <div className="text-sm text-zinc-700">
-              当前进度：<span className="font-mono">{statusLabel}</span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="mt-6">
-        <OfferingsPanel compact defaultTab="pre" />
-      </div>
-
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card">
-          若支付后未能自动跳转，请刷新本页或联系管理员协助核对。
-        </div>
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card">
-          <div className="text-xs font-semibold text-zinc-500">联系</div>
-          <div className="mt-2">{SITE.contact}</div>
-          <div className="mt-1 text-xs text-zinc-500">{SITE.address}</div>
-        </div>
-      </div>
-
-      {items.length > 0 ? (
-        <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-          <div className="text-xs font-semibold text-zinc-500">供斋明细</div>
-          <div className="mt-4 divide-y">
-            {items.map((it: any, idx: number) => (
-              <div key={`${it.menu_item_id || idx}`} className="flex items-center justify-between py-3 text-sm">
-                <div className="text-zinc-700">{it.item_name || "菜品"}</div>
-                <div className="text-zinc-600">
-                  {it.qty} × ${(Number(it.unit_price_cents ?? 0) / 100).toFixed(2)}
-                </div>
-              </div>
-            ))}
+          <div className="mt-6 text-xs text-zinc-500">
+            联系：{SITE.contact} · {SITE.address}
           </div>
-        </div>
-      ) : null}
-
-      {booking ? (
-        <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-          <div className="text-xs font-semibold text-zinc-500">预约信息</div>
-          <div className="mt-3 grid gap-2 text-sm text-zinc-700 sm:grid-cols-2">
-            <div>姓名：{booking?.name ?? "-"}</div>
-            <div>电话：{booking?.phone ?? "-"}</div>
-            <div>日期：{booking?.date ?? "-"}</div>
-            <div>时间：{booking?.time ?? "-"}</div>
-            <div>人数：{booking?.people ?? "-"}</div>
-          </div>
-        </div>
-      ) : null}
-
-      <ScriptureQuote className="mt-6" compact variant="general" />
+        </Container>
       </div>
-    </div>
-    <Footer />
+      <Footer />
     </>
   );
 }

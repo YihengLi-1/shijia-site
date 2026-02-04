@@ -1,10 +1,10 @@
 // src/lib/site.ts
 export const SITE = {
   name: "释迦佛国素食斋",
-  tagline: "一处清净供斋之所。\n愿你在此片刻，心归于静。",
+  tagline: "供斋，亦是归心。\n愿此一餐，清净如初。",
 
   intro:
-    "这里是寺院中的素斋空间，不是餐厅。我们以素食供斋，与诸有缘者相遇。愿你在此稍作停留，心念清明。",
+    "这里是寺院的一隅素斋，不喧哗、不繁复。以素食供斋，与诸有缘者同坐片刻。愿你在此安住，心念清明。",
 
   address: "1820 Sharpless Dr, La Habra Heights, CA 90631",
   hours: "周一至周日 5:00 AM — 9:00 PM",
