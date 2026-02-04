@@ -110,7 +110,7 @@ export default function DonationClient() {
             value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
           />
-          <div className="mt-2 text-xs text-zinc-500">当前金额：{formatAmount(amountCents)}</div>
+          <div className="mt-2 text-xs text-zinc-500">随喜金额：{formatAmount(amountCents)}</div>
         </div>
 
         <div>
@@ -124,7 +124,7 @@ export default function DonationClient() {
         </div>
 
         <div>
-          <label className="text-xs font-semibold text-zinc-500">邮箱（收据与确认）</label>
+          <label className="text-xs font-semibold text-zinc-500">邮箱（收据与确认信息）</label>
           <input
             className="mt-2 w-full rounded-2xl border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-zinc-400"
             value={email}

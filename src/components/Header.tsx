@@ -7,9 +7,14 @@ import { SITE } from "@/lib/site";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur">
+    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur glass">
       <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="text-sm font-semibold tracking-wide text-zinc-900 serif-title">
+        <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-wide text-zinc-900 serif-title">
+          <span
+            className="h-5 w-5 opacity-70"
+            style={{ background: 'url("/seal-mark.svg") center/contain no-repeat' }}
+            aria-hidden="true"
+          />
           {SITE.name}
         </Link>
 
@@ -19,7 +24,7 @@ export default function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="hover:text-zinc-900"
+              className="hover:text-zinc-900 nav-link"
             >
               {item.label}
             </Link>
@@ -32,7 +37,7 @@ export default function Header() {
             href={SITE.mapUrl}
             target="_blank"
             rel="noreferrer"
-            className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold hover:border-zinc-400 pressable focus-ring"
+            className="rounded-full border border-zinc-300 bg-white/80 px-3 py-1.5 text-xs font-semibold hover:border-zinc-400 pressable focus-ring"
           >
             导航
           </a>

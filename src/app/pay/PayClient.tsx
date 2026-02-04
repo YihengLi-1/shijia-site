@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Footer from "@/components/Footer";
 import { SITE } from "@/lib/site";
 import ScriptureQuote from "@/components/ScriptureQuote";
+import OfferingsPanel from "@/components/OfferingsPanel";
 
 type OrderStatus = "pending" | "paid" | "cancelled" | "expired" | "unknown";
 
@@ -40,13 +41,13 @@ export default function PayClient(props: { orderId?: string }) {
 
   const statusLabel = useMemo(() => {
     const map: Record<OrderStatus, string> = {
-      pending: "等待支付",
-      paid: "已完成",
+      pending: "尚在确认",
+      paid: "已圆满",
       cancelled: "已取消",
-      expired: "已失效",
-      unknown: "未知",
+      expired: "已过期",
+      unknown: "未确认",
     };
-    return map[status] || "未知";
+    return map[status] || "未确认";
   }, [status]);
 
   useEffect(() => {
@@ -119,8 +120,8 @@ export default function PayClient(props: { orderId?: string }) {
     if (!orderId) return;
 
     if (status !== "pending") {
-      setErr(status === "paid" ? "供斋已完成，无需重复支付。" : "当前供斋记录不可支付，请联系管理员。");
-      return;
+        setErr(status === "paid" ? "供斋已确认，无需再次操作。" : "当前供斋记录不可继续，请联系管理员。");
+        return;
     }
 
     try {
@@ -136,19 +137,19 @@ export default function PayClient(props: { orderId?: string }) {
       const d = await r.json().catch(() => ({}));
 
       if (!r.ok || !d?.ok) {
-        setErr("支付跳转失败，请稍后重试或联系管理员。");
-        return;
-      }
+      setErr("跳转失败，请稍后再试或联系管理员。");
+      return;
+    }
 
       const url = String(d?.url || "");
       if (!url) {
-        setErr("支付链接生成失败，请稍后重试或联系管理员。");
+        setErr("确认入口生成失败，请稍后再试或联系管理员。");
         return;
       }
 
       window.location.href = url;
     } catch {
-      setErr("支付请求异常，请稍后重试。");
+      setErr("请求异常，请稍后再试。");
     } finally {
       setLoading(false);
     }
@@ -158,23 +159,23 @@ export default function PayClient(props: { orderId?: string }) {
     <>
     <div className="relative overflow-hidden">
       <div
-        className="pointer-events-none absolute -top-8 right-8 h-40 w-40 rounded-full blur-3xl float-slow"
+        className="pointer-events-none absolute -top-8 right-8 h-40 w-40 rounded-full blur-3xl opacity-35"
         style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
       />
       <div
-        className="pointer-events-none absolute bottom-10 left-6 h-48 w-48 rounded-full blur-3xl float-slower"
+        className="pointer-events-none absolute bottom-10 left-6 h-48 w-48 rounded-full blur-3xl opacity-35"
         style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
       />
-      <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-20" />
+      <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
 
-      <div className="relative z-10 mx-auto max-w-3xl px-6 py-16">
+      <div className="relative z-10 mx-auto max-w-3xl px-6 py-16 fade-in">
       <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
-        供斋支付
+        供斋确认
       </div>
 
       <h1 className="mt-5 text-3xl font-semibold tracking-tight serif-title">确认供斋</h1>
       <p className="mt-2 text-sm text-zinc-600">
-        支付完成后会发送确认邮件。若未收到，请先查看垃圾邮箱。
+        确认后会收到一条提示；若未收到，请先查看垃圾邮箱。
       </p>
 
       <div className="mt-8 grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
@@ -185,7 +186,7 @@ export default function PayClient(props: { orderId?: string }) {
           <div className="mt-5 text-xs font-semibold text-zinc-500">金额</div>
           <div className="mt-2 text-sm text-zinc-800">{amountText || "—"}</div>
 
-          <div className="mt-5 text-xs font-semibold text-zinc-500">状态</div>
+          <div className="mt-5 text-xs font-semibold text-zinc-500">进度</div>
           <div className="mt-2 text-sm text-zinc-800">{statusLabel}</div>
 
           {computedTotal !== null && order?.amount_cents && computedTotal !== order.amount_cents ? (
@@ -195,13 +196,13 @@ export default function PayClient(props: { orderId?: string }) {
           ) : null}
 
           <div className="mt-4 text-xs text-zinc-500">
-            支付成功后，供斋记录会自动关联到访信息。
+            供斋确认后，我们会为你保留到访信息。
           </div>
         </div>
 
         <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
           {loading ? (
-            <div className="text-sm text-zinc-700">正在加载供斋状态…</div>
+            <div className="text-sm text-zinc-700">正在读取供斋信息…</div>
           ) : err ? (
             <div className="space-y-4">
             <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -224,26 +225,30 @@ export default function PayClient(props: { orderId?: string }) {
             </div>
           ) : status === "pending" ? (
             <>
-              <div className="text-sm font-semibold text-zinc-900">待确认支付</div>
+              <div className="text-sm font-semibold text-zinc-900">正在完成供斋</div>
               <p className="mt-2 text-sm text-zinc-600">
-                点击按钮跳转到 Stripe 完成支付。
+                点击按钮继续完成供斋。
               </p>
               <button
                 onClick={startCheckout}
                 className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 cta-glow pressable focus-ring"
               >
-                去支付
+                继续完成
               </button>
               <div className="mt-3 text-xs text-zinc-500">
-                完成支付后会自动跳转到成功页。
+                完成后会回到确认页。
               </div>
             </>
           ) : (
             <div className="text-sm text-zinc-700">
-              当前供斋状态：<span className="font-mono">{statusLabel}</span>
+              当前进度：<span className="font-mono">{statusLabel}</span>
             </div>
           )}
         </div>
+      </div>
+
+      <div className="mt-6">
+        <OfferingsPanel compact defaultTab="pre" />
       </div>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -286,7 +291,7 @@ export default function PayClient(props: { orderId?: string }) {
         </div>
       ) : null}
 
-      <ScriptureQuote className="mt-6" compact />
+      <ScriptureQuote className="mt-6" compact variant="general" />
       </div>
     </div>
     <Footer />

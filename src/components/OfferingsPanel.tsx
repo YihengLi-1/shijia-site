@@ -27,7 +27,7 @@ export default function OfferingsPanel({ compact = false, defaultTab = "pre" }: 
   }, [tab]);
 
   return (
-    <div className="relative overflow-hidden rounded-[32px] border border-zinc-200/70 bg-white/90 p-6 shadow-sm soft-card sutra-panel">
+    <div className="relative overflow-hidden rounded-[32px] border border-zinc-200/70 bg-white/90 p-6 shadow-sm soft-card sutra-panel sutra-block">
       <div
         className="pointer-events-none absolute -left-6 top-10 h-36 w-36 opacity-40"
         style={{ background: 'url("/enso.svg") center/contain no-repeat' }}
@@ -38,7 +38,7 @@ export default function OfferingsPanel({ compact = false, defaultTab = "pre" }: 
         style={{ background: 'url("/lotus.svg") center/contain no-repeat' }}
       />
       <div
-        className="pointer-events-none absolute -left-6 -bottom-6 h-28 w-28 rounded-full blur-2xl breath"
+        className="pointer-events-none absolute -left-6 -bottom-6 h-28 w-28 rounded-full blur-2xl opacity-40"
         style={{ background: "radial-gradient(circle, rgba(233,219,197,0.55) 0%, transparent 70%)" }}
       />
 

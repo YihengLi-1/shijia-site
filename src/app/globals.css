@@ -24,18 +24,49 @@
   body {
     font-family: var(--font-sans);
     color: var(--ink);
+    font-size: 15.5px;
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+    background-color: #f8f5ef;
     background:
-      radial-gradient(1200px 800px at 80% -10%, #efe9df 0%, transparent 55%),
-      radial-gradient(900px 700px at -10% 20%, #f3efe7 0%, transparent 60%),
-      linear-gradient(180deg, #f8f6f2 0%, #f4f1eb 50%, #f7f5f1 100%);
-    background-image:
-      radial-gradient(1200px 800px at 80% -10%, #efe9df 0%, transparent 55%),
-      radial-gradient(900px 700px at -10% 20%, #f3efe7 0%, transparent 60%),
-      linear-gradient(180deg, #f8f6f2 0%, #f4f1eb 50%, #f7f5f1 100%),
-      url("/lotus-pattern.svg");
-    background-repeat: no-repeat, no-repeat, no-repeat, repeat;
-    background-size: auto, auto, auto, 260px 260px;
+      radial-gradient(1400px 900px at 20% -10%, #f4efe6 0%, transparent 60%),
+      radial-gradient(1000px 800px at 92% 0%, #efe5d5 0%, transparent 58%),
+      linear-gradient(180deg, #faf7f2 0%, #f3efe8 52%, #f7f4ee 100%);
+    background-repeat: no-repeat, no-repeat, no-repeat;
     text-rendering: optimizeLegibility;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -20% -10%;
+    background-image:
+      url("/lotus.svg"),
+      radial-gradient(720px 520px at 10% 10%, rgba(238, 228, 210, 0.22), transparent 60%),
+      radial-gradient(680px 520px at 90% 0%, rgba(228, 215, 194, 0.2), transparent 62%),
+      radial-gradient(520px 420px at 70% 80%, rgba(240, 232, 216, 0.22), transparent 60%);
+    background-repeat: no-repeat;
+    background-position: 6% 12%, 0 0, 0 0, 0 0;
+    background-size: 420px 420px, auto, auto, auto;
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("/paper-grain.svg");
+    background-size: 220px 220px;
+    background-repeat: repeat;
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: -2;
   }
 
   a,
@@ -97,12 +128,30 @@
 
   .soft-card {
     transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+    position: relative;
   }
 
   .soft-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 40px -24px rgba(33, 33, 33, 0.35);
     border-color: rgba(212, 200, 180, 0.9);
+  }
+
+  .soft-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(120px 90px at 12% 12%, rgba(255, 255, 255, 0.45), transparent 60%),
+      radial-gradient(160px 120px at 88% 10%, rgba(233, 219, 197, 0.35), transparent 65%);
+    opacity: 0;
+    transition: opacity 240ms ease;
+    pointer-events: none;
+  }
+
+  .soft-card:hover::after {
+    opacity: 1;
   }
 
   .sutra-panel {
@@ -137,10 +186,28 @@
 
   .pressable {
     transition: transform 140ms ease, box-shadow 220ms ease, background-color 220ms ease;
+    position: relative;
+    overflow: hidden;
   }
 
   .pressable:active {
     transform: scale(0.98);
+  }
+
+  .pressable::after {
+    content: "";
+    position: absolute;
+    inset: -60%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent 60%);
+    opacity: 0;
+    transition: opacity 220ms ease, transform 320ms ease;
+    transform: scale(0.9);
+    pointer-events: none;
+  }
+
+  .pressable:active::after {
+    opacity: 0.6;
+    transform: scale(1);
   }
 
   .btn-glow {
@@ -151,6 +218,282 @@
     background-image: url("/lotus-pattern.svg");
     background-repeat: repeat;
     background-size: 240px 240px;
+  }
+
+  .lotus-drift {
+    background-image: url("/lotus-pattern.svg");
+    background-repeat: repeat;
+    background-size: 240px 240px;
+  }
+
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(90deg, rgba(35, 35, 35, 0.8), rgba(150, 135, 110, 0.8));
+    transition: width 200ms ease;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .ink-divider {
+    position: relative;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(170, 150, 120, 0.6), transparent);
+  }
+
+  .ink-divider::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 40px;
+    height: 14px;
+    transform: translate(-50%, -50%);
+    background: url("/lotus.svg") center/contain no-repeat;
+    opacity: 0.45;
+  }
+
+  .info-strip {
+    border-top: 1px solid rgba(210, 196, 176, 0.7);
+    border-bottom: 1px solid rgba(210, 196, 176, 0.7);
+  }
+
+  .ritual-wrap {
+    max-width: 780px;
+    position: relative;
+  }
+
+  .ritual-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(214, 202, 182, 0.8);
+    background: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    font-weight: 600;
+    color: #7b6f5e;
+    letter-spacing: 0.18em;
+  }
+
+  .ritual-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    letter-spacing: 0.02em;
+  }
+
+  .ritual-lead {
+    font-size: 1.05rem;
+    color: #5f5b55;
+  }
+
+  .ritual-section {
+    padding-top: 40px;
+  }
+
+  .ritual-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #8a7f70;
+    letter-spacing: 0.2em;
+  }
+
+  .ritual-label::before {
+    content: "·";
+    margin-right: 8px;
+    color: #9a8f7a;
+  }
+
+  .ritual-heading {
+    margin-top: 10px;
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    color: #2c2a26;
+  }
+
+  .ritual-body {
+    margin-top: 12px;
+    font-size: 0.98rem;
+    color: #5f5b55;
+    line-height: 1.8;
+  }
+
+  .ritual-steps {
+    margin-top: 16px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .ritual-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: #4e4a44;
+  }
+
+  .ritual-dot {
+    height: 6px;
+    width: 6px;
+    border-radius: 999px;
+    background: #9a8f7a;
+  }
+
+  .ritual-aside {
+    border-radius: 24px;
+    border: 1px solid rgba(214, 202, 182, 0.7);
+    background: rgba(255, 255, 255, 0.75);
+    padding: 20px 22px;
+  }
+
+  .ritual-aside-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7a6f62;
+  }
+
+  .ritual-aside-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #4e4a44;
+  }
+
+  .stamp {
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    opacity: 0.35;
+    transform: rotate(-6deg);
+    filter: drop-shadow(0 6px 10px rgba(90, 60, 40, 0.12));
+  }
+
+  .stamp-muted {
+    opacity: 0.25;
+    transform: rotate(6deg);
+  }
+
+  .sutra-rail {
+    position: absolute;
+    left: -24px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(160, 140, 115, 0.55), transparent);
+  }
+
+  .sutra-rail::after {
+    content: "";
+    position: absolute;
+    top: 40%;
+    left: -8px;
+    width: 16px;
+    height: 16px;
+    background: url("/lotus.svg") center/contain no-repeat;
+    opacity: 0.5;
+  }
+
+  .sutra-block {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(249, 245, 236, 0.94) 100%),
+      url("/paper-grain.svg");
+    background-size: auto, 220px 220px;
+    background-repeat: no-repeat, repeat;
+  }
+
+
+  .vertical-rite {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    letter-spacing: 0.35em;
+  }
+
+  .pulse-soft {
+    animation: pulse-soft 6s ease-in-out infinite;
+  }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.35) 45%,
+      rgba(255, 255, 255, 0.65) 50%,
+      rgba(255, 255, 255, 0.35) 55%,
+      transparent 100%
+    );
+    transform: translateX(-120%);
+    animation: shimmer 16s ease-in-out infinite;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .ambient-glow {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ambient-glow::before {
+    content: "";
+    position: absolute;
+    inset: -30% -10%;
+    background:
+      radial-gradient(260px 200px at 20% 20%, rgba(235, 224, 205, 0.35), transparent 60%),
+      radial-gradient(320px 240px at 80% 10%, rgba(224, 210, 186, 0.3), transparent 65%),
+      radial-gradient(280px 220px at 70% 80%, rgba(238, 227, 210, 0.35), transparent 65%);
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .ambient-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(200px 140px at 50% 10%, rgba(255, 255, 255, 0.65), transparent 70%);
+    opacity: 0.28;
+    pointer-events: none;
+  }
+
+  .hover-scale img,
+  .hover-scale .hover-target {
+    transition: transform 320ms ease, filter 320ms ease;
+  }
+
+  .hover-scale:hover img,
+  .hover-scale:hover .hover-target {
+    transform: scale(1.05);
+    filter: saturate(1.05);
+  }
+
+  .lift-shadow {
+    transition: transform 240ms ease, box-shadow 240ms ease;
+  }
+
+  .lift-shadow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 42px -28px rgba(30, 30, 30, 0.55);
+  }
+
+  .bump {
+    animation: bump 220ms ease-out;
   }
 
   .stagger-1 { animation-delay: 80ms; }
@@ -186,13 +529,64 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
+@keyframes shimmer {
+  0% { transform: translateX(-120%); }
+  60% { transform: translateX(120%); }
+  100% { transform: translateX(120%); }
+}
+
+@keyframes ambient-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(8px, -10px, 0) scale(1.02); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes bump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.16); }
+  100% { transform: scale(1); }
+}
+
+@keyframes bg-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-12px, 10px, 0) scale(1.02); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes pattern-drift {
+  0% { background-position: 0 0; }
+  100% { background-position: 260px 260px; }
+}
+
+@keyframes pulse-soft {
+  0% { box-shadow: 0 12px 26px -20px rgba(30, 30, 30, 0.45); }
+  50% { box-shadow: 0 22px 40px -22px rgba(30, 30, 30, 0.55); }
+  100% { box-shadow: 0 12px 26px -20px rgba(30, 30, 30, 0.45); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fade-in,
   .rise-in,
   .float-slow,
   .float-slower,
   .breath,
-  .soft-rise {
+  .soft-rise,
+  .shimmer {
+    animation: none !important;
+  }
+
+  .shimmer::after {
+    animation: none !important;
+  }
+
+  .ambient-glow::before {
+    animation: none !important;
+  }
+
+  body::before,
+  body::after,
+  .lotus-drift,
+  .pulse-soft {
     animation: none !important;
   }
 }

@@ -60,16 +60,16 @@ export default function SuccessClient() {
     <>
     <div className="relative overflow-hidden">
       <div
-        className="pointer-events-none absolute -top-8 right-8 h-40 w-40 rounded-full blur-3xl float-slow"
+        className="pointer-events-none absolute -top-8 right-8 h-40 w-40 rounded-full blur-3xl opacity-35"
         style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
       />
       <div
-        className="pointer-events-none absolute bottom-8 left-6 h-48 w-48 rounded-full blur-3xl float-slower"
+        className="pointer-events-none absolute bottom-8 left-6 h-48 w-48 rounded-full blur-3xl opacity-35"
         style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
       />
-      <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-20" />
+      <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
 
-      <div className="relative z-10 mx-auto max-w-3xl px-6 py-14">
+      <div className="relative z-10 mx-auto max-w-3xl px-6 py-14 fade-in">
       <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
         随喜护持
       </div>
@@ -80,11 +80,11 @@ export default function SuccessClient() {
 
       <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
         {status === "pending" ? (
-          <div className="text-sm text-zinc-700">正在确认随喜状态…</div>
+          <div className="text-sm text-zinc-700">正在确认随喜进度…</div>
         ) : status === "paid" ? (
-          <div className="text-sm text-zinc-700">已确认完成随喜护持。</div>
+          <div className="text-sm text-zinc-700">随喜已圆满。</div>
         ) : (
-          <div className="text-sm text-red-700">暂未确认成功，请稍后刷新或联系管理员。</div>
+          <div className="text-sm text-red-700">暂未确认完成，请稍后刷新或联系管理员。</div>
         )}
         <div className="mt-3 text-xs text-zinc-500">愿此功德，回向一切众生。</div>
       </div>
@@ -101,7 +101,14 @@ export default function SuccessClient() {
         <div className="mt-1 text-xs text-zinc-500">{SITE.address}</div>
       </div>
 
-      <ScriptureQuote className="mt-6" compact />
+      <div className="mt-4 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card">
+        <div className="text-xs font-semibold text-zinc-500">回向偈</div>
+        <p className="mt-3 leading-7">
+          愿以此功德，庄严佛净土；上报四重恩，下济三途苦。
+        </p>
+      </div>
+
+      <ScriptureQuote className="mt-6" compact variant="compassion" />
 
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
