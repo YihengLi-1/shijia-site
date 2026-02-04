@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#faf7f2"/>
+      <stop offset="55%" stop-color="#f3eee6"/>
+      <stop offset="100%" stop-color="#f7f4ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="70" y="70" width="1060" height="490" rx="36" fill="rgba(255,255,255,0.88)" stroke="#e6dccb"/>
+  <text x="130" y="210" font-size="64" fill="#1a1a1a" font-family="Noto Serif SC, Songti SC, serif">释迦佛国素食斋</text>
+  <text x="130" y="280" font-size="30" fill="#5b564f" font-family="Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif">一处清净供斋之所。</text>
+  <text x="130" y="325" font-size="30" fill="#5b564f" font-family="Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif">愿你在此片刻，心归于静。</text>
+
+  <rect x="940" y="140" width="160" height="160" rx="20" fill="none" stroke="#b44336" stroke-width="8"/>
+  <text x="1020" y="245" text-anchor="middle" font-size="84" fill="#b44336" font-family="Noto Serif SC, Songti SC, serif">释</text>
+
+  <text x="130" y="470" font-size="22" fill="#8a7f70" font-family="Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif">清淡 · 安住 · 随缘</text>
+</svg>

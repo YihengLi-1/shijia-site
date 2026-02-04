@@ -1,9 +1,36 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "释迦佛国素食斋",
-  description: "释迦佛国素食斋",
+  title: {
+    default: SITE.name,
+    template: `%s · ${SITE.name}`,
+  },
+  description: SITE.tagline.replace(/\n/g, " "),
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/apple-touch-icon.svg",
+  },
+  openGraph: {
+    title: SITE.name,
+    description: SITE.tagline.replace(/\n/g, " "),
+    type: "website",
+    images: [
+      {
+        url: "/og.svg",
+        width: 1200,
+        height: 630,
+        alt: SITE.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE.name,
+    description: SITE.tagline.replace(/\n/g, " "),
+    images: ["/og.svg"],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
