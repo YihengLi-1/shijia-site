@@ -16,7 +16,9 @@ export default function RitualScroll({ className = "" }: { className?: string })
   const [expandPost, setExpandPost] = useState(false);
 
   const isPre = stage === "pre";
-  const data = useMemo(() => (isPre ? OFFERINGS.pre : OFFERINGS.post), [isPre]);
+  const pre = OFFERINGS.pre;
+  const post = OFFERINGS.post;
+  const data = useMemo(() => (isPre ? pre : post), [isPre, pre, post]);
   const expanded = isPre ? expandPre : expandPost;
   const toggleExpand = () => {
     if (isPre) {
@@ -66,8 +68,8 @@ export default function RitualScroll({ className = "" }: { className?: string })
       <div key={stage} className="mt-6 soft-rise">
         <div className="text-sm font-semibold text-zinc-900">{STAGE_META[stage].title}</div>
         <div className="mt-1 text-xs text-zinc-500">{STAGE_META[stage].hint}</div>
-        {!isPre && data.mantra ? (
-          <div className="mt-2 text-xs text-zinc-600">{data.mantra}</div>
+        {!isPre && post.mantra ? (
+          <div className="mt-2 text-xs text-zinc-600">{post.mantra}</div>
         ) : null}
         <div className="mt-3 border-l-2 border-stone-200 pl-4 text-sm leading-7 text-zinc-700">
           <div className={expanded ? "" : "line-clamp-3"}>{data.text}</div>
@@ -85,18 +87,18 @@ export default function RitualScroll({ className = "" }: { className?: string })
             <div className="mt-4 grid gap-3 text-xs text-zinc-700">
               <div className="rounded-2xl border border-zinc-200 bg-white px-4 py-3">
                 <span className="font-semibold text-zinc-900">早餐：</span>
-                {OFFERINGS.pre.breakfast}
+                {pre.breakfast}
               </div>
               <div className="rounded-2xl border border-zinc-200 bg-white px-4 py-3">
                 <span className="font-semibold text-zinc-900">午餐：</span>
-                {OFFERINGS.pre.lunch}
+                {pre.lunch}
               </div>
             </div>
 
             <div className="mt-4 rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-xs text-zinc-600">
               <div className="text-[11px] font-semibold text-zinc-500">斋前简要</div>
               <div className="mt-2 space-y-1 leading-6">
-                {OFFERINGS.pre.ritual.map((line) => (
+                {pre.ritual.map((line) => (
                   <div key={line}>• {line}</div>
                 ))}
               </div>
@@ -105,7 +107,7 @@ export default function RitualScroll({ className = "" }: { className?: string })
         ) : (
           <div className="mt-4 rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-xs text-zinc-700">
             <span className="font-semibold text-zinc-900">起立：</span>
-            {OFFERINGS.post.stand}
+            {post.stand}
           </div>
         )}
       </div>
