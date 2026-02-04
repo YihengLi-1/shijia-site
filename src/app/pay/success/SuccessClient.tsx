@@ -295,7 +295,7 @@ export default function SuccessClient() {
 
             <Link
               href="/menu"
-              className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 cta-glow pressable focus-ring"
+              className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 cta-glow pressable focus-ring cta-shimmer"
             >
               继续供斋
             </Link>

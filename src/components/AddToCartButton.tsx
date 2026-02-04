@@ -23,7 +23,7 @@ export default function AddToCartButton(props: {
           });
           setBumpKey((k) => k + 1);
         }}
-        className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-800 hover:border-zinc-400 pressable focus-ring"
+        className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-800 hover:border-zinc-400 pressable focus-ring cta-shimmer"
       >
         加入供斋
       </button>

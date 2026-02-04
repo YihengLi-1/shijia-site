@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Container from "@/components/Container";
 import Footer from "@/components/Footer";
 import ScriptureQuote from "@/components/ScriptureQuote";
+import ChipReveal from "@/components/ChipReveal";
 
 export default function VeggiePage() {
   return (
@@ -56,6 +57,16 @@ export default function VeggiePage() {
                     念食材、念供养、念众缘。愿一餐之缘，成为修行之缘。
                   </p>
                 </div>
+              </div>
+
+              <div className="mt-6">
+                <ChipReveal
+                  items={[
+                    { label: "少欲", note: "少欲则心轻，味也轻。" },
+                    { label: "知足", note: "一餐足矣，心不多求。" },
+                    { label: "感恩", note: "念众缘与供养，心自安。" },
+                  ]}
+                />
               </div>
 
               <div className="mt-6 flex flex-wrap gap-3">

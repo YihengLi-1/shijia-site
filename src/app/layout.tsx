@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE.url),
   title: {
     default: SITE.name,
     template: `%s · ${SITE.name}`,

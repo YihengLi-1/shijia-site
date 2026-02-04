@@ -29,9 +29,9 @@ export default function DonationPage() {
               <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
                 随喜护持
               </div>
-              <h1 className="mt-4 text-4xl font-semibold tracking-tight serif-title">随喜</h1>
+              <h1 className="mt-4 text-[clamp(2.6rem,5vw,3.6rem)] font-semibold tracking-tight serif-title">随喜</h1>
               <p className="mt-3 text-sm text-zinc-600">
-                随喜随缘，香灯与供斋有你一份力。若需核对或退款，请联系管理员协助。
+                随喜护持，香灯与供斋有你一份力。若需核对或退款，请联系管理员协助。
               </p>
 
               <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card">

@@ -36,7 +36,7 @@ export default function Home() {
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
                   href="/menu"
-                  className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 pressable btn-glow"
+                  className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 pressable btn-glow cta-shimmer"
                 >
                   开始供斋
                 </Link>

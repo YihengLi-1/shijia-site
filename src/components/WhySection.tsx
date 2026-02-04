@@ -17,8 +17,8 @@ const FEATURES: Feature[] = [
     key: "space",
     label: "清净空间",
     title: "清净空间",
-    subtitle: "实景照片待更新",
-    note: "留白、稀疏、安住之处，给心一片清明。",
+    subtitle: "静处留白，光影自生",
+    note: "留一点空与静，让心慢下来。",
     ornament: "/lotus.svg",
     accent: "rgba(198, 180, 150, 0.5)",
   },
@@ -26,8 +26,8 @@ const FEATURES: Feature[] = [
     key: "season",
     label: "当季食材",
     title: "当季食材",
-    subtitle: "食材随时令而变",
-    note: "随季节更替，味淡而温，少油少盐。",
+    subtitle: "随时令而变",
+    note: "随季节更替，味淡而温。",
     ornament: "/hero.svg",
     accent: "rgba(206, 188, 160, 0.5)",
   },
@@ -36,7 +36,7 @@ const FEATURES: Feature[] = [
     label: "随缘护持",
     title: "随缘护持",
     subtitle: "护持用于香灯与供斋",
-    note: "随喜随缘，量力而行，共护清净。",
+    note: "随喜随缘，量力而行。",
     ornament: "/seal-mark.svg",
     accent: "rgba(190, 165, 135, 0.55)",
   },
@@ -66,6 +66,8 @@ export default function WhySection({ intro }: { intro: string }) {
                 type="button"
                 aria-pressed={isActive}
                 onClick={() => setActiveKey(item.key)}
+                onMouseEnter={() => setActiveKey(item.key)}
+                onFocus={() => setActiveKey(item.key)}
                 className={`feature-chip rounded-full border px-3 py-1 transition focus-ring pressable text-xs font-semibold ${
                   isActive
                     ? "border-zinc-900 bg-zinc-900 text-white active"
@@ -78,13 +80,15 @@ export default function WhySection({ intro }: { intro: string }) {
             );
           })}
         </div>
-        <div className="mt-4 text-xs text-zinc-500">{active.note}</div>
+        <div key={active.key} className="mt-4 text-xs text-zinc-500 soft-rise">
+          {active.note}
+        </div>
       </div>
 
       <div className="space-y-6">
         <div
           key={active.key}
-          className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm soft-card hover-scale rise-in stagger-2"
+          className="feature-panel overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm soft-card hover-scale rise-in stagger-2 soft-rise"
         >
           <div className="relative h-48 w-full overflow-hidden rounded-2xl">
             <div className="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-200/60 to-stone-100" />

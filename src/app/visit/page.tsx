@@ -4,6 +4,7 @@ import Container from "@/components/Container";
 import Footer from "@/components/Footer";
 import { SITE } from "@/lib/site";
 import ScriptureQuote from "@/components/ScriptureQuote";
+import ChipReveal from "@/components/ChipReveal";
 
 export default function VisitPage() {
   return (
@@ -25,9 +26,9 @@ export default function VisitPage() {
               <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
                 到访
               </div>
-              <h1 className="mt-4 text-3xl font-semibold tracking-tight serif-title">来访须知</h1>
+              <h1 className="mt-4 text-4xl font-semibold tracking-tight serif-title">来访须知</h1>
               <p className="mt-3 text-sm text-zinc-600">
-                到访以安静为先，请轻声慢行，让心归于清净。
+                到访以安静为先，轻声慢行即可。
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -52,18 +53,22 @@ export default function VisitPage() {
               </div>
 
               <div className="mt-5 rounded-3xl border border-zinc-200/70 bg-white/80 p-5 text-sm text-zinc-700 shadow-sm soft-card">
-                <div className="text-xs font-semibold text-zinc-500">简要礼序</div>
-                <div className="mt-3 flex flex-wrap gap-2 text-xs text-zinc-600">
-                  <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">预约确认</span>
-                  <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">安静到访</span>
-                  <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">缓慢用斋</span>
+                <div className="text-xs font-semibold text-zinc-500">简要礼仪</div>
+                <div className="mt-3">
+                  <ChipReveal
+                    items={[
+                      { label: "预约确认", note: "先确认时间，方便留席。" },
+                      { label: "安静到访", note: "轻声慢行，心自安静。" },
+                      { label: "缓慢用斋", note: "慢一些，味与心更清。"},
+                    ]}
+                  />
                 </div>
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
-                <div className="text-xs font-semibold text-zinc-500">来访礼序</div>
+                <div className="text-xs font-semibold text-zinc-500">来访礼仪</div>
                 <div className="mt-4 space-y-3 text-sm text-zinc-700">
                   <div>轻声入门，缓慢行走</div>
                   <div>尊重秩序，保持整洁</div>
@@ -87,7 +92,7 @@ export default function VisitPage() {
                     <span className="text-zinc-500">建议提前一天</span>
                   </div>
                 </div>
-                <div className="mt-4 text-xs text-zinc-500">实景与路线图待更新，请以现场指引为准。</div>
+                <div className="mt-4 text-xs text-zinc-500">请以现场指引为准，先行留席更稳妥。</div>
               </div>
 
               <ScriptureQuote compact variant="general" />

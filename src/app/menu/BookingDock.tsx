@@ -116,7 +116,7 @@ export default function BookingDock() {
             <button
               type="button"
               onClick={() => setOpen(true)}
-              className="rounded-full bg-zinc-900 px-6 py-2.5 text-sm font-semibold text-white hover:bg-zinc-800 pressable btn-glow cta-glow focus-ring"
+              className="rounded-full bg-zinc-900 px-6 py-2.5 text-sm font-semibold text-white hover:bg-zinc-800 pressable btn-glow cta-glow focus-ring cta-shimmer"
             >
               确认供斋
             </button>
@@ -203,7 +203,7 @@ export default function BookingDock() {
               <button
                 onClick={onSubmit}
                 disabled={!canSubmit}
-                className="mt-5 w-full rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60 pressable btn-glow"
+                className="mt-5 w-full rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60 pressable btn-glow cta-shimmer"
               >
                 {submitting ? "提交中..." : "确认供斋"}
               </button>

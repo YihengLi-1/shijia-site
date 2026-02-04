@@ -92,11 +92,12 @@ export default function DonationClient() {
                 key={v}
                 type="button"
                 onClick={() => setAmount(v)}
-                className={`rounded-full border px-3 py-1 text-xs font-semibold pressable focus-ring ${
+                className={`amount-chip rounded-full border px-3 py-1 text-xs font-semibold pressable focus-ring ${
                   amount === v
                     ? "border-zinc-900 bg-zinc-900 text-white"
                     : "border-zinc-300 bg-white text-zinc-700 hover:border-zinc-400"
                 }`}
+                data-active={amount === v ? "true" : "false"}
               >
                 ${v}
               </button>
@@ -142,7 +143,7 @@ export default function DonationClient() {
         <button
           onClick={onSubmit}
           disabled={loading}
-          className="w-full rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 disabled:opacity-60 cta-glow pressable focus-ring"
+          className="w-full rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 disabled:opacity-60 cta-glow pressable focus-ring cta-shimmer"
         >
           {loading ? "处理中..." : "随喜护持"}
         </button>

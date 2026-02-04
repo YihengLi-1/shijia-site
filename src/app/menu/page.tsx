@@ -9,6 +9,7 @@ import AddToCartButton from "@/components/AddToCartButton";
 import Footer from "@/components/Footer";
 import ScriptureQuote from "@/components/ScriptureQuote";
 import RitualScroll from "@/components/RitualScroll";
+import ChipReveal from "@/components/ChipReveal";
 import BookingDock from "./BookingDock";
 
 export const runtime = "nodejs";
@@ -109,10 +110,14 @@ export default function MenuPage() {
               <p className="mt-3 text-sm text-zinc-600">
                 今日所供随时令而变，清淡有度。愿你在此一餐，心与味同静。
               </p>
-              <div className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-600">
-                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">当日随缘</span>
-                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">当季食材</span>
-                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">需提前预约</span>
+              <div className="mt-4">
+                <ChipReveal
+                  items={[
+                    { label: "当日随缘", note: "所供随缘，当天略有不同。" },
+                    { label: "当季食材", note: "随季而变，清淡有度。" },
+                    { label: "需提前预约", note: "提前留席，以便安排供斋。" },
+                  ]}
+                />
               </div>
 
               <div className="mt-6 text-xs text-zinc-500">
@@ -136,7 +141,7 @@ export default function MenuPage() {
               />
               <div className="relative z-10">
                 <div className="text-xs font-semibold text-zinc-500">今日供斋</div>
-                <div className="mt-2 text-lg font-semibold serif-title text-zinc-900">清淡 · 安住 · 随缘</div>
+                <div className="mt-2 text-lg font-semibold serif-title text-zinc-900">清淡 · 省简 · 随缘</div>
                 <p className="mt-2 text-sm text-zinc-700">
                   以清净为本，随缘供斋。愿你安静到访，心与味同静。
                 </p>

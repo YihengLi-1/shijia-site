@@ -44,7 +44,7 @@ export default function Header({ hideCta = false }: { hideCta?: boolean } = {}) 
           {!hideCta ? (
             <Link
               href="/menu"
-              className="rounded-full bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 pressable btn-glow"
+              className="rounded-full bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 pressable btn-glow cta-shimmer"
             >
               开始供斋
             </Link>

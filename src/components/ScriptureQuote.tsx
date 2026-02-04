@@ -18,6 +18,7 @@ const GENERAL_QUOTES: Quote[] = [
   { text: "一切有为法，如梦幻泡影；如露亦如电，应作如是观。", source: "《金刚经》", meaning: "观照无常，不执一切造作。" },
   { text: "应无所住而生其心。", source: "《金刚经》", meaning: "不住于相，心才清明。" },
   { text: "若见诸相非相，即见如来。", source: "《金刚经》", meaning: "不被相缚，方见本心。" },
+  { text: "若以色见我，以音声求我，是人行邪道，不能见如来。", source: "《金刚经》", meaning: "不执色声，回归本心。" },
   { text: "过去心不可得，现在心不可得，未来心不可得。", source: "《金刚经》", meaning: "心不住三时，专注当下。" },
   { text: "心净则国土净。", source: "《维摩诘经》", meaning: "心清净，所见世界亦清净。" },
   { text: "一切众生悉有佛性。", source: "《大般涅槃经》", meaning: "众生皆具觉性。" },
@@ -30,6 +31,8 @@ const GENERAL_QUOTES: Quote[] = [
   { text: "少欲知足，身心自在。", source: "《佛遗教经》", meaning: "减欲则自在。" },
   { text: "诸上善人俱会一处。", source: "《阿弥陀经》", meaning: "善缘相会，共成清净。" },
   { text: "若能转物，即同如来。", source: "《楞严经》", meaning: "不被境转，心自明净。" },
+  { text: "心为法本，心尊心使。", source: "《法句经》", meaning: "心作善恶之本，应善护之。" },
+  { text: "菩提本无树，明镜亦非台。", source: "《六祖坛经》", meaning: "本性清净，不著尘相。" },
   { text: "本来无一物，何处惹尘埃。", source: "《六祖坛经》", meaning: "本性清净，不著尘相。" },
 ];
 
@@ -111,6 +114,7 @@ export default function ScriptureQuote({
       role="button"
       tabIndex={0}
       aria-pressed={showMeaning}
+      aria-label="经文卡片"
       onClick={() => setShowMeaning((v) => !v)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -130,8 +134,8 @@ export default function ScriptureQuote({
       </div>
       <div className="mt-2 text-xs text-zinc-500">{quote.source}</div>
       {showMeaning ? (
-        <div className="mt-3 text-xs text-zinc-600 leading-6 soft-rise">
-          意解：{quote.meaning}
+        <div className="mt-3 text-xs text-zinc-600 leading-6 quote-meaning">
+          {quote.meaning}
         </div>
       ) : null}
     </div>

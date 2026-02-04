@@ -1,10 +1,10 @@
 // src/lib/site.ts
 export const SITE = {
   name: "释迦佛国素食斋",
-  tagline: "供斋，亦是归心。\n愿此一餐，清净如初。",
+  tagline: "供斋，不止于食。\n愿此一餐，心有清凉。",
 
   intro:
-    "这里是寺院的一隅素斋，不喧哗、不繁复。以素食供斋，与诸有缘者同坐片刻。愿你在此安住，心念清明。",
+    "这里是寺院的一隅素斋，不喧哗、不繁复。以素食供斋，与诸有缘者同坐片刻，心念清明。",
 
   address: "1820 Sharpless Dr, La Habra Heights, CA 90631",
   hours: "周一至周日 5:00 AM — 9:00 PM",
@@ -16,6 +16,8 @@ export const SITE = {
 
   mapUrl:
     "https://www.google.com/maps/search/?api=1&query=1820+Sharpless+Dr,+La+Habra+Heights,+CA+90631",
+
+  url: "https://shijiafoo.com",
 
   nav: [
     { label: "供斋", href: "/menu" },

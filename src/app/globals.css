@@ -94,6 +94,15 @@
   .serif-title {
     font-family: var(--font-serif);
     letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgba(194, 176, 149, 0.45);
   }
 }
 
@@ -216,6 +225,48 @@
     box-shadow: 0 18px 40px -28px rgba(35, 35, 35, 0.45);
   }
 
+  .cta-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.25) 45%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.25) 55%, transparent 100%);
+    transform: translateX(-140%);
+    opacity: 0;
+    transition: transform 800ms ease, opacity 400ms ease;
+    pointer-events: none;
+  }
+
+  .cta-shimmer:hover::after {
+    transform: translateX(140%);
+    opacity: 0.5;
+  }
+
+  .stage-toggle {
+    position: relative;
+  }
+
+  .stage-toggle::after {
+    content: "";
+    position: absolute;
+    left: 16%;
+    right: 16%;
+    bottom: -6px;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(170, 150, 120, 0.7), transparent);
+    opacity: 0;
+    transition: opacity 220ms ease;
+  }
+
+  .stage-toggle[aria-pressed="true"]::after {
+    opacity: 1;
+  }
+
   .lotus-pattern {
     background-image: url("/lotus-pattern.svg");
     background-repeat: repeat;
@@ -319,11 +370,71 @@
 
   .menu-row {
     transition: background-color 220ms ease, transform 220ms ease;
+    position: relative;
+    overflow: hidden;
   }
 
   .menu-row:hover {
     background: linear-gradient(90deg, rgba(245,238,226,0.7) 0%, rgba(255,255,255,0.9) 55%, rgba(255,255,255,0.7) 100%);
     transform: translateY(-1px);
+  }
+
+  .menu-row::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.55) 45%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.45) 55%, transparent 100%);
+    transform: translateX(-120%);
+    transition: transform 700ms ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .menu-row:hover::after {
+    transform: translateX(120%);
+    opacity: 0.6;
+  }
+
+  .stage-panel {
+    animation: stage-fade 420ms ease both;
+  }
+
+  .scroll-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(280px 180px at 12% 8%, rgba(238, 225, 204, 0.35), transparent 60%),
+      radial-gradient(240px 160px at 88% 12%, rgba(230, 214, 192, 0.3), transparent 65%);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .scroll-panel::after {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border-radius: 28px;
+    border: 1px solid rgba(219, 206, 186, 0.6);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .chip-reveal-note {
+    position: relative;
+    padding-left: 12px;
+    animation: note-fade 320ms ease both;
+  }
+
+  .chip-reveal-note::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(190, 170, 140, 0.6);
   }
 
   .quote-interactive {
@@ -342,8 +453,15 @@
     box-shadow: 0 0 0 3px rgba(191, 174, 146, 0.28);
   }
 
+  .quote-meaning {
+    animation: soft-rise 240ms ease-out both;
+    border-left: 1px solid rgba(210, 195, 170, 0.6);
+    padding-left: 10px;
+  }
+
   .feature-chip {
     position: relative;
+    transition: transform 180ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease;
   }
 
   .feature-chip::after {
@@ -362,6 +480,58 @@
   .feature-chip.active::after {
     opacity: 1;
   }
+
+  .feature-chip.active {
+    box-shadow: 0 18px 34px -26px rgba(30, 30, 30, 0.45);
+  }
+
+  .feature-chip:active {
+    transform: scale(0.96);
+  }
+
+  .amount-chip {
+    position: relative;
+    transition: transform 180ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease;
+  }
+
+  .amount-chip[data-active="true"] {
+    box-shadow: 0 16px 30px -22px rgba(30, 30, 30, 0.45);
+  }
+
+  .amount-chip::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.25) 48%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.25) 52%, transparent 100%);
+    transform: translateX(-120%);
+    opacity: 0;
+    transition: transform 600ms ease, opacity 240ms ease;
+    pointer-events: none;
+  }
+
+  .amount-chip:hover::after {
+    transform: translateX(120%);
+    opacity: 0.5;
+  }
+
+  .feature-panel {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-panel::before {
+    content: "";
+    position: absolute;
+    inset: -30% -10%;
+    background:
+      radial-gradient(260px 180px at 15% 20%, rgba(238, 226, 206, 0.45), transparent 60%),
+      radial-gradient(240px 180px at 80% 10%, rgba(229, 214, 190, 0.35), transparent 65%);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  /* chip-reveal-note moved below with animation */
 
   .ink-dot {
     margin-top: 6px;
@@ -539,6 +709,16 @@
 @keyframes pattern-drift {
   0% { background-position: 0 0; }
   100% { background-position: 260px 260px; }
+}
+
+@keyframes stage-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes note-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes pulse-soft {
