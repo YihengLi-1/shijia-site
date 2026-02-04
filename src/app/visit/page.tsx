@@ -29,7 +29,7 @@ export default function VisitPage() {
               提前预约更便于安排，请保持安静与整洁，让心归于清净。
             </p>
 
-            <div className="mt-8 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+            <div className="mt-8 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
               <div className="text-xs font-semibold text-zinc-500">到访须知</div>
               <p className="mt-3 text-sm text-zinc-700 leading-7">
                 到访请轻声交流、尊重修行场所秩序。若迟到或需要改期，请提前联系。
@@ -37,13 +37,13 @@ export default function VisitPage() {
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5">
+              <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5 soft-card">
                 <div className="text-xs font-semibold text-zinc-500">停车</div>
                 <div className="mt-3 text-sm text-zinc-700">
                   车位有限，请按指引停放，避免影响他人通行。
                 </div>
               </div>
-              <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5">
+              <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5 soft-card">
                 <div className="text-xs font-semibold text-zinc-500">路线</div>
                 <div className="mt-3 text-sm text-zinc-700">
                   请使用导航到访，入口以当天指示为准。
@@ -51,7 +51,7 @@ export default function VisitPage() {
               </div>
             </div>
 
-            <div className="mt-6 overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 shadow-sm">
+            <div className="mt-6 overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 shadow-sm soft-card">
               <div className="relative h-44 w-full">
                 <div className="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-200/60 to-stone-100" />
                 <div

@@ -31,12 +31,12 @@ export default function DonationPage() {
               </div>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight serif-title">随喜</h1>
               <p className="mt-3 text-sm text-zinc-600">
-                供养随缘，所得用于香灯、供斋与场所维护。退款由管理员人工处理。
+                随喜随缘，所得用于香灯、供斋与场所维护。退款由管理员人工处理。
               </p>
 
-              <div className="mt-8 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+              <div className="mt-8 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
                 <p className="text-sm text-zinc-700 leading-7">
-                  随喜护持皆用于供斋与场所维护。若有退款需求，请联系管理员人工处理。
+                  随喜护持皆用于供斋与场所维护。若需退款或核对，请联系管理员人工处理。
                   愿此功德，回向一切众生。
                 </p>
               </div>
@@ -45,12 +45,12 @@ export default function DonationPage() {
 
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 {[
-                  { title: "香灯与护持", note: "随喜随缘" },
+                  { title: "香灯护持", note: "随喜随缘" },
                   { title: "供斋所需", note: "以当日为准" },
                 ].map((item) => (
                   <div
                     key={item.title}
-                    className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm"
+                    className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm soft-card"
                   >
                     <div className="relative h-28 w-full overflow-hidden rounded-2xl">
                       <div className="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-200/60 to-stone-100" />

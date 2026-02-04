@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { clearCart } from "@/lib/cartStore";
 import Footer from "@/components/Footer";
+import { SITE } from "@/lib/site";
+import OfferingsPanel from "@/components/OfferingsPanel";
 import ScriptureQuote from "@/components/ScriptureQuote";
 
 type ConfirmResp =
@@ -174,17 +176,17 @@ export default function SuccessClient() {
       </div>
       <h1 className="mt-5 text-4xl font-semibold tracking-tight serif-title">支付完成</h1>
       <p className="mt-2 text-sm text-zinc-600">
-        我们已记录您的预约与订单，请放心保存本页信息。
+        我们已记录您的供斋与到访信息，请放心保存本页。
       </p>
 
       {!orderId ? (
         <div className="mt-6 rounded-3xl border border-amber-200 bg-amber-50/80 p-5 text-sm text-amber-800 shadow-sm">
-          未找到订单编号，请从预约或支付页面进入。
+          未找到供斋编号，请从预约或支付页面进入。
         </div>
       ) : null}
 
       <div className="mt-8 grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
           <div className="text-xs font-semibold text-zinc-500">当前状态</div>
           <div className="mt-2 text-lg font-semibold text-zinc-900">{statusLabel}</div>
           <p className="mt-2 text-sm text-zinc-600">
@@ -204,7 +206,7 @@ export default function SuccessClient() {
           ) : null}
         </div>
 
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
           <div className="text-xs font-semibold text-zinc-500">参考号</div>
           <div className="mt-2 font-mono text-sm text-zinc-800">{maskId(orderId, 8, 6)}</div>
           <div className="mt-4 text-xs text-zinc-500">
@@ -214,9 +216,13 @@ export default function SuccessClient() {
         </div>
       </div>
 
+      <div className="mt-6">
+        <OfferingsPanel compact />
+      </div>
+
       {detail?.order ? (
         <div className="mt-8 grid gap-4 md:grid-cols-2">
-          <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+          <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
             <div className="text-xs font-semibold text-zinc-500">供斋记录</div>
             <div className="mt-3 space-y-2 text-sm text-zinc-700">
               <div>
@@ -228,7 +234,7 @@ export default function SuccessClient() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+          <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
             <div className="text-xs font-semibold text-zinc-500">预约信息</div>
             <div className="mt-3 space-y-2 text-sm text-zinc-700">
               <div>姓名：{detail.booking?.name ?? "-"}</div>
@@ -242,7 +248,7 @@ export default function SuccessClient() {
       ) : null}
 
       {detail?.items && detail.items.length > 0 ? (
-        <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+        <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
           <div className="text-xs font-semibold text-zinc-500">供斋明细</div>
           <div className="mt-4 divide-y">
             {detail.items.map((it: any, idx: number) => (
@@ -257,12 +263,25 @@ export default function SuccessClient() {
         </div>
       ) : null}
 
-      <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+      <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
         <div className="text-xs font-semibold text-zinc-500">温馨提示</div>
         <p className="mt-2 text-sm text-zinc-700">
           如需改期或退款，请联系管理员人工处理，并提供参考号以便快速核对。
         </p>
         <p className="mt-2 text-xs text-zinc-500">愿此功德，回向一切众生。</p>
+      </div>
+
+      <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
+        <div className="text-xs font-semibold text-zinc-500">到访须知</div>
+        <p className="mt-2 text-sm text-zinc-700">
+          请保持安静与整洁，缓慢用斋。若需改期，请提前联系。
+        </p>
+      </div>
+
+      <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
+        <div className="text-xs font-semibold text-zinc-500">联系</div>
+        <div className="mt-2 text-sm text-zinc-700">{SITE.contact}</div>
+        <div className="mt-1 text-xs text-zinc-500">{SITE.address}</div>
       </div>
 
       <div className="mt-8 flex flex-wrap gap-3">
@@ -280,12 +299,11 @@ export default function SuccessClient() {
           到访须知
         </Link>
 
-        {/* 你也可以改成你的预约入口，比如 /book 或 /#book */}
         <Link
-          href="/book"
-          className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+          href="/menu"
+          className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 cta-glow pressable focus-ring"
         >
-          继续预约
+          继续供斋
         </Link>
       </div>
     </div>

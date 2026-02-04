@@ -18,7 +18,7 @@ export default function DonationClient() {
   async function onSubmit() {
     setError("");
     if (!email.trim()) {
-      setError("请输入邮箱（用于收据与确认）");
+      setError("请填写邮箱（用于收据与确认）");
       return;
     }
     if (!Number.isFinite(amount) || amount <= 0) {
@@ -60,7 +60,7 @@ export default function DonationClient() {
       if (!url) throw new Error("missing_checkout_url");
 
       window.location.href = url;
-    } catch (e: any) {
+    } catch {
       setError("随喜暂未完成，请稍后再试或联系管理员。");
     } finally {
       setLoading(false);
@@ -68,7 +68,7 @@ export default function DonationClient() {
   }
 
   return (
-    <aside className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+    <aside className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
       <div className="flex items-center gap-3">
         <div
           className="h-10 w-10 rounded-full border border-zinc-200 bg-white"
@@ -92,7 +92,7 @@ export default function DonationClient() {
                 key={v}
                 type="button"
                 onClick={() => setAmount(v)}
-                className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                className={`rounded-full border px-3 py-1 text-xs font-semibold pressable focus-ring ${
                   amount === v
                     ? "border-zinc-900 bg-zinc-900 text-white"
                     : "border-zinc-300 bg-white text-zinc-700 hover:border-zinc-400"
@@ -142,7 +142,7 @@ export default function DonationClient() {
         <button
           onClick={onSubmit}
           disabled={loading}
-          className="w-full rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 disabled:opacity-60"
+          className="w-full rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 disabled:opacity-60 cta-glow pressable focus-ring"
         >
           {loading ? "处理中..." : "随喜护持"}
         </button>

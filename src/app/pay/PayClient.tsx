@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Footer from "@/components/Footer";
+import { SITE } from "@/lib/site";
 import ScriptureQuote from "@/components/ScriptureQuote";
 
 type OrderStatus = "pending" | "paid" | "cancelled" | "expired" | "unknown";
@@ -32,7 +33,6 @@ export default function PayClient(props: { orderId?: string }) {
   const [status, setStatus] = useState<OrderStatus>("unknown");
   const [amountText, setAmountText] = useState<string>("");
   const [err, setErr] = useState<string>("");
-  const [sessionId, setSessionId] = useState<string>("");
   const [order, setOrder] = useState<ApiOrder | null>(null);
   const [items, setItems] = useState<any[]>([]);
   const [booking, setBooking] = useState<any | null>(null);
@@ -51,7 +51,7 @@ export default function PayClient(props: { orderId?: string }) {
 
   useEffect(() => {
     if (!orderId) {
-      setErr("未找到订单编号，请从预约页面进入。");
+      setErr("未找到供斋记录，请从供斋页面进入。");
       setLoading(false);
       return;
     }
@@ -89,7 +89,6 @@ export default function PayClient(props: { orderId?: string }) {
           setAmountText(`${(cents / 100).toFixed(2)} ${currency}`);
         }
         const sid = String(d?.order?.stripe_session_id ?? "").trim();
-        if (sid) setSessionId(sid);
 
         if (st === "paid") {
           const qs = sid
@@ -100,12 +99,12 @@ export default function PayClient(props: { orderId?: string }) {
         }
 
         if (st !== "pending") {
-          setErr("订单当前不可支付，请联系管理员。");
+          setErr("当前供斋记录不可支付，请联系管理员。");
           return;
         }
-      } catch (e: any) {
+      } catch {
         if (cancelled) return;
-        setErr("暂时无法读取订单，请稍后再试或联系管理员。");
+        setErr("暂时无法读取供斋记录，请稍后再试或联系管理员。");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -120,7 +119,7 @@ export default function PayClient(props: { orderId?: string }) {
     if (!orderId) return;
 
     if (status !== "pending") {
-      setErr(status === "paid" ? "订单已完成，无需重复支付。" : "订单当前不可支付，请联系管理员。");
+      setErr(status === "paid" ? "供斋已完成，无需重复支付。" : "当前供斋记录不可支付，请联系管理员。");
       return;
     }
 
@@ -148,7 +147,7 @@ export default function PayClient(props: { orderId?: string }) {
       }
 
       window.location.href = url;
-    } catch (e: any) {
+    } catch {
       setErr("支付请求异常，请稍后重试。");
     } finally {
       setLoading(false);
@@ -179,7 +178,7 @@ export default function PayClient(props: { orderId?: string }) {
       </p>
 
       <div className="mt-8 grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
           <div className="text-xs font-semibold text-zinc-500">供斋参考号</div>
           <div className="mt-2 font-mono text-sm text-zinc-800">{orderId || "-"}</div>
 
@@ -191,7 +190,7 @@ export default function PayClient(props: { orderId?: string }) {
 
           {computedTotal !== null && order?.amount_cents && computedTotal !== order.amount_cents ? (
             <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
-              对账提示：订单金额与明细小计不一致
+              对账提示：供斋金额与明细小计不一致
             </div>
           ) : null}
 
@@ -200,28 +199,28 @@ export default function PayClient(props: { orderId?: string }) {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
           {loading ? (
-            <div className="text-sm text-zinc-700">正在加载订单状态…</div>
+            <div className="text-sm text-zinc-700">正在加载供斋状态…</div>
           ) : err ? (
             <div className="space-y-4">
-              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                {err}
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <a
-                  href="/menu"
-                  className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold hover:border-zinc-400"
-                >
-                  回到供斋
-                </a>
-                <a
-                  href="/donation"
-                  className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold hover:border-zinc-400"
-                >
-                  联系管理员
-                </a>
-              </div>
+            <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {err}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href="/menu"
+                className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold hover:border-zinc-400"
+              >
+                回到供斋
+              </a>
+              <a
+                href="/visit"
+                className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold hover:border-zinc-400"
+              >
+                联系与到访
+              </a>
+            </div>
             </div>
           ) : status === "pending" ? (
             <>
@@ -231,7 +230,7 @@ export default function PayClient(props: { orderId?: string }) {
               </p>
               <button
                 onClick={startCheckout}
-                className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800"
+                className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 cta-glow pressable focus-ring"
               >
                 去支付
               </button>
@@ -241,18 +240,25 @@ export default function PayClient(props: { orderId?: string }) {
             </>
           ) : (
             <div className="text-sm text-zinc-700">
-              当前订单状态：<span className="font-mono">{statusLabel}</span>
+              当前供斋状态：<span className="font-mono">{statusLabel}</span>
             </div>
           )}
         </div>
       </div>
 
-      <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm">
-        若支付后未能自动跳转，请刷新本页或联系管理员协助核对。
+      <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card">
+          若支付后未能自动跳转，请刷新本页或联系管理员协助核对。
+        </div>
+        <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card">
+          <div className="text-xs font-semibold text-zinc-500">联系</div>
+          <div className="mt-2">{SITE.contact}</div>
+          <div className="mt-1 text-xs text-zinc-500">{SITE.address}</div>
+        </div>
       </div>
 
       {items.length > 0 ? (
-        <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+        <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
           <div className="text-xs font-semibold text-zinc-500">供斋明细</div>
           <div className="mt-4 divide-y">
             {items.map((it: any, idx: number) => (
@@ -268,7 +274,7 @@ export default function PayClient(props: { orderId?: string }) {
       ) : null}
 
       {booking ? (
-        <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+        <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
           <div className="text-xs font-semibold text-zinc-500">预约信息</div>
           <div className="mt-3 grid gap-2 text-sm text-zinc-700 sm:grid-cols-2">
             <div>姓名：{booking?.name ?? "-"}</div>

@@ -15,7 +15,7 @@ export default function Header() {
 
         {/* 桌面导航 */}
         <nav className="hidden items-center gap-6 text-sm text-zinc-700 md:flex">
-          {SITE.nav.filter((item) => item.label !== "预约").map((item) => (
+          {SITE.nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -32,15 +32,15 @@ export default function Header() {
             href={SITE.mapUrl}
             target="_blank"
             rel="noreferrer"
-            className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold hover:border-zinc-400"
+            className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold hover:border-zinc-400 pressable focus-ring"
           >
             导航
           </a>
           <Link
-            href="/book"
-            className="rounded-full bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800"
+            href="/menu"
+            className="rounded-full bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 pressable btn-glow"
           >
-            预约
+            开始供斋
           </Link>
         </div>
       </Container>

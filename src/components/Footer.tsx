@@ -10,7 +10,7 @@ export default function Footer() {
       <Container className="py-10">
         <div className="grid gap-6 md:grid-cols-[1.2fr_0.8fr]">
           <div>
-            <div className="text-sm font-semibold text-zinc-900">{SITE.name}</div>
+            <div className="text-sm font-semibold text-zinc-900 serif-title">{SITE.name}</div>
             <div className="mt-2 text-xs text-zinc-600">{SITE.address}</div>
             <div className="mt-2 text-xs text-zinc-600">{SITE.hours}</div>
             <div className="mt-2 text-xs text-zinc-600">{SITE.contact}</div>

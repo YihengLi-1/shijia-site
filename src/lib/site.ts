@@ -21,6 +21,5 @@ export const SITE = {
     { label: "供斋", href: "/menu" },
     { label: "到访", href: "/visit" },
     { label: "随喜", href: "/donation" },
-    { label: "预约", href: "/book" },
   ],
 } as const;

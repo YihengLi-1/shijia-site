@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Container from "@/components/Container";
+import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 
 export const runtime = "nodejs";
@@ -39,7 +40,18 @@ export default async function AdminDonationsPage() {
     .order("created_at", { ascending: false })
     .limit(50);
 
-  const items = rows ?? [];
+  type DonationRow = {
+    id: string;
+    created_at: string | null;
+    amount_cents: number | null;
+    currency: string | null;
+    status: string | null;
+    email: string | null;
+    name: string | null;
+    stripe_session_id: string | null;
+  };
+
+  const items: DonationRow[] = rows ?? [];
 
   return (
     <main className="min-h-screen text-zinc-900">
@@ -56,18 +68,18 @@ export default async function AdminDonationsPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <a
+                <Link
                   href="/admin/orders"
                   className="rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm font-semibold hover:bg-zinc-50"
                 >
                   订单
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/"
                   className="rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm font-semibold hover:bg-zinc-50"
                 >
                   返回首页
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -100,7 +112,7 @@ export default async function AdminDonationsPage() {
                         </td>
                       </tr>
                     ) : (
-                      items.map((it: any) => {
+                      items.map((it) => {
                         const amountCents = typeof it.amount_cents === "number" ? it.amount_cents : null;
                         const currency = String(it.currency ?? "usd").toUpperCase();
                         const amountText =

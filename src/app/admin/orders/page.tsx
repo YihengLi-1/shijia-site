@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Container from "@/components/Container";
+import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 
 export const runtime = "nodejs";
@@ -50,7 +51,21 @@ export default async function AdminOrdersPage() {
     .order("created_at", { ascending: false })
     .limit(50);
 
-  const items = rows ?? [];
+  type OrderRow = {
+    id: string;
+    created_at: string | null;
+    name: string | null;
+    phone: string | null;
+    visit_date: string | null;
+    visit_time: string | null;
+    party_size: number | null;
+    amount_cents: number | null;
+    currency: string | null;
+    status: string | null;
+    booking_id: string | null;
+  };
+
+  const items: OrderRow[] = rows ?? [];
 
   return (
     <main className="min-h-screen text-zinc-900">
@@ -67,18 +82,18 @@ export default async function AdminOrdersPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <a
+                <Link
                   href="/admin/donations"
                   className="rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm font-semibold hover:bg-zinc-50"
                 >
                   随喜
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/"
                   className="rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm font-semibold hover:bg-zinc-50"
                 >
                   返回首页
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -114,7 +129,7 @@ export default async function AdminOrdersPage() {
                         </td>
                       </tr>
                     ) : (
-                      items.map((it: any) => {
+                      items.map((it) => {
                         const amountCents = typeof it.amount_cents === "number" ? it.amount_cents : null;
                         const currency = String(it.currency ?? "usd").toUpperCase();
                         const amountText =

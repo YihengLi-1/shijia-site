@@ -8,6 +8,7 @@ import Container from "@/components/Container";
 import { getCart, useCart } from "@/lib/cartStore";
 import Footer from "@/components/Footer";
 import ScriptureQuote from "@/components/ScriptureQuote";
+import { SITE } from "@/lib/site";
 
 export default function BookPage() {
   const router = useRouter();
@@ -120,7 +121,7 @@ export default function BookPage() {
 
       setError("提交未成功，请稍后再试或联系管理员。");
       setSubmitting(false);
-    } catch (e: any) {
+    } catch {
       setError("提交未成功，请稍后再试或联系管理员。");
       setSubmitting(false);
     }
@@ -147,14 +148,23 @@ export default function BookPage() {
               </div>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight serif-title">预约</h1>
               <p className="mt-3 text-sm text-zinc-600">
-                请填写到访信息，我们将为您预留座位与用餐时间。
+                请填写到访信息，我们将为您预留座位。
               </p>
 
               <div className="mt-6 text-xs text-zinc-500">
-                请填写到访信息与时间，我们会为你预留座位。
+                为减少步骤，供斋已合并为一条路径。建议从供斋页面完成预约。
               </div>
 
-              <div className="mt-6 rounded-3xl bg-white/80 p-8 shadow-sm ring-1 ring-zinc-200/70">
+              <div className="mt-4">
+                <Link
+                  href="/menu"
+                  className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold hover:border-zinc-400"
+                >
+                  前往供斋页面
+                </Link>
+              </div>
+
+              <div className="mt-6 rounded-3xl bg-white/80 p-8 shadow-sm ring-1 ring-zinc-200/70 soft-card">
                 <div className="space-y-8">
                   <div>
                     <div className="text-xs font-semibold text-zinc-500">预约人信息</div>
@@ -175,7 +185,7 @@ export default function BookPage() {
                           className="mt-2 w-full rounded-2xl border border-zinc-200 px-4 py-3 outline-none focus:border-zinc-400"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          placeholder="手机号"
+                          placeholder="电话 / 微信"
                         />
                       </div>
 
@@ -251,15 +261,15 @@ export default function BookPage() {
                   <button
                     onClick={onSubmit}
                     disabled={!canSubmit}
-                    className="w-full rounded-full bg-zinc-900 px-6 py-4 text-sm font-semibold text-white hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="w-full rounded-full bg-zinc-900 px-6 py-4 text-sm font-semibold text-white hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60 cta-glow pressable focus-ring"
                   >
-                    {submitting ? "提交中..." : "确认预约并前往支付"}
+                    {submitting ? "提交中..." : "确认供斋并前往支付"}
                   </button>
                 </div>
               </div>
             </div>
 
-            <aside className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+            <aside className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
               <div className="text-sm font-semibold text-zinc-900">供斋明细</div>
               <div className="mt-3 text-sm text-zinc-600">
                 已选菜品：<span className="font-semibold text-zinc-900">{cartCount}</span> 份
@@ -288,6 +298,12 @@ export default function BookPage() {
               <div className="mt-4 rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-xs text-zinc-600">
                 支付完成后会发送确认邮件。若未收到，请先查看垃圾邮箱。
               </div>
+
+              <div className="mt-4 rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-xs text-zinc-600">
+                若需协助，请联系管理员人工处理，我们会尽力为你安排。
+              </div>
+
+              <div className="mt-3 text-xs text-zinc-500">{SITE.contact}</div>
 
               <ScriptureQuote className="mt-6" compact />
 

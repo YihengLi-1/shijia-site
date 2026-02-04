@@ -1,15 +1,15 @@
 // src/app/menu/page.tsx
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import Header from "@/components/Header";
 import Container from "@/components/Container";
-import { useCart } from "@/lib/cartStore";
 import AddToCartButton from "@/components/AddToCartButton";
 import Footer from "@/components/Footer";
 import ScriptureQuote from "@/components/ScriptureQuote";
+import OfferingsPanel from "@/components/OfferingsPanel";
+import BookingDock from "./BookingDock";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -42,16 +42,10 @@ function normalizeUrl(u?: string | null) {
   return s.length ? s : null;
 }
 
-function formatCartTotal(totalCents: number) {
-  return `$${(totalCents / 100).toFixed(2)}`;
-}
-
 export default function MenuPage() {
   const [items, setItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadErr, setLoadErr] = useState<string | null>(null);
-
-  const cart = useCart();
 
   useEffect(() => {
     let alive = true;
@@ -90,9 +84,6 @@ export default function MenuPage() {
     return Object.keys(grouped).sort((a, b) => order.indexOf(a) - order.indexOf(b));
   }, [grouped]);
 
-  const cartCount = useMemo(() => cart.items.reduce((s, it) => s + it.qty, 0), [cart.items]);
-  const cartTotal = useMemo(() => cart.totalCents, [cart.totalCents]);
-
   return (
     <main className="min-h-screen text-zinc-900">
       <Header />
@@ -107,7 +98,7 @@ export default function MenuPage() {
               </div>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight serif-title">今日供斋</h1>
               <p className="mt-3 text-sm text-neutral-600">
-                供斋随缘，当日所供以时令为准，味道清淡温和。
+                供斋随缘，今日所供随时令而变，清淡而温润。
               </p>
 
               <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-zinc-600">
@@ -123,7 +114,7 @@ export default function MenuPage() {
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-[28px] border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+            <div className="relative overflow-hidden rounded-[28px] border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
               <div
                 className="absolute inset-0 opacity-90"
                 style={{
@@ -136,10 +127,10 @@ export default function MenuPage() {
                 style={{ background: 'url("/lotus.svg") center/contain no-repeat' }}
               />
               <div className="relative z-10">
-                <div className="text-xs font-semibold text-zinc-500">当日供斋</div>
+                <div className="text-xs font-semibold text-zinc-500">今日供斋</div>
                 <div className="mt-2 text-lg font-semibold text-zinc-900">清淡 · 安住 · 随缘</div>
                 <p className="mt-2 text-sm text-zinc-700">
-                  供斋每日更新，取当季食材，以朴素味道安住身心。
+                  供斋随日而更，取当季食材，以朴素滋味安住身心。
                 </p>
 
                 <ScriptureQuote compact className="mt-5 bg-white/90" />
@@ -175,7 +166,7 @@ export default function MenuPage() {
             ) : (
               <div className="space-y-8">
                 {categories.map((cat) => (
-                  <section key={cat} className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+                  <section key={cat} className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
                     <h2 className="text-xl font-semibold">{CATEGORY_LABEL[cat] || "其他"}</h2>
 
                     <div className="mt-4 divide-y">
@@ -185,8 +176,8 @@ export default function MenuPage() {
                         const unit = Number(it.price_cents ?? 0);
 
                         return (
-                          <div key={it.id} className="py-4">
-                            <div className="flex items-start justify-between gap-6">
+                        <div key={it.id} className="py-4 rounded-2xl px-2 -mx-2 transition hover:bg-white/70">
+                          <div className="flex items-start justify-between gap-6">
                               {/* 左侧：图 + 文案 */}
                               <div className="flex min-w-0 gap-4">
                                 <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
@@ -235,8 +226,12 @@ export default function MenuPage() {
             )}
           </div>
 
-          <div className="mt-10 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm">
-            请轻声交流，缓慢用餐。若需改期或退款，请联系管理员人工处理。
+          <div className="mt-10 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card">
+            请轻声交流，缓慢用斋。若需改期或退款，请联系管理员人工处理。
+          </div>
+
+          <div className="mt-8">
+            <OfferingsPanel />
           </div>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2">
@@ -246,7 +241,7 @@ export default function MenuPage() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm"
+                className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm soft-card"
               >
                 <div className="relative h-32 w-full overflow-hidden rounded-2xl">
                   <div className="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-200/60 to-stone-100" />
@@ -264,31 +259,7 @@ export default function MenuPage() {
         </Container>
       </section>
 
-      {cartCount > 0 ? (
-        <div className="sticky bottom-4 z-30 mx-auto flex w-full max-w-6xl px-6">
-          <div className="flex w-full items-center justify-between gap-4 rounded-3xl border border-zinc-200/70 bg-white/90 px-6 py-4 shadow-sm backdrop-blur">
-            <div className="text-sm text-zinc-700">
-              已选 <span className="font-semibold">{cartCount}</span> 份 · 小计{" "}
-              <span className="font-semibold">{formatCartTotal(cartTotal)}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => cart.clearCart()}
-                className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold hover:border-zinc-400"
-              >
-                清空
-              </button>
-              <Link
-                href="/book"
-                className="rounded-full bg-zinc-900 px-6 py-2.5 text-sm font-semibold text-white hover:bg-zinc-800"
-              >
-                去预约
-              </Link>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      <BookingDock />
 
       <Footer />
     </main>

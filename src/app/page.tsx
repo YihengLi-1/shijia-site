@@ -38,17 +38,17 @@ export default function Home() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/book"
-                  className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800"
+                  href="/menu"
+                  className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 pressable btn-glow"
                 >
-                  预约到访
+                  开始供斋
                 </Link>
 
                 <Link
-                  href="/menu"
-                  className="rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold hover:border-zinc-400"
+                  href="/visit"
+                  className="rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold hover:border-zinc-400 pressable"
                 >
-                  今日供斋
+                  到访须知
                 </Link>
               </div>
 
@@ -59,22 +59,22 @@ export default function Home() {
               <ScriptureQuote className="mt-8 max-w-xl" />
 
               <div className="mt-10 grid gap-4 md:grid-cols-3">
-                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5">
+                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5 soft-card">
                   <div className="text-xs font-semibold text-zinc-500">开放时间</div>
                   <div className="mt-2 text-sm text-zinc-800">{SITE.hours}</div>
                 </div>
-                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5">
+                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5 soft-card">
                   <div className="text-xs font-semibold text-zinc-500">地址</div>
                   <div className="mt-2 text-sm text-zinc-800">{SITE.address}</div>
                 </div>
-                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5">
+                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5 soft-card">
                   <div className="text-xs font-semibold text-zinc-500">联系</div>
                   <div className="mt-2 text-sm text-zinc-800">{SITE.contact}</div>
                 </div>
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-[30px] border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+            <div className="relative overflow-hidden rounded-[30px] border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
               <div
                 className="absolute inset-0 opacity-90"
                 style={{
@@ -85,7 +85,7 @@ export default function Home() {
                 className="absolute right-6 top-6 h-16 w-16 opacity-60 float-slow"
                 style={{ background: 'url("/lotus.svg") center/contain no-repeat' }}
               />
-              <div className="relative z-10 rounded-2xl border border-zinc-200/70 bg-white/80 p-6">
+              <div className="relative z-10 rounded-2xl border border-zinc-200/70 bg-white/80 p-6 soft-card">
                 <div className="text-xs font-semibold text-zinc-500">今日节奏</div>
                 <div className="mt-3 text-lg font-semibold text-zinc-900">安住 · 清净 · 随缘</div>
                 <p className="mt-2 text-sm text-zinc-700">
@@ -143,7 +143,7 @@ export default function Home() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm"
+                className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm soft-card"
               >
                 <div className="relative h-44 w-full overflow-hidden rounded-2xl">
                   <div className="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-200/60 to-stone-100" />
@@ -163,7 +163,7 @@ export default function Home() {
 
       <section className="section pt-0">
         <Container>
-          <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-8 shadow-sm">
+          <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-8 shadow-sm soft-card">
             <div className="text-xs font-semibold text-zinc-500">此处为何</div>
             <div className="mt-3 text-xl font-semibold text-zinc-900 serif-title">一处供斋之所，也是安住之处</div>
             <p className="mt-3 text-sm text-zinc-700 leading-7 max-w-3xl">
@@ -179,21 +179,21 @@ export default function Home() {
       <section className="section">
         <Container>
           <div className="grid gap-6 md:grid-cols-3">
-            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 rise-in stagger-1">
+            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 rise-in stagger-1 soft-card">
               <div className="text-xs font-semibold text-zinc-500">到访路径</div>
               <div className="mt-3 text-lg font-semibold">预约 · 安住 · 用斋</div>
               <p className="mt-2 text-sm text-zinc-700">
                 流程极简，让心不必被步骤打断。
               </p>
             </div>
-            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 rise-in stagger-2">
+            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 rise-in stagger-2 soft-card">
               <div className="text-xs font-semibold text-zinc-500">清净用餐</div>
               <div className="mt-3 text-lg font-semibold">慢下来 · 少一点 · 足够</div>
               <p className="mt-2 text-sm text-zinc-700">
                 以清淡安住身心，不求繁复。
               </p>
             </div>
-            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 rise-in stagger-3">
+            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 rise-in stagger-3 soft-card">
               <div className="text-xs font-semibold text-zinc-500">随喜护持</div>
               <div className="mt-3 text-lg font-semibold">香灯与场所维护</div>
               <p className="mt-2 text-sm text-zinc-700">
@@ -206,21 +206,21 @@ export default function Home() {
 
       <section className="section pt-0">
         <Container>
-          <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-8 shadow-sm md:flex-row md:items-center">
+          <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-8 shadow-sm md:flex-row md:items-center soft-card">
             <div>
               <div className="text-xs font-semibold text-zinc-500">静处留席</div>
               <div className="mt-2 text-xl font-semibold serif-title text-zinc-900">
                 若愿来访，我们已为你预留片刻
               </div>
               <div className="mt-2 text-sm text-zinc-600">
-                预约到访，供斋随缘，愿此行让心更安稳。
+                供斋随缘，愿此行让心更安稳。
               </div>
             </div>
             <Link
-              href="/book"
-              className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800"
+              href="/menu"
+              className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 pressable btn-glow"
             >
-              预约到访
+              开始供斋
             </Link>
           </div>
         </Container>

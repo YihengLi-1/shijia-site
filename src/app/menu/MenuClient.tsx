@@ -69,12 +69,12 @@ export default function MenuClient({ items }: { items: MenuItem[] }) {
               清空
             </button>
 
-            {/* 下一步我们把它联动到 /book 或 /checkout */}
+            {/* 供斋统一从菜单页开始 */}
             <Link
-              href="/book"
+              href="/menu"
               className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
             >
-              去预约
+              开始供斋
             </Link>
           </div>
         </div>
