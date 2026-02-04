@@ -23,7 +23,7 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
         <Container className="relative z-10">
           <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-            <div className="max-w-2xl">
+            <div className="max-w-2xl rise-in">
               <div className="inline-flex items-center gap-3 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
                 清净供斋
               </div>
@@ -45,7 +45,7 @@ export default function Home() {
               </div>
 
               <div className="mt-4 text-xs text-zinc-500">
-                确认后我们会为你留席并发一条提醒；若需改期或退款，请联系管理员。
+                确认后将为你留席，并送上一条提醒；若需改期或退款，请联系管理员协助。
               </div>
 
               <div className="mt-8 grid gap-6 py-4 text-xs text-zinc-600 info-strip sm:grid-cols-3 sm:divide-x sm:divide-zinc-200/70">
@@ -64,7 +64,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative">
+            <div className="relative rise-in stagger-2">
               <div className="relative overflow-hidden rounded-[32px] border border-zinc-200/70 bg-white/85 p-8 shadow-sm soft-card">
                 <div
                   className="absolute inset-0 opacity-90"
@@ -113,7 +113,7 @@ export default function Home() {
         <Container>
           <div className="mb-10 ink-divider" />
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-            <div className="relative overflow-hidden rounded-[36px] border border-zinc-200/70 bg-white/80 p-8 shadow-sm soft-card">
+            <div className="relative overflow-hidden rounded-[36px] border border-zinc-200/70 bg-white/80 p-8 shadow-sm soft-card ambient-glow rise-in">
               <div className="text-xs font-semibold text-zinc-500">此处为何</div>
               <div className="mt-3 text-2xl font-semibold text-zinc-900 serif-title">
                 一处供斋之所，也是安住之处
@@ -127,7 +127,7 @@ export default function Home() {
             </div>
 
             <div className="space-y-6">
-              <div className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm soft-card hover-scale">
+              <div className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm soft-card hover-scale rise-in stagger-2">
                 <div className="relative h-48 w-full overflow-hidden rounded-2xl hover-scale">
                   <div className="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-200/60 to-stone-100" />
                   <div

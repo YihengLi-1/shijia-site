@@ -54,7 +54,7 @@ export default function RitualPanel({
       <div
         className={`mt-4 border-l-2 border-stone-200 pl-4 ${compact ? "text-sm" : "text-base"} leading-7 text-zinc-700`}
       >
-        <div className={expanded ? "" : "line-clamp-3"}>{data.text}</div>
+        <div className={expanded ? "" : compact ? "line-clamp-2" : "line-clamp-3"}>{data.text}</div>
       </div>
 
       <button

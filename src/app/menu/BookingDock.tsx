@@ -134,12 +134,12 @@ export default function BookingDock() {
             <div className="rounded-[32px] border border-zinc-200/70 bg-white/95 p-6 shadow-lg soft-rise">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <div className="text-xs font-semibold text-zinc-500">供斋确认</div>
+                  <div className="text-xs font-semibold text-zinc-500">到访信息</div>
                   <div className="mt-1 text-xl font-semibold serif-title text-zinc-900">
-                    安静确认，即可圆满供斋
+                    写下到访信息，我们为你留席
                   </div>
                   <div className="mt-1 text-xs text-zinc-500">
-                    确认后将进入支付，完成后会发送确认信息。
+                    确认后将进入支付，完成后会发送提示。
                   </div>
                 </div>
                 <button
@@ -187,7 +187,7 @@ export default function BookingDock() {
               </div>
 
               <div className="mt-4 text-[11px] text-zinc-500">
-                请核对到访信息，供斋与预约将一并完成。
+                信息将用于留席与供斋安排，请核对无误。
               </div>
 
               {error ? (

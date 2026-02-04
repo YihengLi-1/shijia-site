@@ -6,8 +6,9 @@ import { useSearchParams } from "next/navigation";
 import { clearCart } from "@/lib/cartStore";
 import Footer from "@/components/Footer";
 import { SITE } from "@/lib/site";
-import OfferingsPanel from "@/components/OfferingsPanel";
 import ScriptureQuote from "@/components/ScriptureQuote";
+import Container from "@/components/Container";
+import RitualPanel from "@/components/RitualPanel";
 
 type ConfirmResp =
   | {
@@ -159,172 +160,149 @@ export default function SuccessClient() {
 
   return (
     <>
-    <div className="relative overflow-hidden">
-      <div
-        className="pointer-events-none absolute -top-8 right-10 h-44 w-44 rounded-full blur-3xl opacity-35"
-        style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
-      />
-      <div
-        className="pointer-events-none absolute bottom-12 left-8 h-52 w-52 rounded-full blur-3xl opacity-35"
-        style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
-      />
-      <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
+      <div className="relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute -top-8 right-10 h-44 w-44 rounded-full blur-3xl opacity-35"
+          style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
+        />
+        <div
+          className="pointer-events-none absolute bottom-12 left-8 h-52 w-52 rounded-full blur-3xl opacity-35"
+          style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
+        />
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
 
-      <div className="relative z-10 mx-auto max-w-5xl px-6 py-16 fade-in">
-      <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
-        完成
-      </div>
-      <h1 className="mt-5 text-4xl font-semibold tracking-tight serif-title">供斋已确认</h1>
-      <p className="mt-2 text-sm text-zinc-600">
-        我们已记录您的供斋与到访信息，请放心保存本页。
-      </p>
-
-      {!orderId ? (
-        <div className="mt-6 rounded-3xl border border-amber-200 bg-amber-50/80 p-5 text-sm text-amber-800 shadow-sm">
-          未找到供斋编号，请从供斋页面进入。
-        </div>
-      ) : null}
-
-      <div className="mt-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="rounded-[32px] border border-zinc-200/70 bg-white/85 p-8 shadow-sm soft-card hover-scale">
-          <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white px-3 py-1 text-xs text-zinc-500">
-            已记录
+        <Container className="relative z-10 py-16 fade-in">
+          <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
+            完成
           </div>
-          <div className="mt-4 text-2xl font-semibold serif-title text-zinc-900">一念已圆满</div>
-          <p className="mt-2 text-sm text-zinc-700">
-            {loading
-              ? "正在确认供斋进度，请稍候片刻。"
-              : isPaid
-              ? "供斋已确认，我们将发送确认信息。"
-              : "若进度仍未确认，请稍后刷新或联系管理员协助。"}
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3 text-xs text-zinc-500">
-            <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">清净供斋</span>
-            <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">随缘护持</span>
-            <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">安静到访</span>
-          </div>
-          {emailed && typeof (resp as any)?.to === "string" && (resp as any).to ? (
-            <div className="mt-4 text-xs text-zinc-500">确认信息（邮件）：{(resp as any).to}</div>
-          ) : null}
-          {!emailed && isPaid ? (
-            <div className="mt-3 text-xs text-zinc-500">
-              若未收到邮件，请先查看垃圾邮箱；仍无请联系管理员。
+          <h1 className="mt-5 text-4xl font-semibold tracking-tight serif-title">供斋已确认</h1>
+          <p className="mt-2 text-sm text-zinc-600">我们已记录您的供斋与到访信息，请放心保存本页。</p>
+
+          {!orderId ? (
+            <div className="mt-6 rounded-3xl border border-amber-200 bg-amber-50/80 p-5 text-sm text-amber-800 shadow-sm">
+              未找到供斋编号，请从供斋页面进入。
             </div>
           ) : null}
-        </div>
 
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card hover-scale">
-          <div className="text-xs font-semibold text-zinc-500">参考号</div>
-          <div className="mt-2 font-mono text-sm text-zinc-800">{maskId(orderId, 8, 6)}</div>
-          <div className="mt-4 text-xs text-zinc-500">
-            请保存此编号，便于查询、改期或人工协助。
-          </div>
-          <ScriptureQuote className="mt-4" compact variant="compassion" />
-        </div>
-      </div>
-
-      <div className="mt-6">
-        <OfferingsPanel compact />
-      </div>
-
-      {detail?.order ? (
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
-            <div className="text-xs font-semibold text-zinc-500">供斋记录</div>
-            <div className="mt-3 space-y-2 text-sm text-zinc-700">
-              <div>
-                金额：{(Number(detail.order?.amount_cents ?? 0) / 100).toFixed(2)}{" "}
-                {String(detail.order?.currency ?? "usd").toUpperCase()}
+          <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="rounded-[32px] border border-zinc-200/70 bg-white/85 p-8 shadow-sm soft-card hover-scale">
+              <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white px-3 py-1 text-xs text-zinc-500">
+                已记录
               </div>
-              <div>情况：{isPaid ? "已圆满" : statusLabel}</div>
-              <div>参考号：<span className="font-mono">{String(detail.order?.id ?? "")}</span></div>
+              <div className="mt-4 text-2xl font-semibold serif-title text-zinc-900">一念已圆满</div>
+              <p className="mt-2 text-sm text-zinc-700">
+                {loading
+                  ? "正在确认供斋进度，请稍候片刻。"
+                  : isPaid
+                  ? "供斋已确认，我们将发送确认信息。"
+                  : "若进度仍未确认，请稍后刷新或联系管理员协助。"}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-3 text-xs text-zinc-500">
+                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">清净供斋</span>
+                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">随缘护持</span>
+                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">安静到访</span>
+              </div>
+              {emailed && typeof (resp as any)?.to === "string" && (resp as any).to ? (
+                <div className="mt-4 text-xs text-zinc-500">确认信息（邮件）：{(resp as any).to}</div>
+              ) : null}
+              {!emailed && isPaid ? (
+                <div className="mt-3 text-xs text-zinc-500">若未收到邮件，请先查看垃圾邮箱；仍无请联系管理员。</div>
+              ) : null}
+            </div>
+
+            <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card hover-scale">
+              <div className="text-xs font-semibold text-zinc-500">参考号</div>
+              <div className="mt-2 font-mono text-sm text-zinc-800">{maskId(orderId, 8, 6)}</div>
+              <div className="mt-4 text-xs text-zinc-500">请保存此编号，便于查询、改期或人工协助。</div>
+              <ScriptureQuote className="mt-4" compact variant="compassion" />
             </div>
           </div>
 
-          <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
-            <div className="text-xs font-semibold text-zinc-500">预约信息</div>
-            <div className="mt-3 space-y-2 text-sm text-zinc-700">
-              <div>姓名：{detail.booking?.name ?? "-"}</div>
-              <div>电话：{detail.booking?.phone ?? "-"}</div>
-              <div>日期：{detail.booking?.date ?? "-"}</div>
-              <div>时间：{detail.booking?.time ?? "-"}</div>
-              <div>人数：{detail.booking?.people ?? "-"}</div>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      {detail?.items && detail.items.length > 0 ? (
-        <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
-          <div className="text-xs font-semibold text-zinc-500">供斋明细</div>
-          <div className="mt-4 divide-y">
-            {detail.items.map((it: any, idx: number) => (
-              <div key={`${it.menu_item_id || idx}`} className="flex items-center justify-between py-3 text-sm">
-                <div className="text-zinc-700">{it.item_name || "菜品"}</div>
-                <div className="text-zinc-600">
-                  {it.qty} × ${(Number(it.unit_price_cents ?? 0) / 100).toFixed(2)}
+          {detail?.order || detail?.booking ? (
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {detail?.order ? (
+                <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+                  <div className="text-xs font-semibold text-zinc-500">供斋记录</div>
+                  <div className="mt-3 space-y-2 text-sm text-zinc-700">
+                    <div>
+                      金额：{(Number(detail.order?.amount_cents ?? 0) / 100).toFixed(2)}{" "}
+                      {String(detail.order?.currency ?? "usd").toUpperCase()}
+                    </div>
+                    <div>情况：{isPaid ? "已圆满" : statusLabel}</div>
+                    <div>
+                      参考号：<span className="font-mono">{String(detail.order?.id ?? "")}</span>
+                    </div>
+                  </div>
                 </div>
+              ) : null}
+
+              {detail?.booking ? (
+                <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+                  <div className="text-xs font-semibold text-zinc-500">预约信息</div>
+                  <div className="mt-3 space-y-2 text-sm text-zinc-700">
+                    <div>姓名：{detail.booking?.name ?? "-"}</div>
+                    <div>电话：{detail.booking?.phone ?? "-"}</div>
+                    <div>日期：{detail.booking?.date ?? "-"}</div>
+                    <div>时间：{detail.booking?.time ?? "-"}</div>
+                    <div>人数：{detail.booking?.people ?? "-"}</div>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
+          {detail?.items && detail.items.length > 0 ? (
+            <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+              <div className="text-xs font-semibold text-zinc-500">供斋明细</div>
+              <div className="mt-4 divide-y">
+                {detail.items.map((it: any, idx: number) => (
+                  <div key={`${it.menu_item_id || idx}`} className="flex items-center justify-between py-3 text-sm">
+                    <div className="text-zinc-700">{it.item_name || "菜品"}</div>
+                    <div className="text-zinc-600">
+                      {it.qty} × ${(Number(it.unit_price_cents ?? 0) / 100).toFixed(2)}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+          ) : null}
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <RitualPanel stage="pre" compact showMeals={false} className="ambient-glow" />
+            <RitualPanel stage="post" compact showMeals={false} showRitual={false} className="ambient-glow" />
           </div>
-        </div>
-      ) : null}
 
-      <div className="mt-6 grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
-          <div className="text-xs font-semibold text-zinc-500">回向偈</div>
-          <p className="mt-3 text-sm text-zinc-700 leading-7">
-            愿以此功德，庄严佛净土；上报四重恩，下济三途苦。
-            愿诸众生，离苦得乐。
-          </p>
-        </div>
-        <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
-          <div className="text-xs font-semibold text-zinc-500">温馨提示</div>
-          <p className="mt-2 text-sm text-zinc-700">
-            如需改期或退款，请联系管理员人工处理，并提供参考号以便快速核对。
-          </p>
-          <p className="mt-2 text-xs text-zinc-500">愿此功德，回向一切众生。</p>
-        </div>
+          <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+            <div className="text-xs font-semibold text-zinc-500">联系</div>
+            <div className="mt-2 text-sm text-zinc-700">{SITE.contact}</div>
+            <div className="mt-1 text-xs text-zinc-500">{SITE.address}</div>
+          </div>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/"
+              className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium hover:border-zinc-400"
+            >
+              返回首页
+            </Link>
+
+            <Link
+              href="/visit"
+              className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium hover:border-zinc-400"
+            >
+              到访须知
+            </Link>
+
+            <Link
+              href="/menu"
+              className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 cta-glow pressable focus-ring"
+            >
+              继续供斋
+            </Link>
+          </div>
+        </Container>
       </div>
-
-      <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
-        <div className="text-xs font-semibold text-zinc-500">到访须知</div>
-        <p className="mt-2 text-sm text-zinc-700">
-          请保持安静与整洁，缓慢用斋。若需改期，请提前联系。
-        </p>
-      </div>
-
-      <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
-        <div className="text-xs font-semibold text-zinc-500">联系</div>
-        <div className="mt-2 text-sm text-zinc-700">{SITE.contact}</div>
-        <div className="mt-1 text-xs text-zinc-500">{SITE.address}</div>
-      </div>
-
-      <div className="mt-8 flex flex-wrap gap-3">
-        <Link
-          href="/"
-          className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium hover:border-zinc-400"
-        >
-          返回首页
-        </Link>
-
-        <Link
-          href="/visit"
-          className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium hover:border-zinc-400"
-        >
-          到访须知
-        </Link>
-
-        <Link
-          href="/menu"
-          className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 cta-glow pressable focus-ring"
-        >
-          继续供斋
-        </Link>
-      </div>
-    </div>
-    </div>
-    <Footer />
+      <Footer />
     </>
   );
 }

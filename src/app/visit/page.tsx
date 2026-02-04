@@ -8,7 +8,7 @@ import ScriptureQuote from "@/components/ScriptureQuote";
 export default function VisitPage() {
   return (
     <main className="min-h-screen text-zinc-900">
-      <Header />
+      <Header hideCta />
       <section className="section relative overflow-hidden fade-in">
         <div
           className="pointer-events-none absolute -top-10 right-6 h-48 w-48 rounded-full blur-3xl opacity-30"
@@ -50,44 +50,48 @@ export default function VisitPage() {
               <div className="mt-8 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card">
                 若迟到或需改期，请提前联系管理员，以便安排座位与供斋准备。
               </div>
-            </div>
 
-            <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
-              <div className="text-xs font-semibold text-zinc-500">来访礼序</div>
-              <div className="mt-4 space-y-3 text-sm text-zinc-700">
-                <div>轻声入门，缓慢行走</div>
-                <div>尊重秩序，保持整洁</div>
-                <div>合掌感恩，安住身心</div>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="section pt-0 fade-in">
-        <Container>
-          <div className="mb-8 ink-divider" />
-          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-            <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-              <div className="text-xs font-semibold text-zinc-500">来访信息</div>
-              <div className="mt-4 space-y-3 text-sm text-zinc-700">
-                <div className="flex items-center justify-between">
-                  <span>停车</span>
-                  <span className="text-zinc-500">车位有限，请按指引停放</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>路线</span>
-                  <span className="text-zinc-500">入口以当天指示为准</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>到访时间</span>
-                  <span className="text-zinc-500">建议提前一天</span>
+              <div className="mt-5 rounded-3xl border border-zinc-200/70 bg-white/80 p-5 text-sm text-zinc-700 shadow-sm soft-card">
+                <div className="text-xs font-semibold text-zinc-500">简要礼序</div>
+                <div className="mt-3 flex flex-wrap gap-2 text-xs text-zinc-600">
+                  <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">预约确认</span>
+                  <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">安静到访</span>
+                  <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">缓慢用斋</span>
                 </div>
               </div>
-              <div className="mt-4 text-xs text-zinc-500">实景与路线图待更新，请以现场指引为准。</div>
             </div>
 
-            <ScriptureQuote variant="general" />
+            <div className="space-y-4">
+              <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+                <div className="text-xs font-semibold text-zinc-500">来访礼序</div>
+                <div className="mt-4 space-y-3 text-sm text-zinc-700">
+                  <div>轻声入门，缓慢行走</div>
+                  <div>尊重秩序，保持整洁</div>
+                  <div>合掌感恩，安住身心</div>
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+                <div className="text-xs font-semibold text-zinc-500">来访信息</div>
+                <div className="mt-4 space-y-3 text-sm text-zinc-700">
+                  <div className="flex items-center justify-between">
+                    <span>停车</span>
+                    <span className="text-zinc-500">车位有限，请按指引停放</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>路线</span>
+                    <span className="text-zinc-500">入口以当天指示为准</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>到访时间</span>
+                    <span className="text-zinc-500">建议提前一天</span>
+                  </div>
+                </div>
+                <div className="mt-4 text-xs text-zinc-500">实景与路线图待更新，请以现场指引为准。</div>
+              </div>
+
+              <ScriptureQuote compact variant="general" />
+            </div>
           </div>
         </Container>
       </section>

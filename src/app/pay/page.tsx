@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export default function PayPage() {
   return (
     <main className="min-h-screen text-zinc-900">
-      <Header />
+      <Header hideCta />
       <PayClient />
     </main>
   );

@@ -285,7 +285,7 @@ export default function PayClient(props: { orderId?: string }) {
           ) : null}
 
           <div className="mt-8 grid gap-4 lg:grid-cols-[0.6fr_0.4fr]">
-            <RitualPanel stage="pre" compact />
+            <RitualPanel stage="pre" compact className="ambient-glow" />
             <ScriptureQuote className="h-full" compact variant="general" />
           </div>
 

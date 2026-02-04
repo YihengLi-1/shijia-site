@@ -8,7 +8,7 @@ import ScriptureQuote from "@/components/ScriptureQuote";
 export default function DonationPage() {
   return (
     <main className="min-h-screen text-zinc-900">
-      <Header />
+      <Header hideCta />
       <section className="section relative overflow-hidden fade-in">
         <div
           className="pointer-events-none absolute -top-12 right-6 h-48 w-48 rounded-full blur-3xl opacity-35"
@@ -31,33 +31,17 @@ export default function DonationPage() {
               </div>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight serif-title">随喜</h1>
               <p className="mt-3 text-sm text-zinc-600">
-                随喜随缘，所得用于香灯、供斋与场所维护。若需核对或退款，请联系管理员协助。
+                随喜随缘，香灯与供斋有你一份力。若需核对或退款，请联系管理员协助。
               </p>
 
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-                  <div className="text-xs font-semibold text-zinc-500">护持之意</div>
-                  <p className="mt-3 text-sm text-zinc-700 leading-7">
-                    随喜非为交换，只是愿意共护一处清净之所。功德回向，愿众生安稳。
-                  </p>
-                </div>
-                <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-                  <div className="text-xs font-semibold text-zinc-500">护持用途</div>
-                  <div className="mt-3 space-y-2 text-sm text-zinc-700">
-                    <div>香灯与供斋所需</div>
-                    <div>场所维护与清净布置</div>
-                    <div>随缘供养，量力而行</div>
-                  </div>
-                </div>
+              <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card">
+                随喜非为交换，只是愿意共护一处清净之所。愿此护持，回向众生安稳。
               </div>
 
               <ScriptureQuote className="mt-6 max-w-xl" variant="compassion" />
 
-              <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card sutra-block">
-                <div className="text-xs font-semibold text-zinc-500">回向偈</div>
-                <p className="mt-3 leading-7">
-                  愿以此功德，庄严佛净土；上报四重恩，下济三途苦。
-                </p>
+              <div className="mt-6 text-xs text-zinc-500">
+                随喜记录将妥善保存。如需核对或退款，请提供随喜编号，便于人工协助。
               </div>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -78,13 +62,6 @@ export default function DonationPage() {
 
             <div className="space-y-6">
               <DonationClient />
-
-              <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-                <div className="text-xs font-semibold text-zinc-500">随喜之后</div>
-                <p className="mt-3 text-sm text-zinc-700 leading-7">
-                  我们会妥善记录护持信息。如需核对或退款，请提供随喜编号，便于人工协助。
-                </p>
-              </div>
             </div>
           </div>
         </Container>

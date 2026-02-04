@@ -7,7 +7,7 @@ import ScriptureQuote from "@/components/ScriptureQuote";
 export default function VeggiePage() {
   return (
     <main className="min-h-screen text-zinc-900">
-      <Header />
+      <Header hideCta />
       <section className="section relative overflow-hidden fade-in">
         <div
           className="pointer-events-none absolute -top-10 right-6 h-48 w-48 rounded-full blur-3xl opacity-35"
@@ -37,20 +37,25 @@ export default function VeggiePage() {
                 这里不是菜单，而是一餐清净之缘。少油少盐，不求繁复，只求安住与感恩。
               </p>
 
-              <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-                <div className="text-xs font-semibold text-zinc-500">素斋之道</div>
-                <ol className="mt-4 space-y-2 text-sm text-zinc-700">
-                  <li>少欲：不求繁复，只取当季之味。</li>
-                  <li>知足：一餐足矣，身心亦足。</li>
-                  <li>感恩：念食材、念供养、念众缘。</li>
-                </ol>
-              </div>
-
-              <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-                <div className="text-xs font-semibold text-zinc-500">一餐之间</div>
-                <p className="mt-3 text-sm text-zinc-700 leading-7">
-                  慢一些、少一些、足够即可。以清淡滋味安住身心，让念头回到当下。
-                </p>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-5 shadow-sm soft-card">
+                  <div className="text-xs font-semibold text-zinc-500">清淡之味</div>
+                  <p className="mt-3 text-sm text-zinc-700 leading-7">
+                    取当季之食，味淡而不寡，清净而有度。
+                  </p>
+                </div>
+                <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-5 shadow-sm soft-card">
+                  <div className="text-xs font-semibold text-zinc-500">缓慢用斋</div>
+                  <p className="mt-3 text-sm text-zinc-700 leading-7">
+                    慢一些、少一些、足够即可，让心念回到当下。
+                  </p>
+                </div>
+                <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-5 shadow-sm soft-card sm:col-span-2">
+                  <div className="text-xs font-semibold text-zinc-500">感恩供养</div>
+                  <p className="mt-3 text-sm text-zinc-700 leading-7">
+                    念食材、念供养、念众缘。愿一餐之缘，成为修行之缘。
+                  </p>
+                </div>
               </div>
 
               <div className="mt-6 flex flex-wrap gap-3">

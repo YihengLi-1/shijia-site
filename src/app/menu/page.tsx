@@ -8,7 +8,7 @@ import Container from "@/components/Container";
 import AddToCartButton from "@/components/AddToCartButton";
 import Footer from "@/components/Footer";
 import ScriptureQuote from "@/components/ScriptureQuote";
-import RitualPanel from "@/components/RitualPanel";
+import RitualScroll from "@/components/RitualScroll";
 import BookingDock from "./BookingDock";
 
 export const runtime = "nodejs";
@@ -33,12 +33,12 @@ const CATEGORY_LABEL: Record<string, string> = {
 };
 
 const CATEGORY_NOTE: Record<string, string> = {
-  main: "以清淡为本，留住一餐的安稳。",
-  side: "少而有味，恰到好处。",
-  soup: "温润入心，安住身心。",
-  dessert: "随缘之甜，点到即止。",
-  drink: "清润相伴，轻声慢饮。",
-  other: "当日随缘供斋。",
+  main: "当季为主，淡中见味。",
+  side: "少而恰当，轻而不失。",
+  soup: "温润入心，安住当下。",
+  dessert: "随缘一口，不求过多。",
+  drink: "清润相伴，慢慢品尝。",
+  other: "随缘备办。",
 };
 
 function formatPrice(cents: number | null) {
@@ -122,7 +122,41 @@ export default function MenuPage() {
               <ScriptureQuote compact className="mt-6 max-w-xl" variant="meal" />
             </div>
 
-            <RitualPanel stage="pre" compact />
+            <div className="relative overflow-hidden rounded-[28px] border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+              <div
+                className="absolute inset-0 opacity-90"
+                style={{
+                  background:
+                    'linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.95) 100%), url("/hero.svg") center/cover no-repeat',
+                }}
+              />
+              <div
+                className="absolute -right-8 -bottom-10 h-32 w-32 opacity-18"
+                style={{ background: 'url("/lotus.svg") center/contain no-repeat' }}
+              />
+              <div className="relative z-10">
+                <div className="text-xs font-semibold text-zinc-500">今日供斋</div>
+                <div className="mt-2 text-lg font-semibold serif-title text-zinc-900">清淡 · 安住 · 随缘</div>
+                <p className="mt-2 text-sm text-zinc-700">
+                  以清净为本，随缘供斋。愿你安静到访，心与味同静。
+                </p>
+
+                <div className="mt-6 grid gap-3 text-sm text-zinc-700">
+                  <div className="flex items-center justify-between">
+                    <span>供斋方式</span>
+                    <span className="text-zinc-500">随缘供养</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>到访礼仪</span>
+                    <span className="text-zinc-500">安静整洁</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>到访建议</span>
+                    <span className="text-zinc-500">提前一日</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
@@ -146,21 +180,20 @@ export default function MenuPage() {
           ) : (
             <div className="space-y-10">
               {categories.map((cat, idx) => (
-                <section key={cat} className={`rise-in ${idx === 0 ? "stagger-1" : idx === 1 ? "stagger-2" : "stagger-3"}`}>
-                  <div className="flex items-end justify-between gap-4">
-                    <div>
-                      <div className="text-xs font-semibold text-zinc-500">供斋</div>
-                      <h2 className="mt-2 text-2xl font-semibold serif-title text-zinc-900">
-                        {CATEGORY_LABEL[cat] || "其他"}
-                      </h2>
-                      <p className="mt-2 text-sm text-zinc-600">
-                        {CATEGORY_NOTE[cat] || "当日随缘供斋。"}
-                      </p>
-                    </div>
-                    <div className="text-xs text-zinc-400">当日随缘</div>
+                <section
+                  key={cat}
+                  className={`grid gap-4 lg:grid-cols-[220px_1fr] ${idx === 0 ? "rise-in stagger-1" : "rise-in"}`}
+                >
+                  <div className="pt-2">
+                    <div className="text-xs font-semibold text-zinc-500">供斋</div>
+                    <h2 className="mt-2 text-2xl font-semibold serif-title text-zinc-900">
+                      {CATEGORY_LABEL[cat] || "其他"}
+                    </h2>
+                    <p className="mt-2 text-sm text-zinc-600">{CATEGORY_NOTE[cat] || "当日随缘供斋。"}</p>
+                    <div className="mt-3 text-xs text-zinc-400">当日随缘</div>
                   </div>
 
-                  <div className="mt-5 overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80">
+                  <div className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 menu-list">
                     <div className="divide-y divide-zinc-200/70">
                       {grouped[cat].map((it) => {
                         const img = normalizeUrl(it.image_url);
@@ -168,7 +201,7 @@ export default function MenuPage() {
                         const unit = Number(it.price_cents ?? 0);
 
                         return (
-                          <div key={it.id} className="flex items-center gap-4 px-5 py-4">
+                          <div key={it.id} className="flex items-center gap-4 px-5 py-4 menu-row">
                             <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
                               <Image
                                 src={imageSrc}
@@ -212,7 +245,9 @@ export default function MenuPage() {
             轻声交流，缓慢用斋。若需改期或退款，请联系管理员协助。
           </div>
 
-          <ScriptureQuote className="mt-8" compact variant="meal" />
+          <div className="mt-10">
+            <RitualScroll />
+          </div>
         </Container>
       </section>
 
