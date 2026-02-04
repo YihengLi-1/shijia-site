@@ -39,7 +39,39 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ ok: true, order: data });
+    const itemsRes = await sb
+      .from("order_items")
+      .select("menu_item_id, item_name, unit_price_cents, qty")
+      .eq("order_id", orderId)
+      .order("item_name", { ascending: true });
+
+    let booking = null;
+    if ((data as any)?.booking_id) {
+      const bk = await sb
+        .from("bookings")
+        .select("id, name, phone, email, date, time, people, note")
+        .eq("id", (data as any).booking_id)
+        .maybeSingle();
+      booking = bk?.data ?? null;
+    }
+
+    const items = (itemsRes?.data ?? []).map((it: any) => ({
+      ...it,
+      line_total_cents: Number(it.unit_price_cents ?? 0) * Number(it.qty ?? 0),
+    }));
+    const computedTotalCents = items.reduce(
+      (sum: number, it: any) => sum + Number(it.line_total_cents ?? 0),
+      0
+    );
+
+    return NextResponse.json({
+      ok: true,
+      status: (data as any)?.status ?? null,
+      order: data,
+      items,
+      computedTotalCents,
+      booking,
+    });
   } catch (e: any) {
     return NextResponse.json(
       { ok: false, error: "server_error", detail: e?.message ?? String(e) },

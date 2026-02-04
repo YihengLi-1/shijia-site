@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     // 1) 读订单
     const { data: order, error: orderErr } = await supabase
       .from("orders")
-      .select("id, amount_cents, currency, status")
+      .select("id, amount_cents, currency, status, email, customer_email")
       .eq("id", orderId)
       .single();
 
@@ -60,12 +60,41 @@ export async function POST(req: Request) {
       apiVersion: "2025-12-15.clover",
     });
 
+    if (String(order.status).toLowerCase() === "paid") {
+      return bad("order_already_paid", { status: order.status }, 400);
+    }
+
+    if ((order as any).stripe_session_id) {
+      try {
+        const existing = await stripe.checkout.sessions.retrieve(
+          String((order as any).stripe_session_id)
+        );
+        if (existing?.url) {
+          return json(200, {
+            ok: true,
+            orderId: order.id,
+            sessionId: existing.id,
+            url: existing.url,
+            reused: true,
+          });
+        }
+      } catch {
+        // fall through to create a new session
+      }
+    }
+
     // 3) 创建 Checkout Session（关键：orderId 写进 metadata + client_reference_id）
+    const customerEmail =
+      String((order as any).customer_email || "").trim() ||
+      String((order as any).email || "").trim() ||
+      undefined;
+
     const session = await stripe.checkout.sessions.create(
       {
         mode: "payment",
         client_reference_id: order.id,
         metadata: { orderId: order.id },
+        customer_email: customerEmail,
 
         line_items: [
           {
@@ -92,6 +121,17 @@ export async function POST(req: Request) {
       .from("orders")
       .update({ stripe_session_id: session.id })
       .eq("id", order.id);
+
+    console.log(
+      JSON.stringify({
+        level: "info",
+        msg: "checkout_created",
+        orderId: order.id,
+        sessionId: session.id,
+        amount: amount,
+        currency,
+      })
+    );
 
     return json(200, {
       ok: true,

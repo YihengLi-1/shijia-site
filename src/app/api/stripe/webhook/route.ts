@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       })
       .eq("id", orderId)
       .eq("status", "pending")
-      .select("id, status, booking_id, amount_cents, currency, customer_email")
+      .select("*")
       .single();
 
     if (updErr) {
@@ -74,15 +74,64 @@ export async function POST(req: Request) {
 
     // 走到这说明：这次 webhook 真正把订单从 pending 改成 paid 了
     // ✅ 发 paid 邮件（mailer 内部做 email_events 幂等：同一 orderId 只发一次）
-    const emailRes = await sendPaidEmail({
-      orderId: updated.id,
-      bookingId: (updated as any).booking_id ?? null,
-      amountCents: (updated as any).amount_cents ?? null,
-      currency: (updated as any).currency ?? null,
-      customerEmail: (updated as any).customer_email ?? null,
-    });
+    const amountTotal = Number((session as any)?.amount_total ?? NaN);
+    const currency = String((session as any)?.currency ?? "").toLowerCase();
+    const orderAmount = Number((updated as any)?.amount_cents ?? NaN);
+    const orderCurrency = String((updated as any)?.currency ?? "").toLowerCase();
+    const amountMismatch =
+      Number.isFinite(amountTotal) &&
+      Number.isFinite(orderAmount) &&
+      (amountTotal !== orderAmount || (currency && orderCurrency && currency !== orderCurrency));
 
-    return json(true, { processed: true, orderId, email: emailRes }, 200);
+    if (amountMismatch) {
+      console.warn(
+        JSON.stringify({
+          level: "warn",
+          msg: "amount_mismatch",
+          orderId,
+          orderAmount,
+          orderCurrency,
+          stripeAmount: amountTotal,
+          stripeCurrency: currency,
+        })
+      );
+    }
+
+    if ((updated as any)?.booking_id) {
+      const bkId = String((updated as any).booking_id);
+      const { error: bkErr } = await sb
+        .from("bookings")
+        .update({ status: "paid" })
+        .eq("id", bkId);
+      if (bkErr) {
+        console.warn(
+          JSON.stringify({
+            level: "warn",
+            msg: "booking_status_update_failed",
+            bookingId: bkId,
+            detail: bkErr.message,
+          })
+        );
+      }
+    }
+
+    let emailRes: any = null;
+    try {
+      emailRes = await sendPaidEmail({
+        orderId: updated.id,
+        bookingId: (updated as any).booking_id ?? null,
+        amountCents: (updated as any).amount_cents ?? null,
+        currency: (updated as any).currency ?? null,
+        customerEmail:
+          (updated as any)?.customer_email?.trim?.() ||
+          (updated as any)?.email?.trim?.() ||
+          null,
+      });
+    } catch (e: any) {
+      emailRes = { ok: false, error: String(e?.message ?? e) };
+    }
+
+    return json(true, { processed: true, orderId, email: emailRes, amountMismatch }, 200);
   } catch (e: any) {
     console.error("STRIPE_WEBHOOK_ERROR", e);
     return NextResponse.json(

@@ -1,14 +1,15 @@
 // src/app/pay/page.tsx
-import { Suspense } from "react";
 import PayClient from "./PayClient";
+import Header from "@/components/Header";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export default function PayPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-3xl px-6 py-12">Loading...</div>}>
+    <main className="min-h-screen text-zinc-900">
+      <Header />
       <PayClient />
-    </Suspense>
+    </main>
   );
 }

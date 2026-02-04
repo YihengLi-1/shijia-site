@@ -3,157 +3,230 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Container from "@/components/Container";
 import { SITE } from "@/lib/site";
+import Footer from "@/components/Footer";
+import ScriptureQuote from "@/components/ScriptureQuote";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-pink-200/60 text-zinc-900">
+    <main className="min-h-screen text-zinc-900">
       <Header />
 
-      <section className="py-16">
-        <Container>
-          <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
-            {SITE.name}
-          </h1>
-
-          <p className="mt-6 max-w-2xl whitespace-pre-line text-lg leading-7 text-zinc-700">
-            {SITE.tagline}
-          </p>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {/* Left */}
-            <div className="rounded-2xl border border-zinc-200 bg-white p-6">
-              <div className="text-sm font-semibold text-zinc-900">地址</div>
-              <div className="mt-2 text-zinc-700">{SITE.address}</div>
-
-              <div className="mt-6 text-sm font-semibold text-zinc-900">
-                开放时间
+      <section className="section relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute -top-8 right-10 h-48 w-48 rounded-full blur-3xl float-slow"
+          style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
+        />
+        <div
+          className="pointer-events-none absolute bottom-10 left-8 h-56 w-56 rounded-full blur-3xl float-slower"
+          style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
+        />
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-25" />
+        <Container className="relative z-10">
+          <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+            <div className="fade-in">
+              <div className="inline-flex items-center gap-3 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
+                清净供斋 · 预约到访
               </div>
-              <div className="mt-2 text-zinc-700">{SITE.hours}</div>
 
-              <div className="mt-6 text-sm font-semibold text-zinc-900">联系</div>
+              <h1 className="mt-6 text-[clamp(2.6rem,6vw,4.5rem)] font-semibold tracking-tight">
+                {SITE.name}
+              </h1>
 
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-zinc-700">
-                <span className="text-sm">{SITE.contact}</span>
-
-                <a
-                  href={`tel:${SITE.phone}`}
-                  className="rounded-full border border-zinc-300 bg-white px-3 py-1 text-sm font-medium hover:border-zinc-400"
-                >
-                  一键拨号
-                </a>
-
-                <a
-                  href={`mailto:${SITE.email}`}
-                  className="rounded-full border border-zinc-300 bg-white px-3 py-1 text-sm font-medium hover:border-zinc-400"
-                >
-                  发邮件
-                </a>
-              </div>
+              <p className="mt-5 max-w-2xl whitespace-pre-line text-lg leading-7 text-zinc-700">
+                {SITE.tagline}
+              </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <a
-                  href={SITE.mapUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
-                >
-                  导航到素食斋
-                </a>
-
                 <Link
                   href="/book"
-                  className="rounded-full border border-zinc-300 px-4 py-2 text-sm font-medium hover:border-zinc-400"
+                  className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800"
                 >
-                  预约时间
+                  预约到访
+                </Link>
+
+                <Link
+                  href="/menu"
+                  className="rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold hover:border-zinc-400"
+                >
+                  今日供斋
                 </Link>
               </div>
 
-              {/* Booking notice */}
-              <div className="mt-6 rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
-                <div className="text-sm font-semibold text-zinc-900">
-                  预约须知
+              <div className="mt-4 text-xs text-zinc-500">
+                支付完成会发送确认邮件；如需改期或退款，可联系管理员人工处理。
+              </div>
+
+              <ScriptureQuote className="mt-8 max-w-xl" />
+
+              <div className="mt-10 grid gap-4 md:grid-cols-3">
+                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5">
+                  <div className="text-xs font-semibold text-zinc-500">开放时间</div>
+                  <div className="mt-2 text-sm text-zinc-800">{SITE.hours}</div>
                 </div>
-
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-700">
-                  <li>建议到访前预约，便于安排座位与准备。</li>
-                  <li>若迟到请提前联系；未联系可能无法保留座位。</li>
-                  <li>请保持安静与整洁，尊重修行场所秩序。</li>
-                </ul>
-
-                <div className="mt-3 text-xs text-zinc-500">
-                  改期或取消请通过电话或邮件联系。
+                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5">
+                  <div className="text-xs font-semibold text-zinc-500">地址</div>
+                  <div className="mt-2 text-sm text-zinc-800">{SITE.address}</div>
+                </div>
+                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-5">
+                  <div className="text-xs font-semibold text-zinc-500">联系</div>
+                  <div className="mt-2 text-sm text-zinc-800">{SITE.contact}</div>
                 </div>
               </div>
             </div>
 
-            {/* Right */}
-            <div className="rounded-2xl border border-zinc-200 bg-white p-6">
-              <div className="text-sm font-semibold text-zinc-900">快速入口</div>
+            <div className="relative overflow-hidden rounded-[30px] border border-zinc-200/70 bg-white/80 p-6 shadow-sm">
+              <div
+                className="absolute inset-0 opacity-90"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.9) 100%), url("/hero.svg") center/cover no-repeat',
+                }}
+              />
+              <div
+                className="absolute right-6 top-6 h-16 w-16 opacity-60 float-slow"
+                style={{ background: 'url("/lotus.svg") center/contain no-repeat' }}
+              />
+              <div className="relative z-10 rounded-2xl border border-zinc-200/70 bg-white/80 p-6">
+                <div className="text-xs font-semibold text-zinc-500">今日节奏</div>
+                <div className="mt-3 text-lg font-semibold text-zinc-900">安住 · 清净 · 随缘</div>
+                <p className="mt-2 text-sm text-zinc-700">
+                  以清净为本、以供斋为缘。请以修行场所的秩序与安静到访。
+                </p>
 
-              <p className="mt-2 text-zinc-700">
-                素食斋为主，寺庙为背景：对外开放，但保持修行秩序。
-              </p>
-
-              <div className="mt-6 grid gap-4">
-                {/* ✅ 菜单入口：只做入口，不显示菜 */}
-                <Link
-                  href="/menu"
-                  className="rounded-2xl border border-zinc-200 p-4 hover:border-zinc-300"
-                >
-                  <div className="font-semibold">菜单</div>
-                  <div className="mt-1 text-sm text-zinc-600">
-                    查看今日/常备菜品（后续可加图片）
+                <div className="mt-6 space-y-3 text-sm text-zinc-700">
+                  <div className="flex items-center justify-between">
+                    <span>预约到访</span>
+                    <span className="text-zinc-500">建议提前一天</span>
                   </div>
-                </Link>
-
-                <Link
-                  href="/veggie"
-                  className="rounded-2xl border border-zinc-200 p-4 hover:border-zinc-300"
-                >
-                  <div className="font-semibold">素食斋</div>
-                  <div className="mt-1 text-sm text-zinc-600">
-                    清净素食、随缘供养、用餐礼仪
+                  <div className="flex items-center justify-between">
+                    <span>到访礼仪</span>
+                    <span className="text-zinc-500">保持安静与整洁</span>
                   </div>
-                </Link>
-
-                <Link
-                  href="/visit"
-                  className="rounded-2xl border border-zinc-200 p-4 hover:border-zinc-300"
-                >
-                  <div className="font-semibold">到访</div>
-                  <div className="mt-1 text-sm text-zinc-600">
-                    路线、停车与到访须知
+                  <div className="flex items-center justify-between">
+                    <span>供斋方式</span>
+                    <span className="text-zinc-500">随缘供养</span>
                   </div>
-                </Link>
-
-                <Link
-                  href="/donation"
-                  className="rounded-2xl border border-zinc-200 p-4 hover:border-zinc-300"
-                >
-                  <div className="font-semibold">随喜</div>
-                  <div className="mt-1 text-sm text-zinc-600">
-                    香灯供养与环境维护
-                  </div>
-                </Link>
-
-                <Link
-                  href="/book"
-                  className="rounded-2xl border border-zinc-200 p-4 hover:border-zinc-300"
-                >
-                  <div className="font-semibold">预约</div>
-                  <div className="mt-1 text-sm text-zinc-600">
-                    选择日期、时间、人数
-                  </div>
-                </Link>
+                </div>
               </div>
 
-              <div className="mt-8 text-sm text-zinc-500">
-                © 2026 {SITE.name}
+              <div className="relative z-10 mt-4 grid gap-3">
+                <Link
+                  href="/visit"
+                  className="rounded-2xl border border-zinc-200 bg-white px-4 py-4 text-sm font-medium hover:border-zinc-300"
+                >
+                  到访须知与停车路线
+                </Link>
+                <Link
+                  href="/veggie"
+                  className="rounded-2xl border border-zinc-200 bg-white px-4 py-4 text-sm font-medium hover:border-zinc-300"
+                >
+                  用餐礼仪与供养说明
+                </Link>
+                <Link
+                  href="/donation"
+                  className="rounded-2xl border border-zinc-200 bg-white px-4 py-4 text-sm font-medium hover:border-zinc-300"
+                >
+                  随喜护持
+                </Link>
               </div>
             </div>
           </div>
         </Container>
       </section>
+
+      <section className="section pt-0">
+        <Container>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              { title: "清净空间", note: "待更新实景照片" },
+              { title: "当日供斋", note: "以现场为准" },
+              { title: "香灯与护持", note: "随喜随缘" },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm"
+              >
+                <div className="relative h-44 w-full overflow-hidden rounded-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-200/60 to-stone-100" />
+                  <div
+                    className="absolute -right-6 -top-8 h-24 w-24 opacity-50"
+                    style={{ background: 'url("/lotus.svg") center/contain no-repeat' }}
+                  />
+                  <div className="absolute inset-0 border border-white/60" />
+                </div>
+                <div className="mt-4 text-sm font-semibold text-zinc-800">{item.title}</div>
+                <div className="mt-1 text-xs text-zinc-500">{item.note}</div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="section pt-0">
+        <Container>
+          <div className="rounded-3xl border border-zinc-200/70 bg-white/80 p-8 shadow-sm">
+            <div className="text-xs font-semibold text-zinc-500">此处为何</div>
+            <div className="mt-3 text-xl font-semibold text-zinc-900 serif-title">一处供斋之所，也是安住之处</div>
+            <p className="mt-3 text-sm text-zinc-700 leading-7 max-w-3xl">
+              {SITE.intro}
+            </p>
+            <div className="mt-5 text-xs text-zinc-500">
+              若需改期或退款，请联系管理员人工处理，我们会为你留住一份安心。
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="section">
+        <Container>
+          <div className="grid gap-6 md:grid-cols-3">
+            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 rise-in stagger-1">
+              <div className="text-xs font-semibold text-zinc-500">到访路径</div>
+              <div className="mt-3 text-lg font-semibold">预约 · 安住 · 用斋</div>
+              <p className="mt-2 text-sm text-zinc-700">
+                流程极简，让心不必被步骤打断。
+              </p>
+            </div>
+            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 rise-in stagger-2">
+              <div className="text-xs font-semibold text-zinc-500">清净用餐</div>
+              <div className="mt-3 text-lg font-semibold">慢下来 · 少一点 · 足够</div>
+              <p className="mt-2 text-sm text-zinc-700">
+                以清淡安住身心，不求繁复。
+              </p>
+            </div>
+            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 rise-in stagger-3">
+              <div className="text-xs font-semibold text-zinc-500">随喜护持</div>
+              <div className="mt-3 text-lg font-semibold">香灯与场所维护</div>
+              <p className="mt-2 text-sm text-zinc-700">
+                所得皆用于供斋与环境维护。
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="section pt-0">
+        <Container>
+          <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-8 shadow-sm md:flex-row md:items-center">
+            <div>
+              <div className="text-xs font-semibold text-zinc-500">静处留席</div>
+              <div className="mt-2 text-xl font-semibold serif-title text-zinc-900">
+                若愿来访，我们已为你预留片刻
+              </div>
+              <div className="mt-2 text-sm text-zinc-600">
+                预约到访，供斋随缘，愿此行让心更安稳。
+              </div>
+            </div>
+            <Link
+              href="/book"
+              className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800"
+            >
+              预约到访
+            </Link>
+          </div>
+        </Container>
+      </section>
+
+      <Footer />
     </main>
   );
 }

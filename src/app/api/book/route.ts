@@ -2,10 +2,11 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 type CartItem = {
   menuItemId: string;
-  name: string;
-  unitPriceCents: number;
   qty: number;
 };
 
@@ -18,10 +19,7 @@ type Payload = {
   time: string;
   note?: string;
 
-  // ✅ 购物车明细（必须传）
   items: CartItem[];
-
-  // 可选：默认 usd
   currency?: string;
 };
 
@@ -81,26 +79,22 @@ function validateItems(items: any): CartItem[] {
   const cleaned: CartItem[] = [];
   for (const raw of items) {
     const menuItemId = String(raw?.menuItemId ?? "").trim();
-    const name = String(raw?.name ?? "").trim();
-    const unitPriceCents = Number(raw?.unitPriceCents);
     const qty = Number(raw?.qty);
 
     if (!menuItemId) throw new Error("item_menuItemId_required");
-    if (!name) throw new Error("item_name_required");
-    if (!Number.isFinite(unitPriceCents) || unitPriceCents < 0) throw new Error("item_unitPrice_invalid");
     if (!Number.isFinite(qty) || qty < 1 || qty > 99) throw new Error("item_qty_invalid");
 
-    cleaned.push({ menuItemId, name, unitPriceCents, qty });
+    cleaned.push({ menuItemId, qty });
   }
   return cleaned;
 }
 
-function calcAmountCents(items: CartItem[]) {
-  return items.reduce((sum, it) => sum + it.unitPriceCents * it.qty, 0);
-}
-
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+type PricedItem = {
+  menuItemId: string;
+  name: string;
+  unitPriceCents: number;
+  qty: number;
+};
 
 export async function POST(req: Request) {
   try {
@@ -108,6 +102,9 @@ export async function POST(req: Request) {
 
     const name = String(body?.name ?? "").trim();
     const phone = String(body?.phone ?? "").trim();
+    const email = String(body?.email ?? "").trim() || null;
+    const note = String(body?.note ?? "").trim() || null;
+
     const peopleNum = Number(body?.people ?? 0);
     const dateVal = toISODate(String(body?.date ?? ""));
     const timeVal = toTimeHHMMSS(String(body?.time ?? ""));
@@ -123,7 +120,10 @@ export async function POST(req: Request) {
     try {
       items = validateItems((body as any)?.items);
     } catch (e: any) {
-      return NextResponse.json({ detail: String(e?.message || e || "items_invalid") }, { status: 400 });
+      return NextResponse.json(
+        { detail: String(e?.message || e || "items_invalid") },
+        { status: 400 }
+      );
     }
 
     const url = (process.env.SUPABASE_URL ?? "").trim();
@@ -131,6 +131,55 @@ export async function POST(req: Request) {
     if (!url || !key) return NextResponse.json({ detail: "missing_supabase_env" }, { status: 500 });
 
     const supabase = createClient(url, key, { auth: { persistSession: false } });
+
+    // ✅ 价格可信：从数据库取价格和名称，忽略前端传入的价格/名称
+    const ids = Array.from(new Set(items.map((it) => it.menuItemId)));
+    const { data: menuRows, error: menuErr } = await supabase
+      .from("menu_items")
+      .select("id,name,price_cents,is_available")
+      .in("id", ids);
+
+    if (menuErr) {
+      return NextResponse.json(
+        { error: "menu_fetch_failed", detail: menuErr.message },
+        { status: 500 }
+      );
+    }
+
+    const priceMap = new Map<string, { name: string; price: number; available: boolean }>();
+    for (const r of menuRows ?? []) {
+      priceMap.set(String((r as any).id), {
+        name: String((r as any).name ?? ""),
+        price: Number((r as any).price_cents ?? 0),
+        available: Boolean((r as any).is_available),
+      });
+    }
+
+    const pricedItems: PricedItem[] = [];
+    let amountCents = 0;
+    for (const it of items) {
+      const meta = priceMap.get(it.menuItemId);
+      if (!meta) {
+        return NextResponse.json({ detail: "item_not_found" }, { status: 400 });
+      }
+      if (!meta.available) {
+        return NextResponse.json({ detail: "item_unavailable" }, { status: 400 });
+      }
+      if (!Number.isFinite(meta.price) || meta.price <= 0) {
+        return NextResponse.json({ detail: "item_price_invalid" }, { status: 400 });
+      }
+      pricedItems.push({
+        menuItemId: it.menuItemId,
+        name: meta.name,
+        unitPriceCents: meta.price,
+        qty: it.qty,
+      });
+      amountCents += meta.price * it.qty;
+    }
+
+    if (!Number.isFinite(amountCents) || amountCents <= 0) {
+      return NextResponse.json({ detail: "amount_invalid" }, { status: 400 });
+    }
 
     // 1) create booking
     const { data: booking, error: bookErr } = await supabase
@@ -141,6 +190,8 @@ export async function POST(req: Request) {
         people: peopleNum,
         date: dateVal,
         time: timeVal,
+        email, // ✅ 你表里有 email
+        note,  // ✅ 你表里有 note
       })
       .select("id")
       .single();
@@ -152,33 +203,47 @@ export async function POST(req: Request) {
       );
     }
 
-    const amountCents = calcAmountCents(items);
-
-    // 2) create order
-    // ✅ 对齐你现在真实约束：type NOT NULL、amount_cents NOT NULL
-    // status: pending（后续 /api/pay/confirm 或 webhook 改为 paid）
+    // 2) create order  ✅ type 只能 booking/donation
     const { data: order, error: orderErr } = await supabase
       .from("orders")
       .insert({
         booking_id: booking.id,
+        type: "booking",        // ✅ 修正：别用 "menu"
         status: "pending",
         currency,
         amount_cents: amountCents,
-        type: "menu", // ✅ 关键：避免 type NOT NULL 报错
+        name,
+        phone,
+        email,
+        visit_date: dateVal,
+        visit_time: timeVal,
+        party_size: peopleNum,
       })
       .select("id")
       .single();
 
     if (orderErr || !order) {
+      // 回滚 booking，避免脏数据
+      await supabase.from("bookings").delete().eq("id", booking.id);
       return NextResponse.json(
         { error: "order_insert_failed", detail: orderErr?.message ?? "unknown" },
         { status: 500 }
       );
     }
 
-    // 3) create order_items
-    // ✅ 不写 line_total_cents（generated/不可写/或不存在）
-    const rows = items.map((it) => ({
+    console.log(
+      JSON.stringify({
+        level: "info",
+        msg: "order_created",
+        orderId: order.id,
+        bookingId: booking.id,
+        amountCents,
+        currency,
+      })
+    );
+
+    // 3) create order_items（不要写 line_total_cents）
+    const rows = pricedItems.map((it) => ({
       order_id: order.id,
       menu_item_id: it.menuItemId,
       item_name: it.name,
@@ -187,8 +252,11 @@ export async function POST(req: Request) {
     }));
 
     const { error: oiErr } = await supabase.from("order_items").insert(rows);
-
     if (oiErr) {
+      // 回滚 order + booking
+      await supabase.from("orders").delete().eq("id", order.id);
+      await supabase.from("bookings").delete().eq("id", booking.id);
+
       return NextResponse.json(
         { error: "order_items_insert_failed", detail: oiErr.message },
         { status: 500 }
@@ -196,13 +264,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      {
-        ok: true,
-        bookingId: booking.id,
-        orderId: order.id,
-        amountCents,
-        currency,
-      },
+      { ok: true, bookingId: booking.id, orderId: order.id, amountCents, currency },
       { status: 200 }
     );
   } catch (e: any) {

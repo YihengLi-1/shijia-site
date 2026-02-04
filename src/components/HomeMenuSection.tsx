@@ -73,19 +73,19 @@ export default function HomeMenuSection() {
     <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6">
       <div className="flex items-baseline justify-between gap-4">
         <div>
-          <div className="text-sm font-semibold text-zinc-900">今日素食菜单</div>
-          <div className="mt-1 text-sm text-zinc-600">菜单与供应以当日为准。</div>
+          <div className="text-sm font-semibold text-zinc-900">今日供斋</div>
+          <div className="mt-1 text-sm text-zinc-600">供斋与供应以当日为准。</div>
         </div>
         <Link
           href="/menu"
           className="rounded-full border border-zinc-300 bg-white px-3 py-1 text-sm font-medium hover:border-zinc-400"
         >
-          查看完整菜单
+          查看供斋
         </Link>
       </div>
 
       {err ? (
-        <div className="mt-4 text-sm text-red-600">菜单加载失败：{err}</div>
+        <div className="mt-4 text-sm text-red-600">供斋信息暂时无法加载，请稍后再试。</div>
       ) : items.length === 0 ? (
         <div className="mt-4 text-sm text-zinc-600">当前暂无可展示菜品。</div>
       ) : (

@@ -1,12 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;600&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 调试用：想看边界就取消注释 */
-/*
-body { outline: 8px solid red !important; }
-*/
+@layer base {
+  :root {
+    --bg: #f7f5f1;
+    --ink: #0a0a0a;
+    --muted: #6b6b6b;
+    --line: #e7e2d8;
+    --accent: #1f1f1f;
+    --accent-2: #9a8f7a;
+    --font-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --font-serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+  }
 
-html, body {
-  height: 100%;
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 800px at 80% -10%, #efe9df 0%, transparent 55%),
+      radial-gradient(900px 700px at -10% 20%, #f3efe7 0%, transparent 60%),
+      linear-gradient(180deg, #f8f6f2 0%, #f4f1eb 50%, #f7f5f1 100%);
+    background-image:
+      radial-gradient(1200px 800px at 80% -10%, #efe9df 0%, transparent 55%),
+      radial-gradient(900px 700px at -10% 20%, #f3efe7 0%, transparent 60%),
+      linear-gradient(180deg, #f8f6f2 0%, #f4f1eb 50%, #f7f5f1 100%),
+      url("/pattern.svg");
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+    background-size: auto, auto, auto, 240px 240px;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  .serif-title {
+    font-family: var(--font-serif);
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  .hairline {
+    border-color: color-mix(in srgb, var(--line) 85%, transparent);
+  }
+
+  .glass {
+    background: color-mix(in srgb, #ffffff 80%, transparent);
+    backdrop-filter: blur(12px);
+  }
+
+  .section {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+
+  .fade-in {
+    animation: fade-in 800ms ease-out both;
+  }
+
+  .rise-in {
+    animation: rise-in 900ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+  }
+
+  .float-slow {
+    animation: float-slow 12s ease-in-out infinite;
+  }
+
+  .float-slower {
+    animation: float-slow 18s ease-in-out infinite;
+  }
+
+  .lotus-pattern {
+    background-image: url("/lotus-pattern.svg");
+    background-repeat: repeat;
+    background-size: 240px 240px;
+  }
+
+  .stagger-1 { animation-delay: 80ms; }
+  .stagger-2 { animation-delay: 160ms; }
+  .stagger-3 { animation-delay: 240ms; }
+  .stagger-4 { animation-delay: 320ms; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-slow {
+  0% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(-10px); opacity: 0.9; }
+  100% { transform: translateY(0); opacity: 0.6; }
 }

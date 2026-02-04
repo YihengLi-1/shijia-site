@@ -58,7 +58,7 @@ async function confirmPaid(params: { orderId: string; sessionId: string }) {
   // 3) 订单落库：标记 paid（幂等）
   const { data: order, error: orderErr } = await sb
     .from("orders")
-    .select("id, status, booking_id, amount_cents, currency, customer_email")
+    .select("*")
     .eq("id", orderId)
     .single();
 
@@ -68,29 +68,107 @@ async function confirmPaid(params: { orderId: string; sessionId: string }) {
 
   const alreadyPaid = String(order.status).toLowerCase() === "paid";
 
+  // 防止伪造 sessionId：如果订单已有 session，必须匹配
+  if ((order as any)?.stripe_session_id && String((order as any).stripe_session_id) !== sessionId) {
+    return NextResponse.json(
+      { ok: false, error: "session_mismatch" },
+      { status: 400 }
+    );
+  }
+
+  const amountTotal = Number((session as any)?.amount_total ?? NaN);
+  const currency = String((session as any)?.currency ?? "").toLowerCase();
+  const orderAmount = Number((order as any)?.amount_cents ?? NaN);
+  const orderCurrency = String((order as any)?.currency ?? "").toLowerCase();
+  const amountMismatch =
+    Number.isFinite(amountTotal) &&
+    Number.isFinite(orderAmount) &&
+    (amountTotal !== orderAmount || (currency && orderCurrency && currency !== orderCurrency));
+
+  if (amountMismatch) {
+    console.warn(
+      JSON.stringify({
+        level: "warn",
+        msg: "amount_mismatch",
+        orderId,
+        orderAmount,
+        orderCurrency,
+        stripeAmount: amountTotal,
+        stripeCurrency: currency,
+      })
+    );
+  }
+
   if (!alreadyPaid) {
     const customerEmail =
-      (session.customer_details?.email || "").trim() || (order.customer_email || "").trim() || null;
+      (session.customer_details?.email || "").trim() ||
+      (order as any)?.customer_email?.trim?.() ||
+      (order as any)?.email?.trim?.() ||
+      null;
 
-    await sb
-      .from("orders")
-      .update({
-        status: "paid",
-        stripe_session_id: sessionId,
-        customer_email: customerEmail,
-      })
-      .eq("id", orderId);
+    const baseUpdate = {
+      status: "paid",
+      stripe_session_id: sessionId,
+    } as Record<string, any>;
+
+    const withEmail = {
+      ...baseUpdate,
+      customer_email: customerEmail,
+    };
+
+    const { error: updErr } = await sb.from("orders").update(withEmail).eq("id", orderId);
+    if (updErr) {
+      await sb.from("orders").update(baseUpdate).eq("id", orderId);
+    }
+
+    if ((order as any)?.booking_id) {
+      const bkId = String((order as any).booking_id);
+      const { error: bkErr } = await sb
+        .from("bookings")
+        .update({ status: "paid" })
+        .eq("id", bkId);
+      if (bkErr) {
+        console.warn(
+          JSON.stringify({
+            level: "warn",
+            msg: "booking_status_update_failed",
+            bookingId: bkId,
+            detail: bkErr.message,
+          })
+        );
+      }
+    }
   }
 
   // 4) 发邮件（mailer 内部幂等）
-  const email = await sendPaidEmail({
-    orderId,
-    bookingId: (order as any).booking_id ?? null,
-    amountCents: (order as any).amount_cents ?? null,
-    currency: (order as any).currency ?? null,
-    customerEmail:
-      (session.customer_details?.email || "").trim() || (order.customer_email || "").trim() || null,
-  });
+  console.log(
+    JSON.stringify({
+      level: "info",
+      msg: "order_paid_confirmed",
+      orderId,
+      stripeSessionId: sessionId,
+      amountTotal,
+      currency,
+      amountMismatch,
+    })
+  );
+
+  let email: any = null;
+  try {
+    email = await sendPaidEmail({
+      orderId,
+      bookingId: (order as any).booking_id ?? null,
+      amountCents: (order as any).amount_cents ?? null,
+      currency: (order as any).currency ?? null,
+      customerEmail:
+        (session.customer_details?.email || "").trim() ||
+        (order as any)?.customer_email?.trim?.() ||
+        (order as any)?.email?.trim?.() ||
+        null,
+    });
+  } catch (e: any) {
+    email = { ok: false, error: String(e?.message ?? e) };
+  }
 
   return NextResponse.json(
     {
@@ -98,6 +176,7 @@ async function confirmPaid(params: { orderId: string; sessionId: string }) {
       status: "paid",
       emailed: !(email as any)?.skipped,
       emailResult: email,
+      amountMismatch: amountMismatch || false,
     },
     { status: 200 }
   );

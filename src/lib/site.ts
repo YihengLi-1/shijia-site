@@ -1,7 +1,10 @@
 // src/lib/site.ts
 export const SITE = {
   name: "释迦佛国素食斋",
-  tagline: "一个对外开放的寺庙素食空间。\n请以修行场所的秩序与安静来访。",
+  tagline: "一处清净供斋之所。\n愿你在此片刻，心归于静。",
+
+  intro:
+    "这里是寺院中的素斋空间，不是餐厅。我们以素食供斋，与诸有缘者相遇。愿你在此稍作停留，心念清明。",
 
   address: "1820 Sharpless Dr, La Habra Heights, CA 90631",
   hours: "周一至周日 5:00 AM — 9:00 PM",
@@ -15,10 +18,9 @@ export const SITE = {
     "https://www.google.com/maps/search/?api=1&query=1820+Sharpless+Dr,+La+Habra+Heights,+CA+90631",
 
   nav: [
-    { label: "素食斋", href: "/veggie" },
+    { label: "供斋", href: "/menu" },
     { label: "到访", href: "/visit" },
     { label: "随喜", href: "/donation" },
     { label: "预约", href: "/book" },
-    { label: "支付", href: "/pay" },
   ],
 } as const;

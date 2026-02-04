@@ -56,8 +56,8 @@ export default function MenuClient({ items }: { items: MenuItem[] }) {
 
         <div className="flex items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white px-4 py-3 sm:min-w-[340px]">
           <div className="text-sm text-zinc-700">
-            购物车：<span className="font-medium">{cart.items.length}</span> 种，
-            合计：<span className="font-medium">{formatPrice(cart.totalCents)}</span>
+            已选供斋：<span className="font-medium">{cart.items.length}</span> 种，
+            小计：<span className="font-medium">{formatPrice(cart.totalCents)}</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -74,16 +74,16 @@ export default function MenuClient({ items }: { items: MenuItem[] }) {
               href="/book"
               className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
             >
-              去预约结算
+              去预约
             </Link>
           </div>
         </div>
       </div>
 
-      {/* 菜单列表：每行 +- */}
+      {/* 供斋列表：每行 +- */}
       {items.length === 0 ? (
         <div className="rounded-2xl border border-zinc-200 bg-white p-6 text-neutral-700">
-          暂无可展示菜单（请先在后台 menu_items 表插入数据）。
+          今日供斋尚未更新，请稍后再来。
         </div>
       ) : (
         <div className="space-y-6">

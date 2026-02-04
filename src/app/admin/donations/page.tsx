@@ -14,25 +14,15 @@ function supabaseAdmin() {
 
 function StatusPill({ status }: { status: string | null | undefined }) {
   const s = String(status ?? "").toLowerCase();
-
   const cls =
     s === "paid"
       ? "bg-green-100 text-green-800 ring-green-200"
-      : s === "pending" || s === "pending_payment"
+      : s === "pending"
       ? "bg-yellow-100 text-yellow-800 ring-yellow-200"
       : s
       ? "bg-red-100 text-red-800 ring-red-200"
       : "bg-zinc-100 text-zinc-700 ring-zinc-200";
-
-  const label =
-    s === "paid"
-      ? "已支付"
-      : s === "pending" || s === "pending_payment"
-      ? "待支付"
-      : s
-      ? s
-      : "未知";
-
+  const label = s || "未知";
   return (
     <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ring-1 ${cls}`}>
       {label}
@@ -40,13 +30,12 @@ function StatusPill({ status }: { status: string | null | undefined }) {
   );
 }
 
-export default async function AdminOrdersPage() {
+export default async function AdminDonationsPage() {
   const supabase = supabaseAdmin();
 
-  // 只读最近 50 条订单
   const { data: rows, error } = await supabase
-    .from("orders")
-    .select("id, created_at, name, phone, visit_date, visit_time, party_size, amount_cents, currency, status, booking_id")
+    .from("donations")
+    .select("id, created_at, amount_cents, currency, status, email, name, stripe_session_id")
     .order("created_at", { ascending: false })
     .limit(50);
 
@@ -60,18 +49,18 @@ export default async function AdminOrdersPage() {
           <div className="max-w-6xl">
             <div className="flex items-end justify-between gap-4">
               <div>
-                <h1 className="text-4xl font-black tracking-tight">后台订单</h1>
+                <h1 className="text-4xl font-black tracking-tight">后台随喜</h1>
                 <p className="mt-2 text-zinc-700">
-                  最近 50 条订单（只读）。用于快速查看预约/支付状态。
+                  最近 50 条随喜记录（只读）。
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
                 <a
-                  href="/admin/donations"
+                  href="/admin/orders"
                   className="rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm font-semibold hover:bg-zinc-50"
                 >
-                  随喜
+                  订单
                 </a>
                 <a
                   href="/"
@@ -95,22 +84,19 @@ export default async function AdminOrdersPage() {
                     <tr>
                       <th className="px-5 py-4 text-left font-semibold">创建时间</th>
                       <th className="px-5 py-4 text-left font-semibold">姓名</th>
-                      <th className="px-5 py-4 text-left font-semibold">电话</th>
-                      <th className="px-5 py-4 text-left font-semibold">到访日期</th>
-                      <th className="px-5 py-4 text-left font-semibold">到访时间</th>
-                      <th className="px-5 py-4 text-left font-semibold">人数</th>
+                      <th className="px-5 py-4 text-left font-semibold">邮箱</th>
                       <th className="px-5 py-4 text-left font-semibold">金额</th>
                       <th className="px-5 py-4 text-left font-semibold">状态</th>
-                      <th className="px-5 py-4 text-left font-semibold">orderId</th>
-                      <th className="px-5 py-4 text-left font-semibold">bookingId</th>
+                      <th className="px-5 py-4 text-left font-semibold">donationId</th>
+                      <th className="px-5 py-4 text-left font-semibold">stripeSession</th>
                     </tr>
                   </thead>
 
                   <tbody className="divide-y divide-zinc-100">
                     {items.length === 0 ? (
                       <tr>
-                        <td className="px-5 py-6 text-zinc-600" colSpan={10}>
-                          暂无订单
+                        <td className="px-5 py-6 text-zinc-600" colSpan={7}>
+                          暂无随喜记录
                         </td>
                       </tr>
                     ) : (
@@ -128,17 +114,14 @@ export default async function AdminOrdersPage() {
                           <tr key={String(it.id)} className="hover:bg-zinc-50/60">
                             <td className="px-5 py-4 whitespace-nowrap">{createdAt}</td>
                             <td className="px-5 py-4 whitespace-nowrap">{it.name ?? "-"}</td>
-                            <td className="px-5 py-4 whitespace-nowrap">{it.phone ?? "-"}</td>
-                            <td className="px-5 py-4 whitespace-nowrap">{it.visit_date ?? "-"}</td>
-                            <td className="px-5 py-4 whitespace-nowrap">{it.visit_time ?? "-"}</td>
-                            <td className="px-5 py-4 whitespace-nowrap">{it.party_size ?? "-"}</td>
+                            <td className="px-5 py-4 whitespace-nowrap">{it.email ?? "-"}</td>
                             <td className="px-5 py-4 whitespace-nowrap">{amountText}</td>
                             <td className="px-5 py-4 whitespace-nowrap">
                               <StatusPill status={it.status} />
                             </td>
                             <td className="px-5 py-4 font-mono text-xs whitespace-nowrap">{String(it.id)}</td>
                             <td className="px-5 py-4 font-mono text-xs whitespace-nowrap">
-                              {it.booking_id ? String(it.booking_id) : "-"}
+                              {it.stripe_session_id ? String(it.stripe_session_id) : "-"}
                             </td>
                           </tr>
                         );
@@ -146,10 +129,6 @@ export default async function AdminOrdersPage() {
                     )}
                   </tbody>
                 </table>
-              </div>
-
-              <div className="border-t border-zinc-200 px-5 py-4 text-xs text-zinc-500">
-                提示：这是 A 版（无登录）。上线前我们会加保护（至少一个密码/登录）。
               </div>
             </div>
           </div>
