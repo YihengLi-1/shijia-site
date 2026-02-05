@@ -37,14 +37,14 @@ export default function Header({ hideCta = false }: { hideCta?: boolean } = {}) 
             href={SITE.mapUrl}
             target="_blank"
             rel="noreferrer"
-            className="rounded-full border border-zinc-300 bg-white/80 px-3 py-1.5 text-xs font-semibold hover:border-zinc-400 pressable focus-ring"
+            className="rounded-full border border-zinc-300 bg-white/80 px-3 py-1.5 text-xs font-semibold pressable focus-ring temple-ghost"
           >
             导航
           </a>
           {!hideCta ? (
             <Link
               href="/menu"
-              className="rounded-full bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 pressable btn-glow cta-shimmer"
+              className="rounded-full px-3 py-1.5 text-xs font-semibold pressable btn-glow cta-shimmer temple-cta"
             >
               开始供斋
             </Link>

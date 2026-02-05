@@ -51,7 +51,7 @@ export default function RitualScroll({ className = "" }: { className?: string })
             onClick={() => setStage("pre")}
             aria-pressed={isPre}
             className={`stage-toggle rounded-full px-3 py-1 transition pressable focus-ring ${
-              isPre ? "bg-zinc-900 text-white" : "text-zinc-600 hover:text-zinc-800"
+              isPre ? "temple-cta" : "text-zinc-600 hover:text-zinc-800"
             }`}
           >
             斋前
@@ -61,7 +61,7 @@ export default function RitualScroll({ className = "" }: { className?: string })
             onClick={() => setStage("post")}
             aria-pressed={!isPre}
             className={`stage-toggle rounded-full px-3 py-1 transition pressable focus-ring ${
-              !isPre ? "bg-zinc-900 text-white" : "text-zinc-600 hover:text-zinc-800"
+              !isPre ? "temple-cta" : "text-zinc-600 hover:text-zinc-800"
             }`}
           >
             斋后

@@ -113,13 +113,13 @@ export default function SuccessClient() {
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
           href="/"
-          className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium hover:border-zinc-400"
+          className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium temple-ghost"
         >
           返回首页
         </Link>
         <Link
           href="/donation"
-          className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+          className="rounded-full px-4 py-2 text-sm font-medium temple-cta"
         >
           继续随喜
         </Link>

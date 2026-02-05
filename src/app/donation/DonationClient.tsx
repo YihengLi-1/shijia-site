@@ -143,7 +143,7 @@ export default function DonationClient() {
         <button
           onClick={onSubmit}
           disabled={loading}
-          className="w-full rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 disabled:opacity-60 cta-glow pressable focus-ring cta-shimmer"
+          className="w-full rounded-full px-6 py-3 text-sm font-semibold disabled:opacity-60 cta-glow pressable focus-ring cta-shimmer temple-cta"
         >
           {loading ? "处理中..." : "随喜护持"}
         </button>

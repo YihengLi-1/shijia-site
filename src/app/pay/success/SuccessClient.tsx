@@ -281,21 +281,21 @@ export default function SuccessClient() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/"
-              className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium hover:border-zinc-400"
+              className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium temple-ghost"
             >
               返回首页
             </Link>
 
             <Link
               href="/visit"
-              className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium hover:border-zinc-400"
+              className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium temple-ghost"
             >
               到访须知
             </Link>
 
             <Link
               href="/menu"
-              className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 cta-glow pressable focus-ring cta-shimmer"
+              className="rounded-full px-4 py-2 text-sm font-medium cta-glow pressable focus-ring cta-shimmer temple-cta"
             >
               继续供斋
             </Link>

@@ -52,7 +52,7 @@ export default function OfferingsPanel({ compact = false, defaultTab = "pre" }: 
             setExpanded(false);
           }}
           className={`rounded-full px-3 py-1 transition pressable focus-ring ${
-            tab === "pre" ? "bg-zinc-900 text-white" : "text-zinc-600 hover:text-zinc-800"
+            tab === "pre" ? "temple-cta" : "text-zinc-600 hover:text-zinc-800"
           }`}
         >
           斋前
@@ -64,7 +64,7 @@ export default function OfferingsPanel({ compact = false, defaultTab = "pre" }: 
             setExpanded(false);
           }}
           className={`rounded-full px-3 py-1 transition pressable focus-ring ${
-            tab === "post" ? "bg-zinc-900 text-white" : "text-zinc-600 hover:text-zinc-800"
+            tab === "post" ? "temple-cta" : "text-zinc-600 hover:text-zinc-800"
           }`}
         >
           斋后

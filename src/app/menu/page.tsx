@@ -98,8 +98,8 @@ export default function MenuPage() {
     <main className="min-h-screen text-zinc-900">
       <Header hideCta />
 
-      <section className="section pb-16 relative overflow-hidden fade-in temple-veil">
-        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.2]" />
+      <section className="section pb-16 relative overflow-hidden fade-in temple-veil temple-hero">
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.1]" />
         <Container className="relative z-10">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div className="max-w-2xl">
@@ -127,13 +127,17 @@ export default function MenuPage() {
               <ScriptureQuote compact className="mt-6 max-w-xl" variant="meal" />
             </div>
 
-            <div className="relative overflow-hidden rounded-[28px] border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card">
+            <div className="relative overflow-hidden rounded-[28px] border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card temple-panel">
               <div
                 className="absolute inset-0 opacity-90"
                 style={{
                   background:
                     'linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.95) 100%), url("/hero.svg") center/cover no-repeat',
                 }}
+              />
+              <div
+                className="absolute -right-10 -top-12 h-36 w-36 opacity-12"
+                style={{ background: 'url("/dharma-wheel.svg") center/contain no-repeat' }}
               />
               <div
                 className="absolute -right-8 -bottom-10 h-32 w-32 opacity-18"

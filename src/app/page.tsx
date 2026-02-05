@@ -12,7 +12,7 @@ export default function Home() {
     <main className="min-h-screen text-zinc-900">
       <Header hideCta />
 
-      <section className="section relative overflow-hidden fade-in temple-veil">
+      <section className="section relative overflow-hidden fade-in temple-veil temple-hero">
         <div
           className="pointer-events-none absolute -top-8 right-10 h-48 w-48 rounded-full blur-3xl opacity-30"
           style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
@@ -21,7 +21,7 @@ export default function Home() {
           className="pointer-events-none absolute bottom-10 left-8 h-56 w-56 rounded-full blur-3xl opacity-30"
           style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
         />
-        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.2]" />
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.1]" />
         <Container className="relative z-10">
           <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
             <div className="max-w-2xl rise-in">
@@ -36,7 +36,7 @@ export default function Home() {
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
                   href="/menu"
-                  className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 pressable btn-glow cta-shimmer"
+                  className="rounded-full px-6 py-3 text-sm font-semibold pressable btn-glow cta-shimmer temple-cta"
                 >
                   开始供斋
                 </Link>
@@ -66,13 +66,17 @@ export default function Home() {
             </div>
 
             <div className="relative rise-in stagger-2">
-              <div className="relative overflow-hidden rounded-[32px] border border-zinc-200/70 bg-white/85 p-8 shadow-sm soft-card">
+              <div className="relative overflow-hidden rounded-[32px] border border-zinc-200/70 bg-white/85 p-8 shadow-sm soft-card temple-panel">
                 <div
                   className="absolute inset-0 opacity-90"
                   style={{
                     background:
                       'linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.95) 100%), url("/hero.svg") center/cover no-repeat',
                   }}
+                />
+                <div
+                  className="absolute -right-16 -top-20 h-52 w-52 opacity-12"
+                  style={{ background: 'url("/dharma-wheel.svg") center/contain no-repeat' }}
                 />
                 <div
                   className="absolute -right-10 -bottom-12 h-40 w-40 opacity-20"

@@ -237,8 +237,8 @@ export default function PayClient(props: { orderId?: string }) {
                   <p className="mt-2 text-sm text-zinc-600">点击按钮继续完成供斋。</p>
                   <button
                     onClick={startCheckout}
-                    className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-800 cta-glow pressable focus-ring cta-shimmer"
-                  >
+                  className="mt-6 inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-semibold cta-glow pressable focus-ring cta-shimmer temple-cta"
+                >
                     继续完成
                   </button>
                   <div className="mt-3 text-xs text-zinc-500">完成后会回到确认页。</div>

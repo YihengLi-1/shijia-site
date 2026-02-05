@@ -6,13 +6,16 @@
 
 @layer base {
   :root {
-    --bg: #f4efe6;
-    --ink: #19140f;
-    --muted: #7a6f61;
-    --line: #e0d6c6;
-    --accent: #2b2219;
-    --accent-2: #b49a79;
-    --temple-red: #b14a3b;
+    --bg: #f6f1e9;
+    --ink: #1e1712;
+    --muted: #73665a;
+    --line: #e1d5c8;
+    --accent: #2a201a;
+    --accent-2: #a88b6b;
+    --temple-red: #4d2b20;
+    --temple-red-deep: #2f1b15;
+    --temple-gold: #c6a97f;
+    --temple-paper: #f6efe4;
     --font-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
     --font-serif: "Noto Serif SC", "Songti SC", "STSong", serif;
   }
@@ -30,9 +33,9 @@
     letter-spacing: 0.01em;
     background-color: var(--bg);
     background:
-      radial-gradient(1400px 900px at 18% -10%, #f2eadc 0%, transparent 62%),
-      radial-gradient(1000px 800px at 92% 0%, #efe1cc 0%, transparent 58%),
-      linear-gradient(180deg, #faf6f0 0%, #f1e9dc 55%, #f6f1e7 100%);
+      radial-gradient(1400px 900px at 18% -10%, rgba(236, 228, 214, 0.7) 0%, transparent 62%),
+      radial-gradient(1000px 800px at 92% 0%, rgba(230, 220, 202, 0.6) 0%, transparent 58%),
+      linear-gradient(180deg, #faf7f2 0%, #f3ece1 55%, #f7f2ea 100%);
     background-repeat: no-repeat, no-repeat, no-repeat;
     text-rendering: optimizeLegibility;
     position: relative;
@@ -52,7 +55,7 @@
     background-repeat: no-repeat;
     background-position: 6% 12%, 90% 18%, 0 0, 0 0, 0 0;
     background-size: 420px 420px, 260px 260px, auto, auto, auto;
-    opacity: 0.12;
+    opacity: 0.22;
     mix-blend-mode: multiply;
     pointer-events: none;
     z-index: -1;
@@ -64,9 +67,9 @@
     position: fixed;
     inset: 0;
     background-image: url("/paper-grain.svg");
-    background-size: 220px 220px;
+    background-size: 240px 240px;
     background-repeat: repeat;
-    opacity: 0.18;
+    opacity: 0.12;
     mix-blend-mode: multiply;
     pointer-events: none;
     z-index: -2;
@@ -285,10 +288,10 @@
     inset: -10% -10% auto -10%;
     height: 70%;
     background:
-      radial-gradient(680px 360px at 20% -10%, rgba(177, 74, 59, 0.18), transparent 60%),
-      radial-gradient(520px 280px at 82% -5%, rgba(205, 178, 140, 0.35), transparent 62%),
-      linear-gradient(180deg, rgba(224, 200, 167, 0.2) 0%, transparent 65%);
-    opacity: 0.75;
+      radial-gradient(720px 380px at 18% -12%, rgba(78, 52, 36, 0.12), transparent 62%),
+      radial-gradient(520px 300px at 82% -6%, rgba(200, 182, 150, 0.2), transparent 62%),
+      linear-gradient(180deg, rgba(210, 195, 170, 0.16) 0%, transparent 68%);
+    opacity: 0.4;
     pointer-events: none;
   }
 
@@ -297,13 +300,112 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(560px 320px at 70% 20%, rgba(238, 224, 204, 0.35), transparent 65%),
+      radial-gradient(560px 320px at 70% 20%, rgba(230, 220, 200, 0.28), transparent 65%),
       url("/enso.svg");
     background-repeat: no-repeat, no-repeat;
-    background-position: 90% 18%, 12% 32%;
-    background-size: 520px 520px, 260px 260px;
+    background-position: 88% 18%, 12% 32%;
+    background-size: 520px 520px, 280px 280px;
     opacity: 0.08;
     pointer-events: none;
+  }
+
+  .temple-cta {
+    background: linear-gradient(180deg, #2b211b 0%, #1f1713 100%);
+    border: 1px solid rgba(120, 96, 76, 0.5);
+    color: #fff;
+    box-shadow: 0 16px 34px -24px rgba(60, 25, 20, 0.7);
+  }
+
+  .temple-cta:hover {
+    background: linear-gradient(180deg, #33271f 0%, #241b16 100%);
+  }
+
+  .temple-ghost {
+    border-color: rgba(197, 171, 135, 0.9);
+    color: #554034;
+    background: rgba(255, 250, 242, 0.78);
+  }
+
+  .temple-panel {
+    background:
+      linear-gradient(180deg, rgba(255, 253, 248, 0.98) 0%, rgba(244, 235, 221, 0.96) 100%),
+      url("/paper-grain.svg");
+    border-color: rgba(200, 178, 145, 0.7);
+    box-shadow: 0 18px 42px -28px rgba(35, 20, 14, 0.5);
+  }
+
+  .temple-hero {
+    position: relative;
+  }
+
+  .temple-hero::after {
+    content: "";
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(193, 157, 109, 0.7), transparent);
+    opacity: 0.6;
+  }
+
+  .hall-shell {
+    position: relative;
+  }
+
+  .hall-shell::before,
+  .hall-shell::after {
+    content: "";
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(198, 178, 148, 0.65), transparent);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .hall-shell::before { top: 10px; }
+  .hall-shell::after { bottom: 10px; }
+
+  .hall-plaque-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .hall-plaque-wrap::before,
+  .hall-plaque-wrap::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    height: 1px;
+    width: 42px;
+    background: linear-gradient(90deg, transparent, rgba(185, 165, 135, 0.7), transparent);
+  }
+
+  .hall-plaque-wrap::before { right: 100%; margin-right: 10px; }
+  .hall-plaque-wrap::after { left: 100%; margin-left: 10px; }
+
+  .hall-plaque {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(200, 180, 150, 0.7);
+    background: rgba(255, 255, 255, 0.85);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .hall-plaque-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(165, 140, 110, 0.8);
   }
 
   .lotus-drift {
@@ -356,10 +458,12 @@
 
   .sutra-block {
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(249, 245, 236, 0.94) 100%),
+      linear-gradient(180deg, rgba(255, 250, 242, 0.95) 0%, rgba(244, 232, 214, 0.95) 100%),
+      url("/dharma-wheel.svg"),
       url("/paper-grain.svg");
-    background-size: auto, 220px 220px;
-    background-repeat: no-repeat, repeat;
+    background-size: auto, 360px 360px, 220px 220px;
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-position: center 24%, 90% 16%, 0 0;
   }
 
   .scroll-panel {
