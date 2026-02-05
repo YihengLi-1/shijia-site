@@ -98,13 +98,16 @@ export default function MenuPage() {
     <main className="min-h-screen text-zinc-900">
       <Header hideCta />
 
-      <section className="section pb-16 relative overflow-hidden fade-in temple-veil temple-hero">
-        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.1]" />
+      <section className="section pb-16 relative overflow-hidden fade-in temple-veil hall-shell">
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.08]" />
         <Container className="relative z-10">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
-                今日供斋
+              <div className="hall-plaque-wrap">
+                <div className="hall-plaque">
+                  <span className="hall-plaque-dot" aria-hidden="true" />
+                  今日供斋
+                </div>
               </div>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight serif-title">今日供斋</h1>
               <p className="mt-3 text-sm text-zinc-600">

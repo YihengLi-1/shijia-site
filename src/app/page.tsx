@@ -12,7 +12,7 @@ export default function Home() {
     <main className="min-h-screen text-zinc-900">
       <Header hideCta />
 
-      <section className="section relative overflow-hidden fade-in temple-veil temple-hero">
+      <section className="section relative overflow-hidden fade-in temple-veil hall-shell">
         <div
           className="pointer-events-none absolute -top-8 right-10 h-48 w-48 rounded-full blur-3xl opacity-30"
           style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
@@ -21,12 +21,15 @@ export default function Home() {
           className="pointer-events-none absolute bottom-10 left-8 h-56 w-56 rounded-full blur-3xl opacity-30"
           style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
         />
-        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.1]" />
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.08]" />
         <Container className="relative z-10">
           <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
             <div className="max-w-2xl rise-in">
-              <div className="inline-flex items-center gap-3 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
-                清净供斋
+              <div className="hall-plaque-wrap">
+                <div className="hall-plaque">
+                  <span className="hall-plaque-dot" aria-hidden="true" />
+                  清净供斋
+                </div>
               </div>
               <h1 className="mt-6 text-[clamp(2.8rem,6vw,4.6rem)] font-semibold tracking-tight serif-title">
                 {SITE.name}
