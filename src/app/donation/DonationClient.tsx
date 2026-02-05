@@ -149,7 +149,7 @@ export default function DonationClient() {
         </button>
 
         <div className="text-xs text-zinc-500">
-          退款为人工处理，如需协助请通过电话或邮件联系。
+          如需核对信息，请通过电话或邮件联系。
         </div>
       </div>
     </aside>

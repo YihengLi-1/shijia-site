@@ -75,7 +75,7 @@ export default function SuccessClient() {
       </div>
       <h1 className="mt-5 text-3xl font-semibold tracking-tight serif-title">感谢护持</h1>
       <p className="mt-2 text-sm text-zinc-600">
-        随喜功德，回向一切众生。若需退款，请联系管理员人工处理。
+        随喜功德，回向一切众生。
       </p>
 
       <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
@@ -92,7 +92,7 @@ export default function SuccessClient() {
       <div className="mt-4 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
         <div className="text-xs font-semibold text-zinc-500">随喜编号</div>
         <div className="mt-2 font-mono text-sm text-zinc-800">{donationId ? maskId(donationId, 8, 6) : "-"}</div>
-        <div className="mt-2 text-xs text-zinc-500">请保存此编号，便于人工核对与退款。</div>
+        <div className="mt-2 text-xs text-zinc-500">请保存此编号，便于人工核对。</div>
       </div>
 
       <div className="mt-4 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
