@@ -408,6 +408,10 @@
     background: rgba(165, 140, 110, 0.8);
   }
 
+  .sutra-fold {
+    position: relative;
+  }
+
   .lotus-drift {
     background-image: url("/lotus-pattern.svg");
     background-repeat: repeat;

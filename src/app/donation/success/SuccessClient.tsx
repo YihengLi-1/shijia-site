@@ -70,45 +70,54 @@ export default function SuccessClient() {
       <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
 
       <div className="relative z-10 mx-auto max-w-3xl px-6 py-14 fade-in">
-      <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/70 bg-white/70 px-4 py-1 text-xs font-medium text-zinc-600">
-        随喜护持
+      <div className="hall-plaque-wrap">
+        <div className="hall-plaque">
+          <span className="hall-plaque-dot" aria-hidden="true" />
+          随喜护持
+        </div>
       </div>
-      <h1 className="mt-5 text-3xl font-semibold tracking-tight serif-title">感谢护持</h1>
-      <p className="mt-2 text-sm text-zinc-600">
-        随喜功德，回向一切众生。
-      </p>
+      <h1 className="mt-4 text-3xl font-semibold tracking-tight serif-title">感谢护持</h1>
+      <p className="mt-2 text-sm text-zinc-600">随喜功德，回向一切众生。</p>
 
-      <div className="mt-6 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-        {status === "pending" ? (
-          <div className="text-sm text-zinc-700">正在确认随喜进度…</div>
-        ) : status === "paid" ? (
-          <div className="text-sm text-zinc-700">随喜已圆满。</div>
-        ) : (
-          <div className="text-sm text-red-700">暂未确认完成，请稍后刷新或联系管理员。</div>
-        )}
-        <div className="mt-3 text-xs text-zinc-500">愿此功德，回向一切众生。</div>
+      <div className="mt-6 rounded-[32px] border border-zinc-200/70 bg-white/85 p-7 shadow-sm soft-card temple-panel">
+        <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+          <div className="space-y-4">
+            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 px-5 py-4 shadow-sm">
+              {status === "pending" ? (
+                <div className="text-sm text-zinc-700">正在确认随喜进度…</div>
+              ) : status === "paid" ? (
+                <div className="text-sm text-zinc-700">随喜已圆满。</div>
+              ) : (
+                <div className="text-sm text-red-700">暂未确认完成，请稍后刷新或联系管理员。</div>
+              )}
+            </div>
+
+            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 px-5 py-4 shadow-sm">
+              <div className="text-xs font-semibold text-zinc-500">随喜编号</div>
+              <div className="mt-2 font-mono text-sm text-zinc-800">
+                {donationId ? maskId(donationId, 8, 6) : "-"}
+              </div>
+              <div className="mt-2 text-xs text-zinc-500">请保存此编号，便于人工核对。</div>
+            </div>
+
+            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 px-5 py-4 shadow-sm">
+              <div className="text-xs font-semibold text-zinc-500">联系</div>
+              <div className="mt-2 text-sm text-zinc-700">{SITE.contact}</div>
+              <div className="mt-1 text-xs text-zinc-500">{SITE.address}</div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 px-5 py-4 text-sm text-zinc-700 shadow-sm">
+              <div className="text-xs font-semibold text-zinc-500">回向偈</div>
+              <p className="mt-3 leading-7">
+                愿以此功德，庄严佛净土；上报四重恩，下济三途苦。
+              </p>
+            </div>
+            <ScriptureQuote className="mt-0" compact variant="compassion" />
+          </div>
+        </div>
       </div>
-
-      <div className="mt-4 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-        <div className="text-xs font-semibold text-zinc-500">随喜编号</div>
-        <div className="mt-2 font-mono text-sm text-zinc-800">{donationId ? maskId(donationId, 8, 6) : "-"}</div>
-        <div className="mt-2 text-xs text-zinc-500">请保存此编号，便于人工核对。</div>
-      </div>
-
-      <div className="mt-4 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm soft-card">
-        <div className="text-xs font-semibold text-zinc-500">联系</div>
-        <div className="mt-2 text-sm text-zinc-700">{SITE.contact}</div>
-        <div className="mt-1 text-xs text-zinc-500">{SITE.address}</div>
-      </div>
-
-      <div className="mt-4 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700 shadow-sm soft-card">
-        <div className="text-xs font-semibold text-zinc-500">回向偈</div>
-        <p className="mt-3 leading-7">
-          愿以此功德，庄严佛净土；上报四重恩，下济三途苦。
-        </p>
-      </div>
-
-      <ScriptureQuote className="mt-6" compact variant="compassion" />
 
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
