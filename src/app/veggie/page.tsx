@@ -9,7 +9,7 @@ export default function VeggiePage() {
   return (
     <main className="min-h-screen text-zinc-900">
       <Header hideCta />
-      <section className="section relative overflow-hidden fade-in">
+      <section className="section relative overflow-hidden fade-in temple-veil">
         <div
           className="pointer-events-none absolute -top-10 right-6 h-48 w-48 rounded-full blur-3xl opacity-35"
           style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
@@ -26,7 +26,7 @@ export default function VeggiePage() {
           className="pointer-events-none absolute left-1/2 top-1/3 h-64 w-64 -translate-x-1/2 rounded-full blur-3xl opacity-35"
           style={{ background: "radial-gradient(circle, rgba(233,219,197,0.6) 0%, transparent 65%)" }}
         />
-        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.2]" />
         <Container className="relative z-10">
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
             <div className="max-w-3xl">

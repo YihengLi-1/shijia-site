@@ -98,8 +98,8 @@ export default function MenuPage() {
     <main className="min-h-screen text-zinc-900">
       <Header hideCta />
 
-      <section className="section pb-16 relative overflow-hidden fade-in">
-        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
+      <section className="section pb-16 relative overflow-hidden fade-in temple-veil">
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.2]" />
         <Container className="relative z-10">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div className="max-w-2xl">
@@ -108,7 +108,7 @@ export default function MenuPage() {
               </div>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight serif-title">今日供斋</h1>
               <p className="mt-3 text-sm text-zinc-600">
-                今日所供随时令而变，清淡有度。愿你在此一餐，心与味同静。
+                今日所供随时令而变，清淡有度。愿您在此一餐，心与味同静。
               </p>
               <div className="mt-4">
                 <ChipReveal
@@ -121,7 +121,7 @@ export default function MenuPage() {
               </div>
 
               <div className="mt-6 text-xs text-zinc-500">
-                确认后将为你留席并发送提醒；如需改期，请联系管理员协助。
+                确认后将为您留席并发送提醒；如需改期，请联系管理员协助。
               </div>
 
               <ScriptureQuote compact className="mt-6 max-w-xl" variant="meal" />
@@ -143,7 +143,7 @@ export default function MenuPage() {
                 <div className="text-xs font-semibold text-zinc-500">今日供斋</div>
                 <div className="mt-2 text-lg font-semibold serif-title text-zinc-900">清淡 · 省简 · 随缘</div>
                 <p className="mt-2 text-sm text-zinc-700">
-                  以清净为本，随缘供斋。愿你安静到访，心与味同静。
+                  以清净为本，随缘供斋。愿您安静到访，心与味同静。
                 </p>
 
                 <div className="mt-6 grid gap-3 text-sm text-zinc-700">

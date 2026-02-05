@@ -7,7 +7,7 @@ import { SITE } from "@/lib/site";
 
 export default function Header({ hideCta = false }: { hideCta?: boolean } = {}) {
   return (
-    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur glass">
+    <header className="sticky top-0 z-50 bg-[#f8f1e7]/85 backdrop-blur glass">
       <Container className="flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-wide text-zinc-900 serif-title">
           <span
@@ -51,7 +51,7 @@ export default function Header({ hideCta = false }: { hideCta?: boolean } = {}) 
           ) : null}
         </div>
       </Container>
-      <div className="h-px bg-gradient-to-r from-transparent via-zinc-200/70 to-transparent" />
+      <div className="h-px bg-gradient-to-r from-transparent via-[#d5c3a5]/80 to-transparent" />
     </header>
   );
 }

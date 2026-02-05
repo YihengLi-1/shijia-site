@@ -12,7 +12,7 @@ export default function Home() {
     <main className="min-h-screen text-zinc-900">
       <Header hideCta />
 
-      <section className="section relative overflow-hidden fade-in">
+      <section className="section relative overflow-hidden fade-in temple-veil">
         <div
           className="pointer-events-none absolute -top-8 right-10 h-48 w-48 rounded-full blur-3xl opacity-30"
           style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
@@ -21,7 +21,7 @@ export default function Home() {
           className="pointer-events-none absolute bottom-10 left-8 h-56 w-56 rounded-full blur-3xl opacity-30"
           style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
         />
-        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.2]" />
         <Container className="relative z-10">
           <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
             <div className="max-w-2xl rise-in">
@@ -46,7 +46,7 @@ export default function Home() {
               </div>
 
               <div className="mt-4 text-xs text-zinc-500">
-                确认后将为你留席，并送上一条提醒；若需改期或退款，请联系管理员协助。
+                确认后将为您留席，并送上一条提醒；若需改期或退款，请联系管理员协助。
               </div>
 
               <div className="mt-8 grid gap-6 py-4 text-xs text-zinc-600 info-strip sm:grid-cols-3 sm:divide-x sm:divide-zinc-200/70">
@@ -84,7 +84,7 @@ export default function Home() {
                     清淡 · 安住 · 随缘
                   </div>
                   <p className="mt-2 text-sm text-zinc-700">
-                    以清净为本，随缘供斋。愿你安静到访，心与味同静。
+                    以清净为本，随缘供斋。愿您安静到访，心与味同静。
                   </p>
 
                   <div className="mt-6 space-y-3 text-sm text-zinc-700">

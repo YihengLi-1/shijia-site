@@ -204,7 +204,7 @@ export default function PayClient(props: { orderId?: string }) {
               ) : null}
 
               <div className="mt-4 text-xs text-zinc-500">
-                供斋确认后，我们会为你保留到访信息。
+                供斋确认后，我们会为您保留到访信息。
               </div>
             </div>
 

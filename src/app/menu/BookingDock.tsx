@@ -136,7 +136,7 @@ export default function BookingDock() {
                 <div>
                   <div className="text-xs font-semibold text-zinc-500">到访信息</div>
                   <div className="mt-1 text-xl font-semibold serif-title text-zinc-900">
-                    写下到访信息，我们为你留席
+                    写下到访信息，我们为您留席
                   </div>
                   <div className="mt-1 text-xs text-zinc-500">
                     确认后将进入支付，完成后会发送提示。

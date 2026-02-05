@@ -10,7 +10,7 @@ export default function VisitPage() {
   return (
     <main className="min-h-screen text-zinc-900">
       <Header hideCta />
-      <section className="section relative overflow-hidden fade-in">
+      <section className="section relative overflow-hidden fade-in temple-veil">
         <div
           className="pointer-events-none absolute -top-10 right-6 h-48 w-48 rounded-full blur-3xl opacity-30"
           style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
@@ -19,7 +19,7 @@ export default function VisitPage() {
           className="pointer-events-none absolute bottom-8 left-6 h-56 w-56 rounded-full blur-3xl opacity-30"
           style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
         />
-        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.12]" />
+        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.2]" />
         <Container className="relative z-10">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div className="max-w-3xl">
