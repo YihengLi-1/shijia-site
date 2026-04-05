@@ -13,9 +13,17 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // ✅ 2. 本地开发：没配 ADMIN_KEY，直接放行
-  if (!adminKey) {
+  // ✅ 2. 仅开发环境允许未配置 ADMIN_KEY 直接放行
+  if (!adminKey && process.env.NODE_ENV !== "production") {
     return NextResponse.next();
+  }
+
+  // 生产环境必须配置 ADMIN_KEY
+  if (!adminKey && process.env.NODE_ENV === "production") {
+    return NextResponse.json(
+      { ok: false, error: "admin_key_not_configured" },
+      { status: 503 }
+    );
   }
 
   // ✅ 3. 校验 cookie

@@ -1,6 +1,8 @@
 // src/app/api/book/route.ts
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { checkRateLimit, clientIpFromHeaders } from "@/lib/rateLimit";
+import { sendNewOrderAdminEmail } from "@/lib/mailer";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -98,6 +100,15 @@ type PricedItem = {
 
 export async function POST(req: Request) {
   try {
+    const ip = clientIpFromHeaders(req.headers);
+    const limit = checkRateLimit(`book:${ip}`, { windowMs: 5 * 60 * 1000, max: 12 });
+    if (!limit.ok) {
+      return NextResponse.json(
+        { error: "rate_limited", retryAfterSec: limit.retryAfterSec },
+        { status: 429 }
+      );
+    }
+
     const body = (await req.json()) as Payload;
 
     const name = String(body?.name ?? "").trim();
@@ -262,6 +273,27 @@ export async function POST(req: Request) {
         { status: 500 }
       );
     }
+
+    // Fire-and-forget admin notification (non-blocking, errors are logged not thrown)
+    sendNewOrderAdminEmail({
+      orderId: order.id,
+      bookingId: booking.id,
+      name,
+      phone,
+      email,
+      visitDate: dateVal,
+      visitTime: timeVal,
+      partySize: peopleNum,
+      amountCents,
+      currency,
+      items: pricedItems.map((it) => ({
+        name: it.name,
+        qty: it.qty,
+        unitPriceCents: it.unitPriceCents,
+      })),
+    }).catch((e) => {
+      console.error(JSON.stringify({ level: "error", msg: "admin_notify_failed", error: String(e?.message ?? e) }));
+    });
 
     return NextResponse.json(
       { ok: true, bookingId: booking.id, orderId: order.id, amountCents, currency },

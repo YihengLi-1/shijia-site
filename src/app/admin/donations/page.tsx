@@ -69,6 +69,12 @@ export default async function AdminDonationsPage() {
 
               <div className="flex items-center gap-2">
                 <Link
+                  href="/admin/risk"
+                  className="rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm font-semibold hover:bg-zinc-50"
+                >
+                  风险面板
+                </Link>
+                <Link
                   href="/admin/orders"
                   className="rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm font-semibold hover:bg-zinc-50"
                 >

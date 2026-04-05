@@ -1,6 +1,7 @@
 // src/app/menu/page.tsx
 "use client";
 
+import type { Metadata } from "next";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import Header from "@/components/Header";
@@ -9,7 +10,6 @@ import AddToCartButton from "@/components/AddToCartButton";
 import Footer from "@/components/Footer";
 import ScriptureQuote from "@/components/ScriptureQuote";
 import RitualScroll from "@/components/RitualScroll";
-import ChipReveal from "@/components/ChipReveal";
 import BookingDock from "./BookingDock";
 
 export const runtime = "nodejs";
@@ -24,22 +24,22 @@ type MenuItem = {
   image_url?: string | null;
 };
 
-const CATEGORY_LABEL: Record<string, string> = {
-  main: "主食",
-  side: "小菜",
-  soup: "汤品",
-  dessert: "甜品",
-  drink: "饮品",
-  other: "其他",
+const CATEGORY_LABEL: Record<string, { zh: string; en: string }> = {
+  main:    { zh: "主食",   en: "Main"    },
+  side:    { zh: "小菜",   en: "Sides"   },
+  soup:    { zh: "汤品",   en: "Soups"   },
+  dessert: { zh: "甜品",   en: "Sweets"  },
+  drink:   { zh: "饮品",   en: "Drinks"  },
+  other:   { zh: "其他",   en: "Other"   },
 };
 
-const CATEGORY_NOTE: Record<string, string> = {
-  main: "当季为主，淡中见味。",
-  side: "少而恰当，轻而不失。",
-  soup: "温润入心，安住当下。",
-  dessert: "随缘一口，不求过多。",
-  drink: "清润相伴，慢慢品尝。",
-  other: "随缘备办。",
+const CATEGORY_NOTE: Record<string, { zh: string; en: string }> = {
+  main:    { zh: "当季为主，淡中见味。",   en: "Seasonal ingredients, simply prepared." },
+  side:    { zh: "少而恰当，轻而不失。",   en: "Small portions, well balanced." },
+  soup:    { zh: "温润入心，安住当下。",   en: "Warming, grounding, present." },
+  dessert: { zh: "随缘一口，不求过多。",   en: "A little sweetness, nothing more." },
+  drink:   { zh: "清润相伴，慢慢品尝。",   en: "Gentle refreshment to accompany." },
+  other:   { zh: "随缘备办。",             en: "As available." },
 };
 
 function formatPrice(cents: number | null) {
@@ -76,9 +76,7 @@ export default function MenuPage() {
         setLoading(false);
       }
     })();
-    return () => {
-      alive = false;
-    };
+    return () => { alive = false; };
   }, []);
 
   const grouped = useMemo(() => {
@@ -95,169 +93,161 @@ export default function MenuPage() {
   }, [grouped]);
 
   return (
-    <main className="min-h-screen text-zinc-900">
+    <main className="min-h-screen">
       <Header hideCta />
 
-      <section className="section pb-16 relative overflow-hidden fade-in temple-veil hall-shell">
-        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.08]" />
-        <Container className="relative z-10">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-            <div className="max-w-2xl">
-              <div className="hall-plaque-wrap">
-                <div className="hall-plaque">
-                  <span className="hall-plaque-dot" aria-hidden="true" />
-                  今日供斋
-                </div>
+      {/* ── Page header ──────────────────────────── */}
+      <section className="section pb-10 relative overflow-hidden fade-in">
+        <Container>
+          <div className="max-w-2xl rise-in">
+            <div className="hall-plaque-wrap mb-5">
+              <div className="hall-plaque">
+                <span className="hall-plaque-dot" aria-hidden="true" />
+                今日供斋 · Today's Menu
               </div>
-              <h1 className="mt-4 text-4xl font-semibold tracking-tight serif-title">今日供斋</h1>
-              <p className="mt-3 text-sm text-zinc-600">
-                今日所供随时令而变，清淡有度。愿您在此一餐，心与味同静。
-              </p>
-              <div className="mt-4">
-                <ChipReveal
-                  items={[
-                    { label: "当日随缘", note: "所供随缘，当天略有不同。" },
-                    { label: "当季食材", note: "随季而变，清淡有度。" },
-                    { label: "需提前预约", note: "提前留席，以便安排供斋。" },
-                  ]}
-                />
-              </div>
-
-              <div className="mt-6 text-xs text-zinc-500">
-                确认后将为您留席并发送提醒；如需改期，请联系管理员协助。
-              </div>
-
-              <ScriptureQuote compact className="mt-6 max-w-xl" variant="meal" />
             </div>
 
-            <div className="relative overflow-hidden rounded-[28px] border border-zinc-200/70 bg-white/85 p-6 shadow-sm soft-card temple-panel">
-              <div
-                className="absolute inset-0 opacity-90"
-                style={{
-                  background:
-                    'linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.95) 100%), url("/hero.svg") center/cover no-repeat',
-                }}
-              />
-              <div
-                className="absolute -right-10 -top-12 h-36 w-36 opacity-12"
-                style={{ background: 'url("/dharma-wheel.svg") center/contain no-repeat' }}
-              />
-              <div
-                className="absolute -right-8 -bottom-10 h-32 w-32 opacity-18"
-                style={{ background: 'url("/lotus.svg") center/contain no-repeat' }}
-              />
-              <div className="relative z-10">
-                <div className="text-xs font-semibold text-zinc-500">今日供斋</div>
-                <div className="mt-2 text-lg font-semibold serif-title text-zinc-900">清淡 · 省简 · 随缘</div>
-                <p className="mt-2 text-sm text-zinc-700">
-                  以清净为本，随缘供斋。愿您安静到访，心与味同静。
-                </p>
+            <h1 className="text-[clamp(2rem,4.5vw,3rem)] font-semibold tracking-tight serif-title text-[var(--ink)]">
+              今日供斋
+            </h1>
+            <p className="mt-1.5 text-base font-light italic tracking-[0.04em] text-[var(--muted)] font-display">
+              Today's Offering
+            </p>
+            <p className="mt-4 text-[13.5px] text-[var(--ink-2)] leading-[1.8] max-w-lg">
+              今日所供随时令而变，清淡有度。愿您在此一餐，心与味同静。
+            </p>
+            <p className="mt-1.5 text-[12px] text-[var(--muted)] max-w-lg">
+              The menu varies with the season — light, simple, and offered with care.
+            </p>
 
-                <div className="mt-6 grid gap-3 text-sm text-zinc-700">
-                  <div className="flex items-center justify-between">
-                    <span>供斋方式</span>
-                    <span className="text-zinc-500">随缘供养</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>到访礼仪</span>
-                    <span className="text-zinc-500">安静整洁</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>到访建议</span>
-                    <span className="text-zinc-500">提前一日</span>
-                  </div>
-                </div>
-              </div>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {[
+                { zh: "当日随缘", en: "Daily variation" },
+                { zh: "当季食材", en: "Seasonal produce" },
+                { zh: "提前预约", en: "Reserve ahead" },
+              ].map((chip) => (
+                <span
+                  key={chip.zh}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[var(--line)] bg-white/70 px-3 py-1 text-[11.5px] text-[var(--ink-2)]"
+                >
+                  {chip.zh}
+                  <span className="text-[var(--muted)]">· {chip.en}</span>
+                </span>
+              ))}
             </div>
           </div>
         </Container>
       </section>
 
-      <section className="section pt-0 fade-in">
+      {/* ── Menu items ────────────────────────────── */}
+      <section className="pb-20">
         <Container>
-          <div className="mb-10 ink-divider" />
+          <div className="mb-8 ink-divider" />
 
           {loading ? (
-            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 text-neutral-700">
-              正在加载供斋…
+            <div className="rounded-2xl border border-[var(--line)] bg-white/80 p-8 text-[var(--muted)] text-[13.5px]">
+              正在加载供斋菜单… Loading menu…
             </div>
           ) : loadErr ? (
-            <div className="rounded-2xl border border-red-200 bg-white/80 p-6 text-red-700">
-              供斋信息暂时无法加载，请稍后再试或联系管理员。
+            <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-red-700 text-[13.5px]">
+              供斋信息暂时无法加载，请稍后再试。 · Unable to load menu, please try again.
             </div>
           ) : items.length === 0 ? (
-            <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-6 text-neutral-700">
-              今日供斋尚未更新，请稍后再来。
+            <div className="rounded-2xl border border-[var(--line)] bg-white/80 p-8 text-[var(--muted)] text-[13.5px]">
+              今日供斋尚未更新，请稍后再来。 · Menu not yet updated, please check back soon.
             </div>
           ) : (
-            <div className="space-y-10">
-              {categories.map((cat, idx) => (
-                <section
-                  key={cat}
-                  className={`grid gap-4 lg:grid-cols-[220px_1fr] ${idx === 0 ? "rise-in stagger-1" : "rise-in"}`}
-                >
-                  <div className="pt-2">
-                    <div className="text-xs font-semibold text-zinc-500">供斋</div>
-                    <h2 className="mt-2 text-2xl font-semibold serif-title text-zinc-900">
-                      {CATEGORY_LABEL[cat] || "其他"}
-                    </h2>
-                    <p className="mt-2 text-sm text-zinc-600">{CATEGORY_NOTE[cat] || "当日随缘供斋。"}</p>
-                    <div className="mt-3 text-xs text-zinc-400">当日随缘</div>
-                  </div>
+            <div className="space-y-12">
+              {categories.map((cat, idx) => {
+                const labels = CATEGORY_LABEL[cat] || { zh: "其他", en: "Other" };
+                const notes  = CATEGORY_NOTE[cat]  || { zh: "当日随缘", en: "As available" };
+                return (
+                  <section
+                    key={cat}
+                    className={`grid gap-5 lg:grid-cols-[200px_1fr] ${idx === 0 ? "rise-in stagger-1" : "rise-in"}`}
+                  >
+                    {/* Category header */}
+                    <div className="pt-1 lg:pt-2">
+                      <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+                        供斋
+                      </div>
+                      <h2 className="mt-2 text-[22px] font-semibold serif-title text-[var(--ink)]">
+                        {labels.zh}
+                      </h2>
+                      <p className="text-[12.5px] font-light italic text-[var(--muted)] font-display mt-0.5">
+                        {labels.en}
+                      </p>
+                      <p className="mt-2 text-[12.5px] text-[var(--muted)] leading-[1.7]">{notes.zh}</p>
+                      <p className="mt-1 text-[11px] text-[var(--muted)] opacity-70">{notes.en}</p>
+                    </div>
 
-                  <div className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 menu-list">
-                    <div className="divide-y divide-zinc-200/70">
-                      {grouped[cat].map((it) => {
-                        const img = normalizeUrl(it.image_url);
-                        const imageSrc = img || "/dish-placeholder.svg";
-                        const unit = Number(it.price_cents ?? 0);
+                    {/* Items */}
+                    <div className="overflow-hidden rounded-2xl border border-[var(--line)] bg-white menu-list">
+                      <div className="divide-y divide-[var(--line-2)]">
+                        {grouped[cat].map((it) => {
+                          const img = normalizeUrl(it.image_url);
+                          const imageSrc = img || "/dish-placeholder.svg";
+                          const unit = Number(it.price_cents ?? 0);
 
-                        return (
-                          <div key={it.id} className="flex items-center gap-4 px-5 py-4 menu-row">
-                            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
-                              <Image
-                                src={imageSrc}
-                                alt={it.name}
-                                fill
-                                className={img ? "object-cover" : "object-contain p-3 opacity-80"}
-                                sizes="56px"
-                                unoptimized
-                              />
-                            </div>
+                          return (
+                            <div key={it.id} className="flex items-center gap-4 px-5 py-4 menu-row">
+                              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-[var(--line-2)] bg-[var(--surface-2)]">
+                                <Image
+                                  src={imageSrc}
+                                  alt={it.name}
+                                  fill
+                                  className={img ? "object-cover" : "object-contain p-2.5 opacity-60"}
+                                  sizes="56px"
+                                  unoptimized
+                                />
+                              </div>
 
-                            <div className="min-w-0 flex-1">
-                              <div className="truncate text-sm font-semibold text-zinc-900">{it.name}</div>
-                              {it.description ? (
-                                <div className="mt-1 line-clamp-1 text-xs text-zinc-500">
-                                  {it.description}
+                              <div className="min-w-0 flex-1">
+                                <div className="truncate text-[13.5px] font-semibold text-[var(--ink)]">
+                                  {it.name}
                                 </div>
-                              ) : (
-                                <div className="mt-1 text-xs text-zinc-400">当日随缘</div>
+                                {it.description ? (
+                                  <div className="mt-0.5 line-clamp-1 text-[11.5px] text-[var(--muted)]">
+                                    {it.description}
+                                  </div>
+                                ) : (
+                                  <div className="mt-0.5 text-[11.5px] text-[var(--muted)] opacity-60">
+                                    当日随缘
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="text-[13.5px] font-semibold text-[var(--ink)] shrink-0">
+                                {formatPrice(it.price_cents)}
+                              </div>
+
+                              {it.price_cents !== null && (
+                                <AddToCartButton id={it.id} name={it.name} priceCents={unit} />
                               )}
                             </div>
-
-                            <div className="text-sm font-semibold text-zinc-900">
-                              {formatPrice(it.price_cents)}
-                            </div>
-
-                            {it.price_cents !== null ? (
-                              <AddToCartButton id={it.id} name={it.name} priceCents={unit} />
-                            ) : null}
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                </section>
-              ))}
+                  </section>
+                );
+              })}
             </div>
           )}
 
-          <div className="mt-12 rounded-3xl border border-zinc-200/70 bg-white/80 p-6 text-sm text-zinc-700">
-            轻声交流，缓慢用斋。若需改期或退款，请联系管理员协助。
+          {/* Notice */}
+          <div className="mt-10 rounded-2xl border border-[var(--line)] bg-white/70 px-6 py-5 text-[13px] text-[var(--ink-2)] leading-[1.8]">
+            <p>轻声交流，缓慢用斋。若需改期或退款，请联系管理员协助。</p>
+            <p className="text-[11.5px] text-[var(--muted)] mt-1">
+              Please dine quietly and mindfully. For changes or refunds, contact the admin.
+            </p>
           </div>
 
           <div className="mt-10">
+            <ScriptureQuote compact variant="meal" />
+          </div>
+
+          <div className="mt-8">
             <RitualScroll />
           </div>
         </Container>

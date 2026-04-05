@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
+import { checkRateLimit, clientIpFromHeaders } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 
@@ -27,6 +28,13 @@ function supabaseAdmin() {
 
 export async function POST(req: Request) {
   try {
+    const ip = clientIpFromHeaders(req.headers);
+    const limit = checkRateLimit(`order:checkout:${ip}`, {
+      windowMs: 10 * 60 * 1000,
+      max: 20,
+    });
+    if (!limit.ok) return bad("rate_limited", { retryAfterSec: limit.retryAfterSec }, 429);
+
     const body = (await req.json().catch(() => ({}))) as { orderId?: string };
     const orderId = String(body?.orderId ?? "").trim();
     if (!orderId) return bad("missing_orderId");

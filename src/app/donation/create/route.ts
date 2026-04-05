@@ -1,19 +1,45 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { checkRateLimit, clientIpFromHeaders } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const MIN_DONATION_CENTS = 500;    // $5
+const MAX_DONATION_CENTS = 999900; // $9,999 — configurable via DONATION_MAX_CENTS env var
+const ALLOWED_CURRENCIES = new Set(["usd"]);
+
 export async function POST(req: Request) {
   try {
+    const ip = clientIpFromHeaders(req.headers);
+    const limit = checkRateLimit(`donation:create:${ip}`, {
+      windowMs: 10 * 60 * 1000,
+      max: 20,
+    });
+    if (!limit.ok) {
+      return NextResponse.json(
+        { ok: false, error: "rate_limited", retryAfterSec: limit.retryAfterSec },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
-    const amountCents = Number(body.amountCents);
-    const currency = String(body.currency || "usd").toLowerCase();
+    const amountCents = Math.trunc(Number(body.amountCents));
+    // Allow override via env (e.g. DONATION_MAX_CENTS=200000 for $2,000 cap)
+    const effectiveMax = Math.trunc(Number(process.env.DONATION_MAX_CENTS || MAX_DONATION_CENTS));
+    const currency = String(body.currency || "usd").toLowerCase().trim();
     const email = String(body.email || "").trim();
     const name = String(body.name || "").trim();
 
-    if (!Number.isFinite(amountCents) || amountCents <= 0) {
+    if (
+      !Number.isFinite(amountCents) ||
+      amountCents < MIN_DONATION_CENTS ||
+      amountCents > effectiveMax
+    ) {
       return NextResponse.json({ ok: false, error: "amount_invalid" }, { status: 400 });
+    }
+    if (!ALLOWED_CURRENCIES.has(currency)) {
+      return NextResponse.json({ ok: false, error: "currency_invalid" }, { status: 400 });
     }
     if (!email) {
       return NextResponse.json({ ok: false, error: "missing_email" }, { status: 400 });

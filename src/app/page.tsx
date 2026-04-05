@@ -1,126 +1,145 @@
 // src/app/page.tsx
+import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Container from "@/components/Container";
 import { SITE } from "@/lib/site";
 import Footer from "@/components/Footer";
 import ScriptureQuote from "@/components/ScriptureQuote";
 import WhySection from "@/components/WhySection";
+import OpenStatus from "@/components/OpenStatus";
+
+export const metadata: Metadata = {
+  title: `${SITE.name} · ${SITE.nameEn}`,
+  description: `${SITE.tagline.replace(/\n/g, " ")} — ${SITE.taglineEn.replace(/\n/g, " ")}`,
+};
 
 export default function Home() {
   return (
-    <main className="min-h-screen text-zinc-900">
+    <main className="min-h-screen">
       <Header hideCta />
 
-      <section className="section relative overflow-hidden fade-in temple-veil hall-shell">
-        <div
-          className="pointer-events-none absolute -top-8 right-10 h-48 w-48 rounded-full blur-3xl opacity-30"
-          style={{ background: "radial-gradient(circle, #efe7da 0%, transparent 60%)" }}
+      {/* ── Full-bleed hero photo ─────────────────────── */}
+      <div className="relative overflow-hidden" style={{ height: "72vh", minHeight: 420, maxHeight: 700 }}>
+        <Image
+          src="/photo-altar.jpg"
+          alt="释迦佛国道场"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+          priority
         />
-        <div
-          className="pointer-events-none absolute bottom-10 left-8 h-56 w-56 rounded-full blur-3xl opacity-30"
-          style={{ background: "radial-gradient(circle, #f2eadc 0%, transparent 60%)" }}
-        />
-        <div className="pointer-events-none absolute inset-0 lotus-pattern opacity-[0.08]" />
-        <Container className="relative z-10">
-          <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-            <div className="max-w-2xl rise-in">
-              <div className="hall-plaque-wrap">
-                <div className="hall-plaque">
-                  <span className="hall-plaque-dot" aria-hidden="true" />
-                  清净供斋
-                </div>
-              </div>
-              <h1 className="mt-6 text-[clamp(2.8rem,6vw,4.6rem)] font-semibold tracking-tight serif-title">
+        {/* Gradient: dark at bottom for text, lighter at top */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/65 pointer-events-none" />
+
+        {/* Bottom-left: name + tagline */}
+        <div className="absolute bottom-0 left-0 right-0 px-6 md:px-10 pb-8 md:pb-10">
+          <div className="flex items-end justify-between flex-wrap gap-4">
+            <div>
+              <h1 className="text-white text-[clamp(1.8rem,5vw,3.2rem)] font-semibold serif-title leading-[1.1] tracking-tight drop-shadow-sm">
                 {SITE.name}
               </h1>
-              <p className="mt-5 whitespace-pre-line text-lg leading-7 text-zinc-700">{SITE.tagline}</p>
+              <p className="text-white/65 text-[13px] italic font-display mt-1 tracking-[0.05em]">
+                {SITE.nameEn}
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <OpenStatus />
+              <Link
+                href="/menu"
+                className="rounded-full px-5 py-2.5 text-[13px] font-semibold pressable cta-shimmer"
+                style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.3)", color: "#fff" }}
+              >
+                开始供斋 →
+              </Link>
+            </div>
+          </div>
+        </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link
-                  href="/menu"
-                  className="rounded-full px-6 py-3 text-sm font-semibold pressable btn-glow cta-shimmer temple-cta"
-                >
+        {/* Seal top-right */}
+        <div className="absolute top-5 right-6 w-9 h-9 border border-white/25 flex items-center justify-center">
+          <span className="text-white/60 serif-title text-[12px]">释</span>
+        </div>
+      </div>
+
+      {/* ── Below hero: tagline + info ────────────────── */}
+      <section className="py-14 md:py-16 fade-in">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+
+            {/* Left: tagline */}
+            <div className="rise-in">
+              <div className="flex items-center gap-4 mb-6">
+                <p className="eyebrow">· 清净供斋 · Pure Offering ·</p>
+              </div>
+              <p className="text-[clamp(1rem,2vw,1.2rem)] leading-[2] text-[var(--ink-2)] whitespace-pre-line mb-2">
+                {SITE.tagline}
+              </p>
+              <p className="text-[13px] leading-[1.8] text-[var(--muted)] mb-8">
+                {SITE.taglineEn}
+              </p>
+              <div className="flex items-center gap-6">
+                <Link href="/menu" className="rounded-full px-6 py-3 text-[13.5px] font-semibold pressable cta-shimmer temple-cta">
                   开始供斋
                 </Link>
-                <Link href="/veggie" className="text-sm font-semibold text-zinc-600 hover:text-zinc-900">
+                <Link href="/veggie" className="text-[13px] text-[var(--ink-2)] hover:text-[var(--ink)] transition-colors pb-px" style={{ borderBottom: "1px solid rgba(23,17,12,0.14)" }}>
                   清净素斋 →
                 </Link>
               </div>
-
-              <div className="mt-4 text-xs text-zinc-500">
-                确认后将为您留席，并送上一条提醒；若需改期或退款，请联系管理员协助。
-              </div>
-
-              <div className="mt-8 grid gap-6 py-4 text-xs text-zinc-600 info-strip sm:grid-cols-3 sm:divide-x sm:divide-zinc-200/70">
-                <div className="sm:pr-6">
-                  <div className="text-[11px] font-semibold text-zinc-500">开放时间</div>
-                  <div className="mt-2 text-sm text-zinc-800">{SITE.hours}</div>
-                </div>
-                <div className="sm:px-6">
-                  <div className="text-[11px] font-semibold text-zinc-500">地址</div>
-                  <div className="mt-2 text-sm text-zinc-800">{SITE.address}</div>
-                </div>
-                <div className="sm:pl-6">
-                  <div className="text-[11px] font-semibold text-zinc-500">联系</div>
-                  <div className="mt-2 text-sm text-zinc-800">{SITE.contact}</div>
-                </div>
-              </div>
             </div>
 
-            <div className="relative rise-in stagger-2">
-              <div className="relative overflow-hidden rounded-[32px] border border-zinc-200/70 bg-white/85 p-8 shadow-sm soft-card temple-panel">
-                <div
-                  className="absolute inset-0 opacity-90"
-                  style={{
-                    background:
-                      'linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.95) 100%), url("/hero.svg") center/cover no-repeat',
-                  }}
-                />
-                <div
-                  className="absolute -right-16 -top-20 h-52 w-52 opacity-12"
-                  style={{ background: 'url("/dharma-wheel.svg") center/contain no-repeat' }}
-                />
-                <div
-                  className="absolute -right-10 -bottom-12 h-40 w-40 opacity-20"
-                  style={{ background: 'url("/lotus.svg") center/contain no-repeat' }}
-                />
-                <div className="relative z-10">
-                  <div className="text-xs font-semibold text-zinc-500">今日供斋</div>
-                  <div className="mt-3 text-xl font-semibold serif-title text-zinc-900">
-                    清淡 · 安住 · 随缘
+            {/* Right: practical info */}
+            <div className="rise-in stagger-1 pt-1">
+              {[
+                { label: "Hours",    zh: SITE.hoursEn,   sub: SITE.hours },
+                { label: "Location", zh: SITE.address,   sub: null },
+                { label: "Contact",  zh: SITE.phone !== "+1XXXXXXXXXX" ? SITE.phone : "现场或提前预约", sub: SITE.contactEn },
+              ].map((item) => (
+                <div key={item.label} className="flex items-baseline gap-5 py-3.5" style={{ borderBottom: "1px solid var(--line)" }}>
+                  <div className="eyebrow w-20 shrink-0">{item.label}</div>
+                  <div>
+                    <div className="text-[13px] font-medium text-[var(--ink)] leading-snug">{item.zh}</div>
+                    {item.sub && <div className="text-[11.5px] text-[var(--muted)] mt-0.5">{item.sub}</div>}
                   </div>
-                  <p className="mt-2 text-sm text-zinc-700">
-                    以清净为本，随缘供斋。愿您安静到访，心与味同静。
-                  </p>
-
-                  <div className="mt-6 space-y-3 text-sm text-zinc-700">
-                    <div className="flex items-center justify-between">
-                      <span>供斋方式</span>
-                      <span className="text-zinc-500">随缘供养</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>到访礼仪</span>
-                      <span className="text-zinc-500">安静整洁</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>到访建议</span>
-                      <span className="text-zinc-500">提前一日</span>
-                    </div>
-                  </div>
-
-                  <ScriptureQuote className="mt-6" compact variant="general" />
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </Container>
       </section>
 
-      <section className="section pt-0 fade-in">
+      {/* ── Scripture + Why ───────────────────────────── */}
+      <section className="pb-20">
         <Container>
-          <div className="mb-10 ink-divider" />
-          <WhySection intro={SITE.intro} />
+          <div style={{ borderTop: "1px solid var(--line)", paddingTop: "3rem", paddingBottom: "2.5rem" }}>
+            <ScriptureQuote compact variant="general" />
+          </div>
+          <WhySection intro={SITE.intro} introEn={SITE.introEn} />
+        </Container>
+      </section>
+
+      {/* ── Monk photos ───────────────────────────────── */}
+      <section className="pb-20">
+        <Container>
+          <div style={{ borderTop: "1px solid var(--line)", paddingTop: "3rem" }}>
+            <p className="eyebrow mb-6">道场印象 · The Sanctuary</p>
+            <div className="grid grid-cols-2 gap-3 sm:gap-5">
+              {[
+                { src: "/photo-monk-bell.jpg", zh: "法会仪轨", en: "Dharma ceremony" },
+                { src: "/photo-monk-cup.jpg",  zh: "供养仪式", en: "Offering ritual" },
+              ].map((photo) => (
+                <div key={photo.src} className="relative overflow-hidden rounded-xl group" style={{ aspectRatio: "3/4" }}>
+                  <Image src={photo.src} alt={photo.zh} fill className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" sizes="(max-width: 640px) 50vw, 30vw" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 right-0 px-4 pb-4">
+                    <p className="text-white/90 text-[13px] serif-title">{photo.zh}</p>
+                    <p className="text-white/50 text-[11px] italic font-display mt-0.5">{photo.en}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </Container>
       </section>
 
