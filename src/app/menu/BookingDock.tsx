@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCart, useCart } from "@/lib/cartStore";
 
@@ -16,6 +16,12 @@ function todayISO() {
   return `${yyyy}-${mm}-${dd}`;
 }
 
+const BREATH_PHASES = [
+  { zh: "吸气…", en: "Breathe in…", duration: 4000 },
+  { zh: "停住…", en: "Hold…",        duration: 2000 },
+  { zh: "呼气…", en: "Breathe out…", duration: 4000 },
+];
+
 export default function BookingDock() {
   const router = useRouter();
   const cart = useCart();
@@ -24,6 +30,9 @@ export default function BookingDock() {
   const cartTotal = useMemo(() => cart.totalCents, [cart.totalCents]);
 
   const [open, setOpen]         = useState(false);
+  const [step, setStep]         = useState<"breathe" | "form">("breathe");
+  const [phaseIdx, setPhaseIdx] = useState(0);
+  const [breathsDone, setBreathsDone] = useState(0);
   const [name, setName]         = useState("");
   const [phone, setPhone]       = useState("");
   const [email, setEmail]       = useState("");
@@ -33,6 +42,28 @@ export default function BookingDock() {
   const [note, setNote]         = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError]       = useState("");
+
+  // Advance through breath phases when on breathe step
+  useEffect(() => {
+    if (!open || step !== "breathe") return;
+    const phase = BREATH_PHASES[phaseIdx];
+    const timer = setTimeout(() => {
+      const next = phaseIdx + 1;
+      if (next >= BREATH_PHASES.length) {
+        // completed one breath cycle
+        const done = breathsDone + 1;
+        setBreathsDone(done);
+        setPhaseIdx(0);
+        if (done >= 3) {
+          // auto-advance after 3 breaths
+          setStep("form");
+        }
+      } else {
+        setPhaseIdx(next);
+      }
+    }, phase.duration);
+    return () => clearTimeout(timer);
+  }, [open, step, phaseIdx, breathsDone]);
 
   const canSubmit = useMemo(() => (
     name.trim() && phone.trim() && people > 0 && date && time && cartCount > 0 && !submitting
@@ -113,7 +144,7 @@ export default function BookingDock() {
             </button>
             <button
               type="button"
-              onClick={() => setOpen(true)}
+              onClick={() => { setOpen(true); setStep("breathe"); setPhaseIdx(0); setBreathsDone(0); }}
               className="rounded-full px-5 py-2 text-[13px] font-semibold pressable cta-shimmer temple-cta"
             >
               确认供斋 · Reserve
@@ -130,8 +161,71 @@ export default function BookingDock() {
             onClick={() => setOpen(false)}
           />
           <div className="absolute inset-x-0 bottom-0 flex justify-center px-4 pb-6 md:pb-10">
-            <div className="w-full max-w-2xl overflow-y-auto max-h-[85vh] rounded-[24px] border border-[var(--line)] bg-[var(--bg)] p-6 shadow-2xl soft-rise">
+            <div className="w-full max-w-2xl overflow-y-auto max-h-[85vh] rounded-[24px] border border-[var(--line)] bg-[var(--bg)] shadow-2xl soft-rise">
 
+              {/* ── Breathe step ────────────────────── */}
+              {step === "breathe" && (
+                <div className="flex flex-col items-center justify-center px-8 py-12 text-center">
+                  <style>{`
+                    @keyframes breath-expand {
+                      0%, 100% { transform: scale(1); opacity: 0.4; }
+                      50% { transform: scale(1.45); opacity: 0.85; }
+                    }
+                    .breath-ring { animation: breath-expand 4s ease-in-out infinite; }
+                    .breath-ring-hold { animation: breath-expand 4s ease-in-out infinite paused; }
+                    .breath-ring-out { animation: breath-expand 4s ease-in-out infinite reverse; }
+                  `}</style>
+                  <p className="eyebrow mb-8" style={{ letterSpacing: "0.18em" }}>斋前三息 · Three Breaths</p>
+                  <div className="relative flex items-center justify-center mb-8">
+                    {/* outer ring */}
+                    <div
+                      className={phaseIdx === 0 ? "breath-ring" : phaseIdx === 2 ? "breath-ring-out" : "breath-ring-hold"}
+                      style={{
+                        width: 96, height: 96,
+                        borderRadius: "50%",
+                        border: "1.5px solid var(--sage)",
+                        position: "absolute",
+                      }}
+                    />
+                    {/* inner dot */}
+                    <div
+                      style={{
+                        width: 12, height: 12,
+                        borderRadius: "50%",
+                        background: "var(--sage)",
+                        opacity: 0.6,
+                      }}
+                    />
+                  </div>
+                  <p className="text-[18px] font-light serif-title text-[var(--ink)] mb-1">
+                    {BREATH_PHASES[phaseIdx].zh}
+                  </p>
+                  <p className="text-[12px] text-[var(--muted)] italic mb-1">
+                    {BREATH_PHASES[phaseIdx].en}
+                  </p>
+                  <p className="text-[10.5px] text-[var(--muted)] mb-10">
+                    {breathsDone > 0 ? `${breathsDone} / 3` : ""}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setStep("form")}
+                    className="rounded-full px-7 py-2.5 text-[13px] font-semibold pressable temple-cta mb-3"
+                  >
+                    我已准备好 · I'm Ready
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setStep("form")}
+                    className="text-[11px] text-[var(--muted)] hover:text-[var(--ink-2)] transition-colors"
+                  >
+                    跳过 · Skip
+                  </button>
+                </div>
+              )}
+
+              {/* ── Booking form ────────────────────── */}
+              {step === "form" && (
+              <div className="p-6">
               {/* Header */}
               <div className="flex items-start justify-between gap-4 mb-5">
                 <div>
@@ -268,6 +362,8 @@ export default function BookingDock() {
                   {submitting ? "提交中…" : "确认供斋"}
                 </button>
               </div>
+              </div>
+              )}
             </div>
           </div>
         </div>

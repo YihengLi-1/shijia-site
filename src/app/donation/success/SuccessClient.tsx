@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Footer from "@/components/Footer";
@@ -13,6 +13,9 @@ export default function SuccessClient() {
 
   const [status, setStatus] = useState<"pending" | "paid" | "error">("pending");
   const [error, setError] = useState<string>("");
+  const [dedicateTo, setDedicateTo] = useState("");
+  const [dedicated, setDedicated] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   function maskId(id: string, keepStart = 6, keepEnd = 6) {
     const s = (id || "").trim();
@@ -93,6 +96,62 @@ export default function SuccessClient() {
             愿以此功德，庄严佛净土；上报四重恩，下济三途苦。
           </p>
         </div>
+
+        {/* ── 随缘回向 Dedication ────────────── */}
+        {status === "paid" && (
+          <div className="border-t border-zinc-200/60 pt-6">
+            <div className="text-[11px] font-semibold tracking-[0.22em] text-zinc-500 mb-3">
+              随缘回向 · Dedication of Merit
+            </div>
+            {!dedicated ? (
+              <div>
+                <p className="text-[12.5px] text-zinc-600 leading-[1.8] mb-4">
+                  愿以此护持功德，回向给——
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    className="flex-1 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2 text-[13px] text-zinc-800 placeholder-zinc-400 outline-none focus:border-zinc-400 transition-colors"
+                    placeholder="填写回向对象（如：父母、一切众生…）"
+                    value={dedicateTo}
+                    onChange={(e) => setDedicateTo(e.target.value)}
+                    maxLength={40}
+                    onKeyDown={(e) => { if (e.key === "Enter" && dedicateTo.trim()) setDedicated(true); }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setDedicated(true)}
+                    className="rounded-xl border border-zinc-200 bg-white px-4 py-2 text-[12.5px] font-medium text-zinc-700 hover:bg-zinc-50 transition-colors pressable"
+                  >
+                    回向
+                  </button>
+                </div>
+                <p className="mt-2 text-[11px] text-zinc-400">可留空，默认回向一切众生 · Leave blank to dedicate to all beings</p>
+              </div>
+            ) : (
+              <div className="rounded-xl border border-[var(--line)] bg-[var(--sage-bg)] px-5 py-4 fade-in">
+                <p className="text-[13px] text-zinc-700 leading-[2] serif-title">
+                  愿以此功德，
+                  <br />
+                  回向 <span className="font-semibold text-zinc-900">{dedicateTo.trim() || "一切众生"}</span>，
+                  <br />
+                  愿共离苦得乐，吉祥安稳。
+                </p>
+                <p className="mt-3 text-[11px] text-zinc-500 italic">
+                  May this merit be dedicated to {dedicateTo.trim() || "all sentient beings"} — may they be free from suffering and find peace.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => { setDedicated(false); setTimeout(() => inputRef.current?.focus(), 50); }}
+                  className="mt-3 text-[11px] text-zinc-400 hover:text-zinc-600 transition-colors"
+                >
+                  重新填写 · Edit
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="mt-8 flex flex-wrap gap-3">
