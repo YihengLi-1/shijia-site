@@ -175,6 +175,16 @@ export default function BookingDock() {
                     .breath-ring-hold { animation: breath-expand 4s ease-in-out infinite paused; }
                     .breath-ring-out { animation: breath-expand 4s ease-in-out infinite reverse; }
                   `}</style>
+                  <div className="absolute top-4 right-5">
+                    <button
+                      type="button"
+                      onClick={() => setOpen(false)}
+                      className="rounded-full border border-[var(--line)] bg-white px-3 py-1 text-[11.5px] font-medium text-[var(--ink-2)] pressable hover:border-[var(--muted)]"
+                      aria-label="关闭"
+                    >
+                      ✕
+                    </button>
+                  </div>
                   <p className="eyebrow mb-8" style={{ letterSpacing: "0.18em" }}>斋前三息 · Three Breaths</p>
                   <div className="relative flex items-center justify-center mb-8">
                     {/* outer ring */}
