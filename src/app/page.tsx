@@ -95,7 +95,7 @@ export default function Home() {
               {[
                 { label: "Hours",    zh: SITE.hoursEn,   sub: SITE.hours },
                 { label: "Location", zh: SITE.address,   sub: null },
-                { label: "Contact",  zh: SITE.phone !== "+1XXXXXXXXXX" ? SITE.phone : "现场或提前预约", sub: SITE.contactEn },
+                { label: "Contact",  zh: SITE.phone !== "+1XXXXXXXXXX" ? SITE.phone : "欢迎直接到访", sub: SITE.phone !== "+1XXXXXXXXXX" ? SITE.contactEn : "Walk-ins welcome" },
               ].map((item) => (
                 <div key={item.label} className="flex items-baseline gap-5 py-3.5" style={{ borderBottom: "1px solid var(--line)" }}>
                   <div className="eyebrow w-20 shrink-0">{item.label}</div>

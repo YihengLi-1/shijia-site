@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Container from "@/components/Container";
+import DailyChar from "@/components/DailyChar";
 import { SITE } from "@/lib/site";
 
 export default function Footer() {
@@ -13,7 +14,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2.5 mb-5">
-              <div className="seal-stamp" aria-hidden="true">释</div>
+              <DailyChar />
               <div>
                 <div className="text-[13px] font-medium text-[var(--ink)] serif-title leading-tight">
                   {SITE.name}
@@ -59,11 +60,16 @@ export default function Footer() {
           <div>
             <div className="eyebrow mb-5">联系 · Contact</div>
             <div className="space-y-4 text-[12.5px]">
-              <div>
-                <div className="text-[10.5px] text-[var(--muted)] mb-1">电话 · Phone</div>
-                <div className="text-[var(--ink-2)]">
-                  {SITE.phone !== "+1XXXXXXXXXX" ? SITE.phone : "请现场或提前预约"}
+              {SITE.phone !== "+1XXXXXXXXXX" && (
+                <div>
+                  <div className="text-[10.5px] text-[var(--muted)] mb-1">电话 · Phone</div>
+                  <div className="text-[var(--ink-2)]">{SITE.phone}</div>
                 </div>
+              )}
+              <div>
+                <div className="text-[10.5px] text-[var(--muted)] mb-1">到访 · Visiting</div>
+                <div className="text-[var(--ink-2)]">欢迎直接到访</div>
+                <div className="text-[11px] text-[var(--muted)] mt-0.5">Walk-ins welcome</div>
               </div>
               <div>
                 <div className="text-[10.5px] text-[var(--muted)] mb-1">营业时间 · Hours</div>
