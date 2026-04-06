@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import NoonBell from "@/components/NoonBell";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -98,7 +99,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <NoonBell />
+      </body>
     </html>
   );
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import DailyChar from "@/components/DailyChar";
 import { SITE } from "@/lib/site";
 
 export default function Header({ hideCta = false }: { hideCta?: boolean } = {}) {
@@ -13,21 +14,16 @@ export default function Header({ hideCta = false }: { hideCta?: boolean } = {}) 
       <header className="sticky top-0 z-50 h-[56px] flex items-center justify-between px-6 md:px-10 glass border-b border-[var(--line)]">
 
         {/* Seal logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-2.5 group"
-          onClick={() => setOpen(false)}
-        >
-          <div
-            className="seal-stamp group-hover:bg-[var(--red)] group-hover:text-[var(--bg)]"
-            aria-hidden="true"
+        <div className="flex items-center gap-2.5 group">
+          <DailyChar className="group-hover:bg-[var(--red)] group-hover:text-[var(--bg)]" />
+          <Link
+            href="/"
+            className="text-[13px] font-medium tracking-[0.02em] text-[var(--ink)] serif-title"
+            onClick={() => setOpen(false)}
           >
-            释
-          </div>
-          <span className="text-[13px] font-medium tracking-[0.02em] text-[var(--ink)] serif-title">
             {SITE.name}
-          </span>
-        </Link>
+          </Link>
+        </div>
 
         {/* Menu toggle */}
         <button
