@@ -4,8 +4,9 @@
     {
       "name": "shijia-dev",
       "runtimeExecutable": "/bin/bash",
-      "runtimeArgs": ["-c", "export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH && cd /Users/yihengli/shijia-site && /opt/homebrew/bin/node node_modules/.bin/next start --port 3210"],
-      "port": 3210
+      "runtimeArgs": ["-c", "export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH && cd /Users/yihengli/shijia-site && /opt/homebrew/bin/node node_modules/.bin/next start --port $PORT"],
+      "port": 3210,
+      "autoPort": true
     }
   ]
 }
