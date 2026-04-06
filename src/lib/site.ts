@@ -22,7 +22,7 @@ export const SITE = {
     "https://www.google.com/maps/search/?api=1&query=1820+Sharpless+Dr,+La+Habra+Heights,+CA+90631",
 
   mapEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.4!2d-117.951!3d33.966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s1820+Sharpless+Dr%2C+La+Habra+Heights%2C+CA+90631!5e0!3m2!1sen!2sus!4v1",
+    "https://maps.google.com/maps?q=1820+Sharpless+Dr,+La+Habra+Heights,+CA+90631&z=15&output=embed",
 
   url: "https://shijiafoo.com",
 

@@ -78,6 +78,12 @@ export default function WhySection({ intro, introEn }: { intro: string; introEn?
         >
           随喜护持 · Donate
         </Link>
+        <Link
+          href="/about"
+          className="rounded-full px-5 py-2.5 text-[13px] font-medium pressable temple-ghost"
+        >
+          关于道场 · About
+        </Link>
       </div>
     </div>
   );
