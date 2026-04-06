@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import ScriptureQuote from "@/components/ScriptureQuote";
 import WhySection from "@/components/WhySection";
 import OpenStatus from "@/components/OpenStatus";
+import HomeTodayMenu from "@/components/HomeTodayMenu";
 
 export const metadata: Metadata = {
   title: `${SITE.name} · ${SITE.nameEn}`,
@@ -109,6 +110,15 @@ export default function Home() {
         </Container>
       </section>
 
+      {/* ── Today's menu preview ─────────────────────── */}
+      <section className="pb-4">
+        <Container>
+          <div style={{ borderTop: "1px solid var(--line)", paddingTop: "3rem" }}>
+            <HomeTodayMenu />
+          </div>
+        </Container>
+      </section>
+
       {/* ── Scripture + Why ───────────────────────────── */}
       <section className="pb-20">
         <Container>
@@ -137,6 +147,50 @@ export default function Home() {
                     <p className="text-white/50 text-[11px] italic font-display mt-0.5">{photo.en}</p>
                   </div>
                 </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── About teaser ──────────────────────────── */}
+      <section className="pb-20">
+        <Container>
+          <div style={{ borderTop: "1px solid var(--line)", paddingTop: "3rem" }}>
+            <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
+              <div>
+                <p className="eyebrow mb-2">常住法师 · Resident Monastics</p>
+                <p className="text-[13px] text-[var(--muted)]">道场由三位出家法师共同创立与住持。</p>
+              </div>
+              <Link
+                href="/about"
+                className="rounded-full border border-[var(--line)] bg-white/70 px-4 py-2 text-[12.5px] font-medium pressable temple-ghost shrink-0"
+              >
+                了解道场 · About →
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {[
+                { zh: "释圆虚", en: "Ven. Shi Yuan Xu", role: "住持", roleEn: "Abbot" },
+                { zh: "释圆华", en: "Ven. Shi Yuan Hua", role: "监院", roleEn: "Prior" },
+                { zh: "释法常", en: "Ven. Shi Fa Chang", role: "知客", roleEn: "Guest Master" },
+              ].map((m) => (
+                <Link
+                  key={m.zh}
+                  href="/about"
+                  className="flex items-center gap-4 rounded-2xl border border-[var(--line)] bg-white/70 px-5 py-4 soft-card pressable hover:border-[var(--muted)] transition-colors"
+                >
+                  <div
+                    className="w-9 h-9 border border-[var(--red)] flex items-center justify-center shrink-0"
+                    style={{ color: "var(--red)", fontSize: "13px", fontFamily: "serif" }}
+                  >
+                    {m.zh.slice(-1)}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[14px] font-semibold serif-title text-[var(--ink)] leading-snug">{m.zh}</div>
+                    <div className="text-[11px] text-[var(--muted)] mt-0.5">{m.role} · {m.roleEn}</div>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
