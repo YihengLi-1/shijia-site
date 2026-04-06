@@ -139,6 +139,32 @@ export default function MenuPage() {
         </Container>
       </section>
 
+      {/* ── Category tab bar ─────────────────────── */}
+      {!loading && !loadErr && categories.length > 1 && (
+        <div
+          className="sticky z-20 bg-[var(--bg)]/90 backdrop-blur-sm border-b border-[var(--line)]"
+          style={{ top: "56px" }}
+        >
+          <Container>
+            <div className="flex gap-1 overflow-x-auto py-2 scrollbar-hide" style={{ scrollbarWidth: "none" }}>
+              {categories.map((cat) => {
+                const labels = CATEGORY_LABEL[cat] || { zh: "其他", en: "Other" };
+                return (
+                  <a
+                    key={cat}
+                    href={`#cat-${cat}`}
+                    className="shrink-0 rounded-full border border-[var(--line)] bg-white/70 px-3.5 py-1.5 text-[12px] font-medium text-[var(--ink-2)] hover:border-[var(--muted)] hover:text-[var(--ink)] transition-colors"
+                    style={{ scrollMarginTop: "116px" }}
+                  >
+                    {labels.zh}
+                  </a>
+                );
+              })}
+            </div>
+          </Container>
+        </div>
+      )}
+
       {/* ── Menu items ────────────────────────────── */}
       <section className="pb-20">
         <Container>
@@ -164,6 +190,8 @@ export default function MenuPage() {
                 return (
                   <section
                     key={cat}
+                    id={`cat-${cat}`}
+                    style={{ scrollMarginTop: "116px" }}
                     className={`grid gap-5 lg:grid-cols-[200px_1fr] ${idx === 0 ? "rise-in stagger-1" : "rise-in"}`}
                   >
                     {/* Category header */}
