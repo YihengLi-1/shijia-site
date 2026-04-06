@@ -259,6 +259,22 @@ export default function BookingDock() {
                 </button>
               </div>
 
+              {/* Order summary */}
+              <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-4 py-3 mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10.5px] font-semibold uppercase tracking-[0.1em] text-[var(--muted)]">已选供斋 · Order</span>
+                  <span className="text-[12px] font-semibold text-[var(--ink)]">{formatTotal(cartTotal)}</span>
+                </div>
+                <div className="divide-y divide-[var(--line-2)]">
+                  {cart.items.map((it) => (
+                    <div key={it.menuItemId} className="flex items-center justify-between py-1.5 text-[12px]">
+                      <span className="text-[var(--ink-2)] truncate">{it.name}</span>
+                      <span className="text-[var(--muted)] shrink-0 ml-3">× {it.qty}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* Form */}
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="flex flex-col gap-1">
