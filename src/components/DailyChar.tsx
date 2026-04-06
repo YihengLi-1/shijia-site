@@ -207,23 +207,40 @@ export default function DailyChar({ className = "" }: { className?: string }) {
           aria-hidden="true"
           className="text-[var(--bg)]"
         >
-          {CHAR_PATHS[entry.char].map((path, index) => (
-            <path
-              key={`${entry.char}-${index}`}
-              d={path.d}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          {CHAR_PATHS[entry.char] ? (
+            CHAR_PATHS[entry.char].map((path, index) => (
+              <path
+                key={`${entry.char}-${index}`}
+                d={path.d}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{
+                  strokeDasharray: path.length,
+                  strokeDashoffset: path.length,
+                  animation: "draw-stroke 0.85s ease forwards",
+                  animationDelay: `${index * 0.3}s`,
+                }}
+              />
+            ))
+          ) : (
+            <text
+              x="50"
+              y="72"
+              textAnchor="middle"
+              fontSize="72"
+              fontFamily="serif"
+              fill="currentColor"
               style={{
-                strokeDasharray: path.length,
-                strokeDashoffset: path.length,
-                animation: "draw-stroke 0.85s ease forwards",
-                animationDelay: `${index * 0.3}s`,
+                animation: "daily-char-copy 0.9s ease forwards",
+                opacity: 0,
               }}
-            />
-          ))}
+            >
+              {entry.char}
+            </text>
+          )}
         </svg>
 
         <div className="flex max-w-[30rem] flex-col items-center gap-4">
