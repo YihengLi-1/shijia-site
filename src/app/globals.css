@@ -92,13 +92,13 @@
 
   /* ─── Direction B: Page-top offset (fixed header = 56px) ── */
   .page-content {
-    padding-top: calc(56px + 72px);
-    padding-bottom: 96px;
+    padding-top: calc(56px + 48px);
+    padding-bottom: 80px;
   }
 
   .page-content-sm {
-    padding-top: calc(56px + 52px);
-    padding-bottom: 72px;
+    padding-top: calc(56px + 32px);
+    padding-bottom: 60px;
   }
 
   /* ─── Direction B: Seal stamp (印章) ─────── */
