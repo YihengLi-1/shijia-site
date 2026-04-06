@@ -171,8 +171,28 @@ export default function MenuPage() {
           <div className="mb-8 ink-divider" />
 
           {loading ? (
-            <div className="rounded-2xl border border-[var(--line)] bg-white/80 p-8 text-[var(--muted)] text-[13.5px]">
-              正在加载供斋菜单… Loading menu…
+            <div className="space-y-12 animate-pulse">
+              {[1, 2].map((n) => (
+                <div key={n} className="grid gap-5 lg:grid-cols-[200px_1fr]">
+                  <div className="space-y-2 pt-2">
+                    <div className="h-3 w-10 rounded bg-[var(--line-2)]" />
+                    <div className="h-6 w-20 rounded bg-[var(--line-2)]" />
+                    <div className="h-3 w-16 rounded bg-[var(--line-2)]" />
+                  </div>
+                  <div className="overflow-hidden rounded-2xl border border-[var(--line)] bg-white/60">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="flex items-center gap-4 px-5 py-4 border-b border-[var(--line-2)] last:border-0">
+                        <div className="h-14 w-14 shrink-0 rounded-xl bg-[var(--line-2)]" />
+                        <div className="flex-1 space-y-2">
+                          <div className="h-3.5 w-32 rounded bg-[var(--line-2)]" />
+                          <div className="h-3 w-24 rounded bg-[var(--line-2)]" />
+                        </div>
+                        <div className="h-4 w-12 rounded bg-[var(--line-2)]" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           ) : loadErr ? (
             <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-red-700 text-[13.5px]">

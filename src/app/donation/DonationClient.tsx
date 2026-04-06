@@ -5,6 +5,15 @@ import { useMemo, useState } from "react";
 const PRESETS = [10, 20, 50, 100, 200, 500];
 const MAX_AMOUNT = 9999;
 
+const PRESET_CONTEXT: Record<number, { zh: string; en: string }> = {
+  10:  { zh: "一日香灯供养", en: "one day of incense offerings" },
+  20:  { zh: "一次素斋食材", en: "one meal's fresh ingredients" },
+  50:  { zh: "一周日常运营", en: "a week of daily operations" },
+  100: { zh: "一月香灯供养", en: "a month of incense & offerings" },
+  200: { zh: "一月场所维护", en: "a month of facility upkeep" },
+  500: { zh: "一季弘法活动", en: "a season of outreach dharma" },
+};
+
 function formatAmount(cents: number) {
   return `$${(cents / 100).toFixed(2)}`;
 }
@@ -86,7 +95,7 @@ export default function DonationClient() {
           <label className="block text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--muted)] mb-2.5">
             随喜金额 · Amount (USD)
           </label>
-          <div className="flex flex-wrap gap-2 mb-3">
+          <div className="flex flex-wrap gap-2 mb-2">
             {PRESETS.map((v) => (
               <button
                 key={v}
@@ -103,6 +112,12 @@ export default function DonationClient() {
               </button>
             ))}
           </div>
+          {PRESET_CONTEXT[amount] && (
+            <p className="text-[11px] text-[var(--sage)] mb-3 fade-in">
+              ≈ {PRESET_CONTEXT[amount].zh}
+              <span className="text-[var(--muted)] ml-1">· {PRESET_CONTEXT[amount].en}</span>
+            </p>
+          )}
           <input
             type="number"
             min={1}
