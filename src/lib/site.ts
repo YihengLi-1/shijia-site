@@ -30,5 +30,6 @@ export const SITE = {
     { label: "供斋", labelEn: "Dining", href: "/menu" },
     { label: "到访", labelEn: "Visit",  href: "/visit" },
     { label: "随喜", labelEn: "Donate", href: "/donation" },
+    { label: "关于", labelEn: "About",  href: "/about" },
   ],
 } as const;
