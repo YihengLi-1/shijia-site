@@ -55,20 +55,30 @@ export default function DonationPage() {
                 {/* Left */}
                 <div className="space-y-5">
                   <div className="rounded-2xl border border-[var(--line)] bg-white p-6 soft-card">
-                    <div className="eyebrow mb-4">护持用途 · How Donations Are Used</div>
+                    <div className="eyebrow mb-1">护持用途 · How Donations Are Used</div>
+                    <p className="text-[12px] text-[var(--muted)] mb-4 leading-[1.7]">
+                      每一分护持皆用于道场的日常运作与法务，不作他用。
+                    </p>
                     <div className="divide-y divide-[var(--line-2)]">
                       {[
-                        { zh: "香灯供养", en: "Incense & lighting" },
-                        { zh: "供斋食材", en: "Meal ingredients" },
-                        { zh: "场所维护", en: "Facility maintenance" },
-                        { zh: "日常运营", en: "Daily operations" },
+                        { zh: "香灯供养", en: "Incense & offerings", note: "佛坛日常香灯、鲜花、供品" },
+                        { zh: "供斋食材", en: "Meal ingredients", note: "每日新鲜时令素食食材采购" },
+                        { zh: "场所维护", en: "Facility upkeep", note: "道场建筑、庭院日常维护修缮" },
+                        { zh: "外展法务", en: "Outreach & dharma", note: "法会活动、社区接引与弘法" },
+                        { zh: "日常运营", en: "Daily operations", note: "水电、网络等基础运营支出" },
                       ].map((row) => (
-                        <div key={row.zh} className="flex items-center justify-between py-3">
-                          <span className="text-[13px] text-[var(--ink-2)]">{row.zh}</span>
-                          <span className="text-[11.5px] text-[var(--muted)]">{row.en}</span>
+                        <div key={row.zh} className="py-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[13px] font-medium text-[var(--ink-2)]">{row.zh}</span>
+                            <span className="text-[11px] text-[var(--muted)]">{row.en}</span>
+                          </div>
+                          <p className="text-[11.5px] text-[var(--muted)] mt-0.5">{row.note}</p>
                         </div>
                       ))}
                     </div>
+                    <p className="mt-4 text-[11px] text-[var(--muted)] leading-[1.7] border-t border-[var(--line)] pt-3">
+                      道场由三位常住法师管理，护持款项由法师集体决议使用，每年对信众公布用途摘要。
+                    </p>
                   </div>
 
                   <div className="rounded-2xl border border-[var(--sage-bg)] bg-[var(--sage-bg)] px-6 py-5 soft-card">

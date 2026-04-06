@@ -95,7 +95,7 @@ export default function Footer() {
           </div>
           <div className="flex items-center justify-between flex-wrap gap-2 text-[11px] text-[var(--muted)]">
             <span>© 2026 {SITE.name} · {SITE.nameEn}</span>
-            <span>{SITE.address}</span>
+            <span className="hidden sm:block">{SITE.address}</span>
           </div>
         </div>
       </Container>

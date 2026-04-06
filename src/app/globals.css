@@ -783,6 +783,14 @@
     padding-top: 64px;
     padding-bottom: 64px;
   }
+  .page-content {
+    padding-top: calc(56px + 40px);
+    padding-bottom: 64px;
+  }
+  .page-content-sm {
+    padding-top: calc(56px + 32px);
+    padding-bottom: 52px;
+  }
 }
 
 /* ─── Reduced motion ──────────────────────────── */
