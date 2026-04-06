@@ -45,8 +45,30 @@ export default function HomeTodayMenu() {
     return () => { alive = false; };
   }, []);
 
-  // Pick up to 5 items across categories for preview
-  const preview = useMemo(() => items.slice(0, 5), [items]);
+  // Pick one item per category (up to 5 categories) for a representative preview
+  const preview = useMemo(() => {
+    const ORDER = ["main", "soup", "side", "dessert", "drink", "other"];
+    const seen = new Set<string>();
+    const picked: MenuItem[] = [];
+    // First pass: one per category in order
+    for (const cat of ORDER) {
+      const item = items.find((it) => (it.category || "other").toLowerCase() === cat);
+      if (item && !seen.has(item.id)) {
+        picked.push(item);
+        seen.add(item.id);
+      }
+      if (picked.length >= 5) break;
+    }
+    // Fill remaining slots with items not yet picked
+    for (const item of items) {
+      if (picked.length >= 5) break;
+      if (!seen.has(item.id)) {
+        picked.push(item);
+        seen.add(item.id);
+      }
+    }
+    return picked;
+  }, [items]);
 
   if (loading) {
     return (

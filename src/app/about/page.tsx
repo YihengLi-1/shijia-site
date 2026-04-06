@@ -8,6 +8,11 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "关于道场 · About",
   description: "释迦佛国素食斋由三位出家法师于2024年创立，坐落于加州拉哈布拉高地，以素食供斋、以道场接引有缘。",
+  openGraph: {
+    title: "关于释迦佛国素食斋 · About the Sanctuary",
+    description: "Founded in 2024 by three resident monastics in La Habra Heights, CA. A place of quiet practice, vegetarian offering, and community.",
+    images: [{ url: "/photo-altar.jpg", width: 1200, height: 900, alt: "释迦佛国道场佛坛" }],
+  },
 };
 
 const MONASTICS = [
