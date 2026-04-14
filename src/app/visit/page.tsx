@@ -49,7 +49,7 @@ export default function VisitPage() {
             <div className="relative overflow-hidden rounded-2xl group rise-in stagger-2 hidden lg:block" style={{ aspectRatio: "4/5" }}>
               <Image
                 src="/photo-monk-bell.jpg"
-                alt="法师主持法会"
+                alt="法师击钟 · Monastic ringing the bell"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 sizes="35vw"

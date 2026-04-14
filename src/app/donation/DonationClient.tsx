@@ -77,7 +77,7 @@ export default function DonationClient() {
 
       window.location.href = url;
     } catch {
-      setError("随喜暂未完成，请稍后再试或联系管理员。 · Unable to process donation. Please try again.");
+      setError("随喜暂未完成，请稍后再试或联系管理员。 · Unable to process offering. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -141,7 +141,7 @@ export default function DonationClient() {
             className="w-full rounded-xl border border-[var(--line)] bg-[var(--bg)] px-4 py-2.5 text-[13.5px] text-[var(--ink)] placeholder-[var(--muted)] outline-none focus:border-[var(--sage)] transition-colors"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="匿名可留空 · Leave blank to donate anonymously"
+            placeholder="匿名可留空 · Leave blank to offer anonymously"
           />
         </div>
 
@@ -171,7 +171,7 @@ export default function DonationClient() {
           disabled={loading}
           className="w-full rounded-full py-3 text-[13.5px] font-semibold disabled:opacity-50 disabled:cursor-not-allowed pressable cta-shimmer temple-cta"
         >
-          {loading ? "处理中… Processing…" : "随喜护持 · Donate"}
+          {loading ? "处理中… Processing…" : "随喜护持 · Offer"}
         </button>
 
         <p className="text-[11px] text-[var(--muted)]">

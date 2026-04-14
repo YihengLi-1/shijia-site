@@ -152,27 +152,6 @@ export default function DailyChar({ className = "" }: { className?: string }) {
         <span className={`seal-stamp ${className}`.trim()} aria-hidden="true">
           释
         </span>
-        <style>{`
-          @keyframes draw-stroke {
-            to { stroke-dashoffset: 0; }
-          }
-
-          @keyframes daily-char-overlay-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
-
-          @keyframes daily-char-copy {
-            from {
-              opacity: 0;
-              transform: translateY(10px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-        `}</style>
       </>
     );
   }
@@ -296,27 +275,6 @@ export default function DailyChar({ className = "" }: { className?: string }) {
         {entry.char}
       </button>
       {overlay}
-      <style>{`
-        @keyframes draw-stroke {
-          to { stroke-dashoffset: 0; }
-        }
-
-        @keyframes daily-char-overlay-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        @keyframes daily-char-copy {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </>
   );
 }

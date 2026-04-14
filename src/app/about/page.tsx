@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "关于释迦佛国素食斋 · About the Sanctuary",
     description: "Founded in 2024 by three resident monastics in La Habra Heights, CA. A place of quiet practice, vegetarian offering, and community.",
-    images: [{ url: "/photo-altar.jpg", width: 1200, height: 900, alt: "释迦佛国道场佛坛" }],
+    images: [{ url: "/photo-altar.jpg", width: 1200, height: 900, alt: "释迦佛国道场佛坛 · The Sanctuary Altar" }],
   },
 };
 
@@ -88,7 +88,7 @@ export default function AboutPage() {
             <div className="relative overflow-hidden rounded-2xl hidden lg:block rise-in stagger-2" style={{ aspectRatio: "4/5" }}>
               <Image
                 src="/photo-altar.jpg"
-                alt="释迦佛国道场佛坛"
+                alt="释迦佛国道场佛坛 · The Sanctuary Altar"
                 fill
                 className="object-cover"
                 sizes="40vw"
@@ -212,7 +212,7 @@ export default function AboutPage() {
             <div className="relative overflow-hidden rounded-2xl rise-in stagger-2" style={{ aspectRatio: "3/2" }}>
               <Image
                 src="/photo-monk-bell.jpg"
-                alt="道场法师"
+                alt="法师击钟 · Monastic ringing the bell"
                 fill
                 className="object-cover"
                 sizes="50vw"

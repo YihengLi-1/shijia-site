@@ -76,7 +76,7 @@ export default function WhySection({ intro, introEn }: { intro: string; introEn?
           href="/donation"
           className="rounded-full px-5 py-2.5 text-[13px] font-medium pressable temple-ghost"
         >
-          随喜护持 · Donate
+          随喜护持 · Offer
         </Link>
         <Link
           href="/about"

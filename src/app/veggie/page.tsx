@@ -41,7 +41,7 @@ export default function VeggiePage() {
             <div className="relative overflow-hidden rounded-2xl group rise-in stagger-2 hidden lg:block" style={{ aspectRatio: "4/5" }}>
               <Image
                 src="/photo-monk-cup.jpg"
-                alt="法师供养仪式"
+                alt="法师供茶 · Monastic offering tea"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 sizes="35vw"
