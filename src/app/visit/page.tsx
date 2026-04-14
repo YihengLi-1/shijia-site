@@ -84,9 +84,9 @@ export default function VisitPage() {
                         { zh: "合掌感恩，安住身心", en: "Bow in gratitude, be present" },
                         { zh: "缓慢用斋，少说多感", en: "Eat slowly, fewer words" },
                       ].map((item, i) => (
-                        <div key={i} className="flex items-center justify-between py-2.5 border-b border-[var(--line-2)] last:border-0">
+                        <div key={i} className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2.5 border-b border-[var(--line-2)] last:border-0">
                           <span className="text-[13.5px] text-[var(--ink-2)]">{item.zh}</span>
-                          <span className="text-[11.5px] text-[var(--muted)] ml-4 text-right">{item.en}</span>
+                          <span className="text-[11.5px] text-[var(--muted)] mt-0.5 sm:mt-0 sm:ml-4 sm:text-right">{item.en}</span>
                         </div>
                       ))}
                     </div>
