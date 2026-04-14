@@ -10,8 +10,8 @@ export const SITE = {
   introEn: "A quiet corner of the temple. Simple, unhurried. Vegetarian meals offered in stillness, shared with all who find their way here.",
 
   address: "1820 Sharpless Dr, La Habra Heights, CA 90631",
-  hours: "周一至周日 5:00 AM — 9:00 PM",
-  hoursEn: "Daily 5:00 AM — 9:00 PM",
+  hours: "周一至周日 6:00 AM — 9:00 PM",
+  hoursEn: "Daily 6:00 AM — 9:00 PM",
 
   contact: "电话 / 微信：请到访前预约或现场咨询",
   contactEn: "Please call or reserve before visiting",
