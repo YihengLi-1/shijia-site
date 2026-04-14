@@ -57,13 +57,12 @@ export const metadata: Metadata = {
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": ["Restaurant", "LocalBusiness"],
+  "@type": ["Restaurant", "BuddhistTemple"],
   name: SITE.name,
   alternateName: SITE.nameEn,
-  description: SITE.taglineEn.replace(/\n/g, " "),
+  description: SITE.introEn.replace(/\n/g, " "),
   url: SITE.url,
-  telephone: SITE.phone,
-  email: SITE.email,
+  telephone: SITE.phone === "+1XXXXXXXXXX" ? "" : SITE.phone,
   address: {
     "@type": "PostalAddress",
     streetAddress: "1820 Sharpless Dr",
@@ -74,20 +73,32 @@ const localBusinessSchema = {
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 33.966,
-    longitude: -117.951,
+    latitude: 33.9587,
+    longitude: -117.9465,
   },
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
       opens: "05:00",
       closes: "21:00",
     },
   ],
-  servesCuisine: ["Vegetarian", "Vegan", "Buddhist"],
+  servesCuisine: ["Vegetarian", "Buddhist", "Chinese"],
   priceRange: "$",
+  currenciesAccepted: "USD",
+  paymentAccepted: "Credit Card, Cash",
   hasMap: SITE.mapUrl,
+  image: `${SITE.url}/photo-altar.jpg`,
+  sameAs: ["https://vishvabauddhasangha.com"],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

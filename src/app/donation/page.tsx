@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import ScriptureQuote from "@/components/ScriptureQuote";
 
 export const metadata: Metadata = {
-  title: "随喜 · Donate",
+  title: "随喜 · Offer",
   description: "随喜护持释迦佛国素食斋。Support Shijia Vegetarian Sanctuary with a joyful offering.",
 };
 
@@ -24,13 +24,13 @@ export default function DonationPage() {
               <div className="vertical-label">随喜护持</div>
             </div>
             <div className="flex-1 min-w-0 rise-in max-w-2xl">
-              <p className="eyebrow mb-6">· 随喜护持 · Support ·</p>
+              <p className="eyebrow mb-6">· 随喜护持 · Offer ·</p>
               <h1 className="text-[clamp(2.2rem,7vw,4.2rem)] font-semibold serif-title leading-[1.08] tracking-[-0.02em] text-[var(--ink)]">
                 随喜
               </h1>
               <div className="red-rule mt-5 mb-4" />
               <p className="text-[14px] font-light italic tracking-[0.04em] text-[var(--muted)] font-display">
-                Joyful Giving
+                Joyful Offering
               </p>
               <p className="mt-5 text-[14px] text-[var(--ink-2)] leading-[1.85] max-w-xl">
                 随喜非为交换，只是愿意共护一处清净之所。愿此护持，回向众生安稳。
@@ -55,7 +55,7 @@ export default function DonationPage() {
                 {/* Left */}
                 <div className="space-y-5">
                   <div className="rounded-2xl border border-[var(--line)] bg-white p-6 soft-card">
-                    <div className="eyebrow mb-1">护持用途 · How Donations Are Used</div>
+                    <div className="eyebrow mb-1">护持用途 · How Offerings Are Used</div>
                     <p className="text-[12px] text-[var(--muted)] mb-4 leading-[1.7]">
                       每一分护持皆用于道场的日常运作与法务，不作他用。
                     </p>

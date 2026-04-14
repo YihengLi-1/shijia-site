@@ -25,7 +25,7 @@ export default function Home() {
       <div className="relative overflow-hidden" style={{ height: "72vh", minHeight: 420, maxHeight: 700 }}>
         <Image
           src="/photo-altar.jpg"
-          alt="释迦佛国道场"
+          alt="释迦佛国道场佛坛 · The Sanctuary Altar"
           fill
           className="object-cover object-center"
           sizes="100vw"
@@ -136,11 +136,21 @@ export default function Home() {
             <p className="eyebrow mb-6">道场印象 · The Sanctuary</p>
             <div className="grid grid-cols-2 gap-3 sm:gap-5">
               {[
-                { src: "/photo-monk-bell.jpg", zh: "法会仪轨", en: "Dharma ceremony" },
-                { src: "/photo-monk-cup.jpg",  zh: "供养仪式", en: "Offering ritual" },
+                {
+                  src: "/photo-monk-bell.jpg",
+                  zh: "法会仪轨",
+                  en: "Dharma ceremony",
+                  alt: "法师击钟 · Monastic ringing the bell",
+                },
+                {
+                  src: "/photo-monk-cup.jpg",
+                  zh: "供养仪式",
+                  en: "Offering ritual",
+                  alt: "法师供茶 · Monastic offering tea",
+                },
               ].map((photo) => (
                 <div key={photo.src} className="relative overflow-hidden rounded-xl group" style={{ aspectRatio: "3/4" }}>
-                  <Image src={photo.src} alt={photo.zh} fill className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" sizes="(max-width: 640px) 50vw, 30vw" />
+                  <Image src={photo.src} alt={photo.alt} fill className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" sizes="(max-width: 640px) 50vw, 30vw" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent pointer-events-none" />
                   <div className="absolute bottom-0 left-0 right-0 px-4 pb-4">
                     <p className="text-white/90 text-[13px] serif-title">{photo.zh}</p>

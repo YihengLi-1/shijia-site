@@ -24,12 +24,12 @@ export const SITE = {
   mapEmbedUrl:
     "https://maps.google.com/maps?q=1820+Sharpless+Dr,+La+Habra+Heights,+CA+90631&z=15&output=embed",
 
-  url: "https://shijiafoo.com",
+  url: "https://shijiafoguo.com",
 
   nav: [
     { label: "供斋", labelEn: "Dining", href: "/menu" },
     { label: "到访", labelEn: "Visit",  href: "/visit" },
-    { label: "随喜", labelEn: "Donate", href: "/donation" },
+    { label: "随喜", labelEn: "Offer", href: "/donation" },
     { label: "关于", labelEn: "About",  href: "/about" },
   ],
 } as const;
